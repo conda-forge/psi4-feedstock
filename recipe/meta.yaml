@@ -1,5 +1,5 @@
 {% set name = "psi4" %}
-{% set version = "1.8a1" %}
+{% set version = "1.8a2" %}
 {% set commit = "5b6faba85" %}
 {% set sha256 = "33a613caefd2e6ef3f878c8ddea2d00d85b0652ea77d68e3062606f118b362b9" %}
 
