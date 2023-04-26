@@ -22,7 +22,7 @@ source:
     folder: external_src                                                      # [win]
 
 build:
-  number: 0
+  number: 1
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
