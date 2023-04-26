@@ -6,8 +6,8 @@ fi
 if [ "$(uname)" == "Linux" ]; then
     ARCH_ARGS=""
 
-    # c-f/staged-recipes on Linux is inside a non-psi4 git repo, messing up psi4's version computation.
-    #   The "staged-recipes" skip pattern now in psi4 may need readjusting for feedstock. Diagnostics below.
+    # c-f/staged-recipes and c-f/*-feedstock on Linux is inside a non-psi4 git repo, messing up psi4's version computation.
+    #   The "staged-recipes" and "feedstock_root" skip patterns are now in psi4. Diagnostics below in case any other circs crop up.
     git rev-parse --is-inside-work-tree
     git rev-parse --show-toplevel
 fi
