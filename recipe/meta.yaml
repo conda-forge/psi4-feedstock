@@ -22,7 +22,8 @@ source:
     folder: external_src                                                      # [win]
 
 build:
-  number: 1
+  skip: true  # [py != 39]
+  number: 2
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -82,10 +83,12 @@ requirements:
   host:
     - eigen
     - boost-cpp
-    - mkl-devel                              # [unix]
+    - mkl-devel                              # [unix and x86_64]
     - mkl-devel {{ mkl }}                    # [win]
-    - mkl                                    # [unix]
+    - mkl                                    # [unix and x86_64]
     - mkl {{ mkl }}                          # [win]
+    - libblas                                # [not x86_64]
+    - liblapack                              # [not x86_64]
     - pybind11
     - pybind11-abi
     - python
@@ -101,8 +104,8 @@ requirements:
   run:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
-    - libblas * *mkl
-    - mkl                                    # [unix]
+    - libblas * *mkl                         # [x86_64]
+    - mkl                                    # [unix and x86_64]
     - mkl {{ mkl }}                          # [win]
     - msgpack-python
     - networkx
