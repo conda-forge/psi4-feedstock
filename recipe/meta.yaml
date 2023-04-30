@@ -31,31 +31,38 @@ build:
     - {{ pin_subpackage('psi4', max_pin='x.x') }}
   ignore_run_exports:
     - libint
+    - numpy
 
-# bkgd for review: the libint story
+# bkgd: the libint story
 # * this recipe is using a libint dev package for reasons at https://github.com/conda-forge/libint-feedstock/issues/15
 # * libint_dev pkg has a run_exports `x`, which is true for the package in general
 # * but since API is not finalized, it's prudent for now to pin req/run to exact, hence the ignore_run_exports above
 
-# bkgd for review: the fortran story
+# bkgd: the numpy story
+# * psi4 uses numpy at runtime and has no version constraints
+# * it should be around at compile-time for `find_package(Python ... NumPy)`
+# * this doesn't need to be explicit for most arch but does for osx-arm64 for cross-compile
+# * to avoid false numpy matrix, add it to ignore_run_exports
+
+# bkgd: the fortran story
 # * psi4 has no fortran code and no fortran required dependencies (besides blas/lapack)
 # * it does have optional functionality-expanding fortran dependencies like dkh (recipe alongside) that are packaged separately
 # * this recipe omits the fortran compiler since C++ compiler can do the linking and because on windows,
 #   the clang-cl + gfortran combination hits https://gitlab.kitware.com/cmake/cmake/-/issues/17810
 
-# bkgd for review: the general blas story
+# bkgd: the general blas story
 # * psi4's performance is heavily dependent on the blas/lapack implementation
 # * we've been packaging on conda with mkl for the past 7y
 # * while the psi4 build system allows any blas impl, we emit "untested" warnings for non-MKL, and the last test of openblas 5y ago had threading oversubscriptions
 # * so while we're open to multiple impl in future and have been specifying generic "libblas" in deps like dkh, we'd like to support only mkl in psi4 for now
 
-# bkgd for review: the windows blas story
+# bkgd: the windows blas story
 # * the latest blas+win+mkl package (libblas-3.9.0-16_win64_mkl) depends on mkl=2022.1.0, even though mkl=2022.2 and 2023.0 are available.
 # * so the `{{ mkl }}  # [win]` below pins to 2022.1.0 so that libblas=*=*mkl can work correctly to set the blas implementation.
 # * without the `{{ mkl }}` pin, various attempts would either install mkl + openblas + libblas=*=*openblas or try to fall back to libblas==3.8.0=10_mkl
 # * current conda-forge-pinning is mkl=mkl-devel=2022, so hopefully this recipe is still consistent with the c-f stack.
 
-# bkgd for review: the windows openmp story
+# bkgd: the windows openmp story
 # * the windows mkl package depends on intel-openmp (provides libiomp5md.dll).
 # * llvm-openmp is another contender on windows (provides libomp.dll=libiomp5md.dll and assoc. import libs libomp.lib=libiomp5md.lib).
 # * intel-openmp libiomp5md.dll is twice the size of the llvm-openmp file of the same name, and there's reports of non-interchangeability:
