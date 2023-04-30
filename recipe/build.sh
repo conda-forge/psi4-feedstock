@@ -73,9 +73,7 @@ cmake --build build --target install -j${CPU_COUNT}
 
 
 if [[ "${target_platform}" == "osx-arm64" ]]; then
-    otool -L ${PREFIX}/lib/python${PY_VER}/site-packages/psi4/core*
-fi
-if [[ "${target_platform}" == "osx-64" ]]; then
+    # tests don't run for this cross-compile, so this is best chance for inspection
     otool -L ${PREFIX}/lib/python${PY_VER}/site-packages/psi4/core*
 fi
 
