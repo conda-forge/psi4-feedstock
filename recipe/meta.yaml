@@ -87,9 +87,9 @@ requirements:
     - mkl-devel {{ mkl }}                    # [x86_64 and win]
     - mkl                                    # [x86_64 and unix]
     - mkl {{ mkl }}                          # [x86_64 and win]
-    - libblas                                # [not x86_64]
-    - liblapack                              # [not x86_64]
-    - numpy                                  # [build_platform != target_platform]
+    - libblas * netlib                       # [not x86_64]
+    - liblapack * netlib                     # [not x86_64]
+    - numpy
     - pybind11
     - pybind11-abi
     - python
