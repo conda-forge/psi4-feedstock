@@ -13,9 +13,9 @@ if [ "$(uname)" == "Linux" ]; then
 fi
 
 if [[ "${target_platform}" == "osx-arm64" ]]; then
-    export lapack_libraries="${PREFIX}/lib/liblapack${SHLIB_EXT};${PREFIX}/lib/libblas${SHLIB_EXT}"
+    export LAPACK_LIBRARIES="${PREFIX}/lib/liblapack${SHLIB_EXT};${PREFIX}/lib/libblas${SHLIB_EXT}"
 else
-    export lapack_libraries="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}"
+    export LAPACK_LIBRARIES="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}"
 fi
 
 echo '__version_long = '"'$PSI4_PRETEND_VERSIONLONG'" > psi4/metadata.py
@@ -50,7 +50,7 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D ENABLE_OPENMP=ON \
   -D ENABLE_XHOST=OFF \
   -D ENABLE_GENERIC=OFF \
-  -D LAPACK_LIBRARIES="${lapack_libraries}" \
+  -D LAPACK_LIBRARIES="${LAPACK_LIBRARIES}" \
   -D CMAKE_VERBOSE_MAKEFILE=OFF \
   -D CMAKE_PREFIX_PATH="${PREFIX}"
 

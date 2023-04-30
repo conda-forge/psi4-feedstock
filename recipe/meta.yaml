@@ -83,11 +83,12 @@ requirements:
   host:
     - eigen
     - boost-cpp
-    - mkl-devel                              # [unix and x86_64]
-    - mkl-devel {{ mkl }}                    # [win]
-    - mkl                                    # [unix and x86_64]
-    - mkl {{ mkl }}                          # [win]
-    - openblas                               # [not x86_64]
+    - mkl-devel                              # [x86_64 and unix]
+    - mkl-devel {{ mkl }}                    # [x86_64 and win]
+    - mkl                                    # [x86_64 and unix]
+    - mkl {{ mkl }}                          # [x86_64 and win]
+    - libblas                                # [not x86_64]
+    - liblapack                              # [not x86_64]
     - numpy                                  # [build_platform != target_platform]
     - pybind11
     - pybind11-abi
@@ -105,10 +106,10 @@ requirements:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
     - libblas * *mkl                         # [x86_64]
-    - mkl                                    # [unix and x86_64]
-    - mkl {{ mkl }}                          # [win]
-    - libblas * *openblas                    # [not x86_64]
-    - openblas                               # [not x86_64]
+    - mkl                                    # [x86_64 and unix]
+    - mkl {{ mkl }}                          # [x86_64 and win]
+    - libblas                                # [not x86_64]
+    - liblapack                              # [not x86_64]
     - msgpack-python
     - networkx
     - numpy
