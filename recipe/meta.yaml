@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.8a3" %}
-{% set commit = "05a4644" %}
-{% set sha256 = "e368d1c8723a555687d26f5dce85fd881f8c960959e40eea167d3e997abaf0ae" %}
+{% set commit = "31cf57dd1" %}
+{% set sha256 = "92006424a9fa99b18e65657eca85bcd66797f5b0e22d73afc3146a28d04453d5" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -132,6 +132,7 @@ requirements:
     - pytest >=7.0.1
     # qc opt'l, run-time
     - pylibefp ==0.6.2                                 # 0.6.2 provides windows arch
+      # - dftd4-python >=3.5.0                         # 3.5.0 provides b97-3c parameters
     - geometric >=1.0                                  # 1.0 has new API
     - pymdi >=1.2                                      # 1.2 has breaking API change
     - pyddx >=0.4.1                                    # 0.4.1 has lpb correction
@@ -147,10 +148,10 @@ test:
     - m2w64-binutils                                                     # [win]   # provides objdump.exe
     # qc runtime opt'l
     - adcc                                                               # [unix]
-    - cppe                                                               # [cppe]
+    - cppe                                                               # [unix]
     - pyddx                                                              # [unix]
-    - dftd3-python                                                       # [unix]
-    - dftd4-python                                                       # [unix]
+    - dftd3-python
+    - dftd4-python
     - toml                                                                         # needed for qcengine/dftd4-python interface
     - pylibefp
     - gcp-correction
