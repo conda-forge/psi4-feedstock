@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.8a3" %}
-{% set commit = "31cf57dd1" %}
-{% set sha256 = "92006424a9fa99b18e65657eca85bcd66797f5b0e22d73afc3146a28d04453d5" %}
+{% set commit = "3bfb1264b" %}
+{% set sha256 = "4553c94eb976a4ead6a8401b6e0bea9c38580000bbc921740ad867e2c73e3c44" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -23,7 +23,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [py != 310]
+  #skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
