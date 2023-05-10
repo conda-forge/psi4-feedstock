@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
-{% set version = "1.8a2" %}
-{% set commit = "5b6faba85" %}
-{% set sha256 = "33a613caefd2e6ef3f878c8ddea2d00d85b0652ea77d68e3062606f118b362b9" %}
+{% set version = "1.8a3" %}
+{% set commit = "3bfb1264b" %}
+{% set sha256 = "4553c94eb976a4ead6a8401b6e0bea9c38580000bbc921740ad867e2c73e3c44" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -14,7 +14,7 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
+  - url: https://github.com/loriab/psi4/archive/{{ commit }}.tar.gz
     # url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
   - url: https://github.com/psi4/iomp5md/archive/31b4ccb.tar.gz               # [win]
@@ -22,7 +22,8 @@ source:
     folder: external_src                                                      # [win]
 
 build:
-  number: 2
+  number: 0
+  #skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -131,25 +132,29 @@ requirements:
     - pytest >=7.0.1
     # qc opt'l, run-time
     - pylibefp ==0.6.2                                 # 0.6.2 provides windows arch
-    - dftd4-python >=3.5.0                             # 3.5.0 provides b97-3c parameters
+      # - dftd4-python >=3.5.0                         # 3.5.0 provides b97-3c parameters
     - geometric >=1.0                                  # 1.0 has new API
     - pymdi >=1.2                                      # 1.2 has breaking API change
+    - pyddx >=0.4.1                                    # 0.4.1 has lpb correction
+    - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
 
 test:
   imports:
     - psi4
   requires:
-    - pip
+    - pip                                                                          # provides `pip check`
     - pytest
     - pytest-xdist
     - m2w64-binutils                                                     # [win]   # provides objdump.exe
     # qc runtime opt'l
+    - adcc                                                               # [unix]
+    - cppe                                                               # [unix]
     - pyddx                                                              # [unix]
-    - dftd3-python                                                       # [unix]
-    - dftd4-python                                                       # [unix]
+    - dftd3-python
+    - dftd4-python
     - toml                                                                         # needed for qcengine/dftd4-python interface
     - pylibefp
-    - gcp-correction                                                     # [unix]
+    - gcp-correction
     - geometric
     - pymdi
   commands:
@@ -191,6 +196,7 @@ test:
     - pip check
     - python -c "import psi4;assert psi4.__version__ == '{{ version }}', f'{psi4.__version__=} differs from recipe=\'{{ version }}\''"
     - python -c "from psi4 import core; core.set_num_threads(42); assert core.get_num_threads() == 42"
+    - python -c "import psi4;print(psi4.addons())"
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke"  # [unix]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints"  # [win]
 
