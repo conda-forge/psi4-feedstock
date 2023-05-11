@@ -1,5 +1,5 @@
 
-echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
+REM echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
 
 cmake %CMAKE_ARGS% ^
   -G "Ninja" ^
