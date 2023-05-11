@@ -5,7 +5,7 @@ c_compiler:
 channel_sources:
 - conda-forge/label/libint_dev,conda-forge
 channel_targets:
-- conda-forge psi4_dev
+- conda-forge main
 cxx_compiler:
 - vs2019
 mkl:
