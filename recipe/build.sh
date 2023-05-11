@@ -6,13 +6,19 @@ fi
 if [ "$(uname)" == "Linux" ]; then
     ARCH_ARGS=""
 
-    # c-f/staged-recipes on Linux is inside a non-psi4 git repo, messing up psi4's version computation.
-    #   The "staged-recipes" skip pattern now in psi4 may need readjusting for feedstock. Diagnostics below.
+    # c-f/staged-recipes and c-f/*-feedstock on Linux is inside a non-psi4 git repo, messing up psi4's version computation.
+    #   The "staged-recipes" and "feedstock_root" skip patterns are now in psi4. Diagnostics below in case any other circs crop up.
     git rev-parse --is-inside-work-tree
     git rev-parse --show-toplevel
 fi
 
-echo '__version_long = '"'$PSI4_PRETEND_VERSIONLONG'" > psi4/metadata.py
+if [[ "${target_platform}" == "osx-arm64" ]]; then
+    export LAPACK_LIBRARIES="${PREFIX}/lib/liblapack${SHLIB_EXT};${PREFIX}/lib/libblas${SHLIB_EXT}"
+else
+    export LAPACK_LIBRARIES="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}"
+fi
+
+#echo '__version_long = '"'$PSI4_PRETEND_VERSIONLONG'" > psi4/metadata.py
 
 # Note: bizarrely, Linux (but not Mac) using `-G Ninja` hangs on [205/1223] at
 #   c-f/staged-recipes Azure CI --- thus the fallback to GNU Make.
@@ -44,7 +50,7 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D ENABLE_OPENMP=ON \
   -D ENABLE_XHOST=OFF \
   -D ENABLE_GENERIC=OFF \
-  -D LAPACK_LIBRARIES="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}" \
+  -D LAPACK_LIBRARIES="${LAPACK_LIBRARIES}" \
   -D CMAKE_VERBOSE_MAKEFILE=OFF \
   -D CMAKE_PREFIX_PATH="${PREFIX}"
 
@@ -64,5 +70,11 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
 #  -D CMAKE_INSIST_FIND_PACKAGE_simint=ON \
 
 cmake --build build --target install -j${CPU_COUNT}
+
+
+if [[ "${target_platform}" == "osx-arm64" ]]; then
+    # tests don't run for this cross-compile, so this is best chance for inspection
+    otool -L ${PREFIX}/lib/python${PY_VER}/site-packages/psi4/core*
+fi
 
 # pytest in conda testing stage

@@ -9,7 +9,7 @@ cdt_name:
 channel_sources:
 - conda-forge/label/libint_dev,conda-forge
 channel_targets:
-- conda-forge psi4_dev
+- conda-forge main
 cxx_compiler:
 - gxx
 cxx_compiler_version:
@@ -20,6 +20,8 @@ mkl:
 - '2022'
 mkl_devel:
 - '2022'
+numpy:
+- '1.21'
 pin_run_as_build:
   boost-cpp:
     max_pin: x.x.x
@@ -29,9 +31,11 @@ pin_run_as_build:
 pybind11_abi:
 - '4'
 python:
-- 3.10.* *_cpython
+- 3.8.* *_cpython
 target_platform:
 - linux-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
+- - python
+  - numpy

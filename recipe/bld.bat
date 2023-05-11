@@ -1,5 +1,5 @@
 
-echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
+REM echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
 
 cmake %CMAKE_ARGS% ^
   -G "Ninja" ^
@@ -45,7 +45,7 @@ cmake --build build ^
       -- -j %CPU_COUNT%
 if errorlevel 1 exit 1
 
-:: pytest in conda testing stage
+REM pytest in conda testing stage
 
 
 :: Relocate python module to expected location (if positioning through PYMOD_INSTALL_LIBDIR="/" and CMAKE_INSTALL_BINDIR="Library\bin")
