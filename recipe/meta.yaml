@@ -110,6 +110,7 @@ requirements:
     - qcengine
     # qc opt'l, build-time
     - dkh
+    - pcmsolver                              # [not x64_64]
   run:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
@@ -225,7 +226,7 @@ extra:
     - loriab
     - jturney
     - fevangelista
-
+    - maxscheurer
 
 # Notes
 # -----
