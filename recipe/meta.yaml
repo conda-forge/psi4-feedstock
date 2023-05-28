@@ -102,6 +102,7 @@ requirements:
     - pybind11
     - pybind11-abi
     - python
+    - zlib                                             # pcmsolver detection
     # qc req'd
     - gau2grid
     - libint 2.7.3dev1
@@ -131,6 +132,7 @@ requirements:
     - {{ pin_compatible('optking', max_pin='x.x') }}
     - {{ pin_compatible('qcelemental', max_pin='x.x') }}
     - {{ pin_compatible('qcengine', max_pin='x.x') }}
+    - {{ pin_compatible('libpcm', max_pin='x.x.x') }}
     - {{ pin_compatible('pcmsolver', max_pin='x.x.x') }}
   run_constrained:
     - pytest >=7.0.1
