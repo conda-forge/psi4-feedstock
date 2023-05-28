@@ -23,7 +23,7 @@ source:
 
 build:
   number: 0
-  #skip: true  # [py != 310]
+  skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -110,7 +110,8 @@ requirements:
     - qcengine
     # qc opt'l, build-time
     - dkh
-    - pcmsolver                              # [not x64_64]
+    - libpcm
+    - pcmsolver
   run:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
@@ -129,6 +130,7 @@ requirements:
     - {{ pin_compatible('optking', max_pin='x.x') }}
     - {{ pin_compatible('qcelemental', max_pin='x.x') }}
     - {{ pin_compatible('qcengine', max_pin='x.x') }}
+    - {{ pin_compatible('pcmsolver', max_pin='x.x.x') }}
   run_constrained:
     - pytest >=7.0.1
     # qc opt'l, run-time
@@ -227,6 +229,7 @@ extra:
     - jturney
     - fevangelista
     - maxscheurer
+
 
 # Notes
 # -----
