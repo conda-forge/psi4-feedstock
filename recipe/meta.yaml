@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.8" %}
-{% set commit = "2dc6942a0" %}
-{% set sha256 = "0e7a9ff4a93b2f405c4f82817fbbb6e55f3451cd16faa00ac2f773c50e4108cc" %}
+{% set commit = "77e3b9f07" %}
+{% set sha256 = "b1ac393689d947d8c68cf3d0663f9268fa07052f4a1254506fd97f4e953efc7f" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -14,8 +14,9 @@ package:
   version: {{ version }}
 
 source:
+  - url: https://github.com/loriab/{{ name }}/archive/{{ commit }}.tar.gz
   #- url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  - url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
+  #- url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
   - url: https://github.com/psi4/iomp5md/archive/31b4ccb.tar.gz               # [win]
     sha256: d9c6ad3976183f54b676335885d8557d67ca7b25ac4115b91b4cc42281d95f7c  # [win]
@@ -138,7 +139,7 @@ requirements:
       # - dftd4-python >=3.5.0                         # 3.5.0 provides b97-3c parameters
     - geometric >=1.0                                  # 1.0 has new API
     - pymdi >=1.2                                      # 1.2 has breaking API change
-    - pyddx >=0.4.1                                    # 0.4.1 has lpb correction
+    - pyddx >=0.4.3                                    # 0.4.1 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
 
 test:
