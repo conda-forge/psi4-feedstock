@@ -113,7 +113,7 @@ requirements:
     # qc opt'l, build-time
     - dkh
     - libpcm
-    - pcmsolver
+    #- pcmsolver
   run:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
@@ -132,8 +132,9 @@ requirements:
     - {{ pin_compatible('optking', max_pin='x.x') }}
     - {{ pin_compatible('qcelemental', max_pin='x.x') }}
     - {{ pin_compatible('qcengine', max_pin='x.x') }}
-    - {{ pin_compatible('libpcm', max_pin='x.x.x') }}
-    - {{ pin_compatible('pcmsolver', max_pin='x.x.x') }}
+    #- {{ pin_compatible('libpcm', max_pin='x.x.x') }}
+    #- {{ pin_compatible('pcmsolver', max_pin='x.x.x') }}
+    - pcmsolver
   run_constrained:
     - pytest >=7.0.1
     # qc opt'l, run-time
@@ -141,7 +142,7 @@ requirements:
       # - dftd4-python >=3.5.0                         # 3.5.0 provides b97-3c parameters
     - geometric >=1.0                                  # 1.0 has new API
     - pymdi >=1.2                                      # 1.2 has breaking API change
-    - pyddx >=0.4.3                                    # 0.4.1 has lpb correction
+    - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
 
 test:
