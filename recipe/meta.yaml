@@ -112,7 +112,7 @@ requirements:
     - qcengine
     # qc opt'l, build-time
     - dkh
-    - libpcm
+    - pcmsolver
   run:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
@@ -131,9 +131,6 @@ requirements:
     - {{ pin_compatible('optking', max_pin='x.x') }}
     - {{ pin_compatible('qcelemental', max_pin='x.x') }}
     - {{ pin_compatible('qcengine', max_pin='x.x') }}
-    #- {{ pin_compatible('libpcm', max_pin='x.x.x') }}
-    #- {{ pin_compatible('pcmsolver', max_pin='x.x.x') }}
-    - pcmsolver
   run_constrained:
     - pytest >=7.0.1
     # qc opt'l, run-time
