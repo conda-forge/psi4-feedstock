@@ -132,6 +132,7 @@ requirements:
     - {{ pin_compatible('optking', max_pin='x.x') }}
     - {{ pin_compatible('qcelemental', max_pin='x.x') }}
     - {{ pin_compatible('qcengine', max_pin='x.x') }}
+    - {{ pin_compatible('libecpint', max_pin='x.x') }}      # !!!!!
   run_constrained:
     - pytest >=7.0.1
     # qc opt'l, run-time
@@ -162,12 +163,6 @@ test:
     - geometric
     - pymdi
   commands:
-    - ls -l $PREFIX/lib                                                  # [unix]
-    - ls -l $PREFIX/share/cmake/psi4                                     # [unix]
-    - ls -l $SP_DIR/psi4                                                 # [unix]
-    - dir %PREFIX%\\Library\\lib                                         # [win]
-    - dir %PREFIX%\\Library\\share\\cmake\\psi4                          # [win]
-    - dir %SP_DIR%\\psi4                                                 # [win]
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
     - test -f $SP_DIR/psi4/driver/driver.py                              # [unix]
