@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.8" %}
-{% set commit = "9ff3ffdf4" %}
-{% set sha256 = "9b74153ff620ffb9c145c2dec68635fdd9b6e7499f24672a744436d318037577" %}
+{% set commit = "c962ffe8a" %}
+{% set sha256 = "2bdebd7bef0b9e83f149da16a447b4266a33f388f802270a93c4925d1527324f" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -132,7 +132,6 @@ requirements:
     - {{ pin_compatible('optking', max_pin='x.x') }}
     - {{ pin_compatible('qcelemental', max_pin='x.x') }}
     - {{ pin_compatible('qcengine', max_pin='x.x') }}
-    - {{ pin_compatible('libecpint', max_pin='x.x') }}      # !!!!!
   run_constrained:
     - pytest >=7.0.1
     # qc opt'l, run-time
