@@ -14,13 +14,14 @@ package:
   version: {{ version }}
 
 source:
-  #- url: https://github.com/loriab/{{ name }}/archive/{{ commit }}.tar.gz
   #- url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
   - url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
   - url: https://github.com/psi4/iomp5md/archive/31b4ccb.tar.gz               # [win]
     sha256: d9c6ad3976183f54b676335885d8557d67ca7b25ac4115b91b4cc42281d95f7c  # [win]
     folder: external_src                                                      # [win]
+  - path: ./src                                                               # [not win]
+    folder: external_src                                                      # [not win]
 
 build:
   number: 0
@@ -212,7 +213,7 @@ about:
     - COPYING.LESSER
     - THIRD-PARTY-LICENSES
   license_family: LGPL
-  summary: "Open-Source Quantum Chemistry - an electronic structure package in C++ driven by Python"
+  summary: Open-Source Quantum Chemistry - an electronic structure package in C++ driven by Python
   description: |
     Psi4 is an open-source suite of ab initio quantum chemistry programs designed for efficient,
     high-accuracy simulations of a variety of molecular properties. We can routinely perform computations

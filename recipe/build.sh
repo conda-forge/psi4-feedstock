@@ -2,6 +2,8 @@ if [ "$(uname)" == "Darwin" ]; then
     ARCH_ARGS=""
 
     # c-f-provided CMAKE_ARGS handles CMAKE_OSX_DEPLOYMENT_TARGET, CMAKE_OSX_SYSROOT
+
+    cp external_src/psi4PluginCacheosx.cmake t_plug0
 fi
 if [ "$(uname)" == "Linux" ]; then
     ARCH_ARGS=""
@@ -10,6 +12,8 @@ if [ "$(uname)" == "Linux" ]; then
     #   The "staged-recipes" and "feedstock_root" skip patterns are now in psi4. Diagnostics below in case any other circs crop up.
     git rev-parse --is-inside-work-tree
     git rev-parse --show-toplevel
+
+    cp external_src/psi4PluginCachelinux.cmake t_plug0
 fi
 
 if [[ "${target_platform}" == "osx-arm64" ]]; then
@@ -71,6 +75,11 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
 
 cmake --build build --target install -j${CPU_COUNT}
 
+# replace conda-build-bound Cache file
+sed "s;@PY_VER@;${PY_VER};g" t_plug0 > t_plug1
+sed "s;@HOST@;${HOST};g" t_plug1 > t_plug2
+cp t_plug2 ${PREFIX}/share/cmake/psi4/psi4PluginCache.cmake
+cat ${PREFIX}/share/cmake/psi4/psi4PluginCache.cmake
 
 if [[ "${target_platform}" == "osx-arm64" ]]; then
     # tests don't run for this cross-compile, so this is best chance for inspection
