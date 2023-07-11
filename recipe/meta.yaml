@@ -168,6 +168,7 @@ test:
     - {{ compiler('cxx') }}                                              # [unix]
     - cmake                                                              # [unix]
     - make                                                               # [unix]
+    - pybind11                                                           # [unix]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
