@@ -20,8 +20,8 @@ source:
   - url: https://github.com/psi4/iomp5md/archive/31b4ccb.tar.gz               # [win]
     sha256: d9c6ad3976183f54b676335885d8557d67ca7b25ac4115b91b4cc42281d95f7c  # [win]
     folder: external_src                                                      # [win]
-  - path: ./src                                                               # [not win]
-    folder: external_src                                                      # [not win]
+  - path: ./src                                                               # [unix]
+    folder: external_src                                                      # [unix]
 
 build:
   number: 0
@@ -164,6 +164,10 @@ test:
     - gcp-correction
     - geometric
     - pymdi
+    # plugin testing
+    - {{ compiler('cxx') }}                                              # [unix]
+    - cmake                                                              # [unix]
+    - make                                                               # [unix]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
@@ -200,6 +204,12 @@ test:
     - python -c "import psi4;print(psi4.addons())"
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke"  # [unix]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints"  # [win]
+    # Test a plugin
+    - PLUG=plugdfmp2                                                     # [unix]
+    - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix]
+    - cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --passfail --ldd --module="$PLUG/$PLUG"  # [unix]
 
 about:
   home: http://psicode.org
