@@ -169,6 +169,8 @@ test:
     - cmake                                                              # [unix]
     - make                                                               # [unix]
     - pybind11                                                           # [unix]
+    - eigen                                                              # [unix]
+    - boost-cpp                                                          # [unix]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
