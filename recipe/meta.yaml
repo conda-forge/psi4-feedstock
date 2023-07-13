@@ -35,6 +35,8 @@ build:
   ignore_run_exports:
     - libint
     - numpy
+  ignore_run_exports_from:
+    - zlib
 
 # bkgd: the libint story
 # * this recipe is using a libint dev package for reasons at https://github.com/conda-forge/libint-feedstock/issues/15
@@ -93,6 +95,7 @@ requirements:
   host:
     - eigen
     - boost-cpp
+    - libblas * *mkl                         # [x86_64]
     - mkl-devel                              # [x86_64 and unix]
     - mkl-devel {{ mkl }}                    # [x86_64 and win]
     - mkl                                    # [x86_64 and unix]
@@ -103,7 +106,7 @@ requirements:
     - pybind11
     - pybind11-abi
     - python
-    - zlib                                             # pcmsolver detection
+    - zlib                                             # pcmsolver detection, not direct dep, so ignore_run_exports above
     # qc req'd
     - gau2grid
     - libint 2.7.3dev1

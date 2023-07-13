@@ -16,16 +16,14 @@ if [ "$(uname)" == "Linux" ]; then
     cp external_src/psi4PluginCachelinux.cmake t_plug0
 fi
 
+export ECPINT=ON
 if [[ "${target_platform}" == "osx-arm64" ]]; then
     export LAPACK_LIBRARIES="${PREFIX}/lib/liblapack${SHLIB_EXT};${PREFIX}/lib/libblas${SHLIB_EXT}"
-    if [[ "${PY_VER}" == "310" ]]; then
-        export ECPINT=ON
-    else
+    if [[ "${PY_VER}" != "3.10" ]]; then
         export ECPINT=OFF
     fi
 else
     export LAPACK_LIBRARIES="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}"
-    export ECPINT=ON
 fi
 
 #echo '__version_long = '"'$PSI4_PRETEND_VERSIONLONG'" > psi4/metadata.py
