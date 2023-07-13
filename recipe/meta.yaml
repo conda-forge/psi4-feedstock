@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.8.1" %}
-{% set commit = "9feadcd4c" %}
-{% set sha256 = "596c935b3a01df397f886a55ae55d33d1dd72e1986e992d0b087bb24259955a0" %}
+{% set commit = "232bcd5f5" %}
+{% set sha256 = "f1431a68fd67ae8c31fdb3a8c135061d148246b9687c80decdc1b7ad917fe80b" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -114,7 +114,8 @@ requirements:
     - pydantic =1
     # qc opt'l, build-time
     - dkh
-    - libecpint
+    - libecpint                              # [x86_64 or py==310]
+    # libecpint is unavailable on osx-arm64 and py != 310 until https://github.com/conda-forge/libecpint-feedstock/pull/8 merged
     - pcmsolver
   run:
     - llvm-openmp                            # [unix]
