@@ -281,4 +281,5 @@ Feedstock Maintainers
 * [@fevangelista](https://github.com/fevangelista/)
 * [@jturney](https://github.com/jturney/)
 * [@loriab](https://github.com/loriab/)
+* [@maxscheurer](https://github.com/maxscheurer/)
 

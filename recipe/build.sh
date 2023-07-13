@@ -2,6 +2,8 @@ if [ "$(uname)" == "Darwin" ]; then
     ARCH_ARGS=""
 
     # c-f-provided CMAKE_ARGS handles CMAKE_OSX_DEPLOYMENT_TARGET, CMAKE_OSX_SYSROOT
+
+    cp external_src/psi4PluginCacheosx.cmake t_plug0
 fi
 if [ "$(uname)" == "Linux" ]; then
     ARCH_ARGS=""
@@ -10,10 +12,16 @@ if [ "$(uname)" == "Linux" ]; then
     #   The "staged-recipes" and "feedstock_root" skip patterns are now in psi4. Diagnostics below in case any other circs crop up.
     git rev-parse --is-inside-work-tree
     git rev-parse --show-toplevel
+
+    cp external_src/psi4PluginCachelinux.cmake t_plug0
 fi
 
+export ECPINT=ON
 if [[ "${target_platform}" == "osx-arm64" ]]; then
     export LAPACK_LIBRARIES="${PREFIX}/lib/liblapack${SHLIB_EXT};${PREFIX}/lib/libblas${SHLIB_EXT}"
+    if [[ "${PY_VER}" != "3.10" ]]; then
+        export ECPINT=OFF
+    fi
 else
     export LAPACK_LIBRARIES="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}"
 fi
@@ -47,6 +55,10 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D psi4_SKIP_ENABLE_Fortran=ON \
   -D ENABLE_dkh=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_dkh=ON \
+  -D ENABLE_ecpint=${ECPINT} \
+  -D CMAKE_INSIST_FIND_PACKAGE_ecpint=${ECPINT} \
+  -D ENABLE_PCMSolver=ON \
+  -D CMAKE_INSIST_FIND_PACKAGE_PCMSolver=ON \
   -D ENABLE_OPENMP=ON \
   -D ENABLE_XHOST=OFF \
   -D ENABLE_GENERIC=OFF \
@@ -59,18 +71,19 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
 #  -D CMAKE_INSIST_FIND_PACKAGE_ambit=ON \
 #  -D ENABLE_CheMPS2=ON \
 #  -D CMAKE_INSIST_FIND_PACKAGE_CheMPS2=ON \
-#  -D ENABLE_ecpint=ON \
-#  -D CMAKE_INSIST_FIND_PACKAGE_ecpint=ON \
 #  -D ENABLE_gdma=ON \
 #  -D CMAKE_INSIST_FIND_PACKAGE_gdma=ON \
-#  -D ENABLE_PCMSolver=ON \
-#  -D CMAKE_INSIST_FIND_PACKAGE_PCMSolver=ON \
 #  -D ENABLE_simint=ON \
 #  -D SIMINT_VECTOR=sse \
 #  -D CMAKE_INSIST_FIND_PACKAGE_simint=ON \
 
 cmake --build build --target install -j${CPU_COUNT}
 
+# replace conda-build-bound Cache file
+sed "s;@PY_VER@;${PY_VER};g" t_plug0 > t_plug1
+sed "s;@HOST@;${HOST};g" t_plug1 > t_plug2
+cp t_plug2 ${PREFIX}/share/cmake/psi4/psi4PluginCache.cmake
+cat ${PREFIX}/share/cmake/psi4/psi4PluginCache.cmake
 
 if [[ "${target_platform}" == "osx-arm64" ]]; then
     # tests don't run for this cross-compile, so this is best chance for inspection

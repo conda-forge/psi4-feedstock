@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
-{% set version = "1.8" %}
-{% set commit = "2dc6942a0" %}
-{% set sha256 = "0e7a9ff4a93b2f405c4f82817fbbb6e55f3451cd16faa00ac2f773c50e4108cc" %}
+{% set version = "1.8.1" %}
+{% set commit = "232bcd5f5" %}
+{% set sha256 = "f1431a68fd67ae8c31fdb3a8c135061d148246b9687c80decdc1b7ad917fe80b" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -20,6 +20,8 @@ source:
   - url: https://github.com/psi4/iomp5md/archive/31b4ccb.tar.gz               # [win]
     sha256: d9c6ad3976183f54b676335885d8557d67ca7b25ac4115b91b4cc42281d95f7c  # [win]
     folder: external_src                                                      # [win]
+  - path: ./src                                                               # [unix]
+    folder: external_src                                                      # [unix]
 
 build:
   number: 0
@@ -33,6 +35,8 @@ build:
   ignore_run_exports:
     - libint
     - numpy
+  ignore_run_exports_from:
+    - zlib
 
 # bkgd: the libint story
 # * this recipe is using a libint dev package for reasons at https://github.com/conda-forge/libint-feedstock/issues/15
@@ -91,6 +95,7 @@ requirements:
   host:
     - eigen
     - boost-cpp
+    - libblas * *mkl                         # [x86_64]
     - mkl-devel                              # [x86_64 and unix]
     - mkl-devel {{ mkl }}                    # [x86_64 and win]
     - mkl                                    # [x86_64 and unix]
@@ -101,6 +106,7 @@ requirements:
     - pybind11
     - pybind11-abi
     - python
+    - zlib                                             # pcmsolver detection, not direct dep, so ignore_run_exports above
     # qc req'd
     - gau2grid
     - libint 2.7.3dev1
@@ -108,8 +114,12 @@ requirements:
     - optking
     - qcelemental
     - qcengine
+    - pydantic =1
     # qc opt'l, build-time
     - dkh
+    - libecpint                              # [x86_64 or py==310]
+    # libecpint is unavailable on osx-arm64 and py != 310 until https://github.com/conda-forge/libecpint-feedstock/pull/8 merged
+    - pcmsolver
   run:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
@@ -123,6 +133,7 @@ requirements:
     - numpy
     - python
     - scipy
+    - pydantic =1
     # qc
     - libint 2.7.3dev1                                 # 2.7.3dev1 provides rt-switchable ordering (src) and derivative integrals (build)
     - {{ pin_compatible('optking', max_pin='x.x') }}
@@ -135,7 +146,7 @@ requirements:
       # - dftd4-python >=3.5.0                         # 3.5.0 provides b97-3c parameters
     - geometric >=1.0                                  # 1.0 has new API
     - pymdi >=1.2                                      # 1.2 has breaking API change
-    - pyddx >=0.4.1                                    # 0.4.1 has lpb correction
+    - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
 
 test:
@@ -157,13 +168,14 @@ test:
     - gcp-correction
     - geometric
     - pymdi
+    # plugin testing
+    - {{ compiler('cxx') }}                                              # [unix]
+    - cmake                                                              # [unix]
+    - make                                                               # [unix]
+    - pybind11                                                           # [unix]
+    - eigen                                                              # [unix]
+    - boost-cpp                                                          # [unix]
   commands:
-    - ls -l $PREFIX/lib                                                  # [unix]
-    - ls -l $PREFIX/share/cmake/psi4                                     # [unix]
-    - ls -l $SP_DIR/psi4                                                 # [unix]
-    - dir %PREFIX%\\Library\\lib                                         # [win]
-    - dir %PREFIX%\\Library\\share\\cmake\\psi4                          # [win]
-    - dir %SP_DIR%\\psi4                                                 # [win]
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
     - test -f $SP_DIR/psi4/driver/driver.py                              # [unix]
@@ -199,6 +211,12 @@ test:
     - python -c "import psi4;print(psi4.addons())"
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke"  # [unix]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints"  # [win]
+    # Test a plugin
+    - PLUG=plugdfmp2                                                     # [unix]
+    - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix]
+    - cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --passfail --ldd --module="$PLUG/$PLUG"  # [unix]
 
 about:
   home: http://psicode.org
@@ -212,7 +230,7 @@ about:
     - COPYING.LESSER
     - THIRD-PARTY-LICENSES
   license_family: LGPL
-  summary: "Open-Source Quantum Chemistry - an electronic structure package in C++ driven by Python"
+  summary: Open-Source Quantum Chemistry - an electronic structure package in C++ driven by Python
   description: |
     Psi4 is an open-source suite of ab initio quantum chemistry programs designed for efficient,
     high-accuracy simulations of a variety of molecular properties. We can routinely perform computations
@@ -225,6 +243,7 @@ extra:
     - loriab
     - jturney
     - fevangelista
+    - maxscheurer
 
 
 # Notes
