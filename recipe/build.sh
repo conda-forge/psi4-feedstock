@@ -16,12 +16,8 @@ if [ "$(uname)" == "Linux" ]; then
     cp external_src/psi4PluginCachelinux.cmake t_plug0
 fi
 
-export ECPINT=ON
 if [[ "${target_platform}" == "osx-arm64" ]]; then
     export LAPACK_LIBRARIES="${PREFIX}/lib/liblapack${SHLIB_EXT};${PREFIX}/lib/libblas${SHLIB_EXT}"
-    if [[ "${PY_VER}" != "3.10" ]]; then
-        export ECPINT=OFF
-    fi
 else
     export LAPACK_LIBRARIES="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}"
 fi
@@ -55,8 +51,8 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D psi4_SKIP_ENABLE_Fortran=ON \
   -D ENABLE_dkh=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_dkh=ON \
-  -D ENABLE_ecpint=${ECPINT} \
-  -D CMAKE_INSIST_FIND_PACKAGE_ecpint=${ECPINT} \
+  -D ENABLE_ecpint=ON \
+  -D CMAKE_INSIST_FIND_PACKAGE_ecpint=ON \
   -D ENABLE_PCMSolver=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_PCMSolver=ON \
   -D ENABLE_OPENMP=ON \
