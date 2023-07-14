@@ -24,7 +24,7 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 0
+  number: 1
   #skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
@@ -117,8 +117,7 @@ requirements:
     - pydantic =1
     # qc opt'l, build-time
     - dkh
-    - libecpint                              # [x86_64 or py==310]
-    # libecpint is unavailable on osx-arm64 and py != 310 until https://github.com/conda-forge/libecpint-feedstock/pull/8 merged
+    - libecpint
     - pcmsolver
   run:
     - llvm-openmp                            # [unix]
