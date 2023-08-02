@@ -1,14 +1,49 @@
-From 99afd51bd55f5eb368368b0918290b1d7d453b5d Mon Sep 17 00:00:00 2001
+From 94bfd254a9f2088d88717185a8213c5c19d090ad Mon Sep 17 00:00:00 2001
 From: "Lori A. Burns" <lori.burns@gmail.com>
 Date: Tue, 1 Aug 2023 21:32:45 -0400
 Subject: [PATCH] local qcengine src
 
 ---
- external/upstream/qcengine/CMakeLists.txt | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ external/upstream/qcelemental/CMakeLists.txt | 16 +++++++++-------
+ external/upstream/qcengine/CMakeLists.txt    | 22 ++++++++++++++--------
+ 2 files changed, 23 insertions(+), 15 deletions(-)
 
+diff --git a/external/upstream/qcelemental/CMakeLists.txt b/external/upstream/qcelemental/CMakeLists.txt
+index 3d0b83a..db39b42 100644
+--- a/external/upstream/qcelemental/CMakeLists.txt
++++ b/external/upstream/qcelemental/CMakeLists.txt
+@@ -1,6 +1,6 @@
+ if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_qcelemental}))
+     include(FindPythonModule)
+-    find_python_module(qcelemental ATLEAST 0.24.0 QUIET)
++    find_python_module(qcelemental ATLEAST 0.26.0 QUIET)
+ endif()
+ 
+ if(${qcelemental_FOUND})
+@@ -19,13 +19,15 @@ else()
+ 
+     ExternalProject_Add(qcelemental_external
+         BUILD_ALWAYS 1
+-        URL https://github.com/MolSSI/QCElemental/archive/v0.25.1.tar.gz
++        URL https://github.com/MolSSI/QCElemental/archive/v0.26.0.tar.gz
++        DOWNLOAD_NO_EXTRACT 1
+         CONFIGURE_COMMAND ""
+         UPDATE_COMMAND ""
+-        BUILD_COMMAND ${Python_EXECUTABLE} setup.py build
++        BUILD_COMMAND ""
+         BUILD_IN_SOURCE 1
+-        INSTALL_COMMAND ${Python_EXECUTABLE} setup.py install
+-                                                      --record=record.txt
+-                                                      --single-version-externally-managed
+-                                                      --install-lib=${_install_lib})
++        INSTALL_COMMAND ${Python_EXECUTABLE} -m pip install <DOWNLOADED_FILE>
++                                                      --target=${_install_lib}
++                                                      --no-deps
++                                                      #-v
++        )
+ endif()
 diff --git a/external/upstream/qcengine/CMakeLists.txt b/external/upstream/qcengine/CMakeLists.txt
-index 0355e9387..a13937773 100644
+index 0355e93..9540815 100644
 --- a/external/upstream/qcengine/CMakeLists.txt
 +++ b/external/upstream/qcengine/CMakeLists.txt
 @@ -1,6 +1,6 @@
@@ -19,16 +54,37 @@ index 0355e9387..a13937773 100644
  endif()
  
  if(${qcengine_FOUND})
-@@ -21,7 +21,8 @@ else()
+@@ -18,17 +18,23 @@ else()
+     file(TO_NATIVE_PATH "${STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}${PYMOD_INSTALL_LIBDIR}" _install_lib)
+     file(TO_NATIVE_PATH "${STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}" _install_bin)
+ 
++    # Note: Without downgrading setuptools or `sed`ing "git_refnames" (_version.py for versioneer-generated),
++    #   pip will strenuously resist ("Invalid version: <branch or commit>") arbitrary branch or commit refs from GH.
++    #   Make a proper PEP440 tag (e.g., `git tag -a v0.26.0.dev1 -m "v0.26.0.dev1"`), push it, and use in URL below.
++
      ExternalProject_Add(qcengine_external
          DEPENDS qcelemental_external
          BUILD_ALWAYS 1
 -        URL https://github.com/MolSSI/QCEngine/archive/v0.26.0.tar.gz
-+        URL https://github.com/loriab/QCEngine/archive/Pydanticv2again.tar.gz
++        URL https://github.com/loriab/QCEngine/archive/v0.26.0.dev1.tar.gz
 +        #URL https://github.com/MolSSI/QCEngine/archive/v0.27.0.tar.gz
++        DOWNLOAD_NO_EXTRACT 1
          CONFIGURE_COMMAND ""
          UPDATE_COMMAND ""
-         BUILD_COMMAND ${Python_EXECUTABLE} setup.py build
+-        BUILD_COMMAND ${Python_EXECUTABLE} setup.py build
++        BUILD_COMMAND ""
+         BUILD_IN_SOURCE 1
+-        INSTALL_COMMAND ${Python_EXECUTABLE} setup.py install
+-                                                      --record=record.txt
+-                                                      --single-version-externally-managed
+-                                                      --install-scripts=${_install_bin}
+-                                                      --install-lib=${_install_lib})
++        INSTALL_COMMAND ${Python_EXECUTABLE} -m pip install <DOWNLOADED_FILE>
++                                                      --target=${_install_lib}
++                                                      --no-deps
++                                                      #-v
++        )
+ endif()
 -- 
-2.34.1
+1.8.3.1
 
