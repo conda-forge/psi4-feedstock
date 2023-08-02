@@ -109,6 +109,7 @@ requirements:
     - pybind11
     - pybind11-abi
     - python
+    - pip                                              # internal builds of python modules, so usually off
     - zlib                                             # pcmsolver detection, not direct dep, so ignore_run_exports above
     # qc req'd
     - gau2grid
@@ -134,7 +135,6 @@ requirements:
     - numpy
     - python
     - scipy
-    - pydantic =1
     # qc
     - libint 2.7.3dev1                                 # 2.7.3dev1 provides rt-switchable ordering (src) and derivative integrals (build)
     - {{ pin_compatible('optking', max_pin='x.x') }}
