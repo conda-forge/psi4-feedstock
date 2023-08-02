@@ -1,0 +1,24 @@
+From 5d2c4abbba96b11c1b3a2310f42aa735295d7aec Mon Sep 17 00:00:00 2001
+From: "Lori A. Burns" <lori.burns@gmail.com>
+Date: Wed, 2 Aug 2023 17:16:34 -0400
+Subject: [PATCH] temp loud qcel search
+
+---
+ external/upstream/qcelemental/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/external/upstream/qcelemental/CMakeLists.txt b/external/upstream/qcelemental/CMakeLists.txt
+index db39b421b..b499ed297 100644
+--- a/external/upstream/qcelemental/CMakeLists.txt
++++ b/external/upstream/qcelemental/CMakeLists.txt
+@@ -1,6 +1,6 @@
+ if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_qcelemental}))
+     include(FindPythonModule)
+-    find_python_module(qcelemental ATLEAST 0.26.0 QUIET)
++    find_python_module(qcelemental ATLEAST 0.26.0) # QUIET)
+ endif()
+ 
+ if(${qcelemental_FOUND})
+-- 
+2.34.1
+
