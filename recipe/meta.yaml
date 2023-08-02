@@ -30,7 +30,7 @@ source:
 build:
   number: 2
   skip: true  # [py != 310]
-  skip: true  # [win or (osx and x86_64)]
+  skip: true  # [x86_64]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -92,7 +92,7 @@ requirements:
     - pybind11                               # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - pip                                    # [build_platform != target_platform]
-    - qcelemental                            # [build_platform != target_platform]
+    #- qcelemental                            # [build_platform != target_platform]
     - poetry-core                            # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
