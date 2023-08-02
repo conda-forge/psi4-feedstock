@@ -20,7 +20,6 @@ source:
     patches:
       - 0001-add-pydantic-v1-and-v2-compatibility.patch
       - 0002-local-qcengine-src.patch
-      - 0003-temp-loud-qcel-search.patch
   - url: https://github.com/psi4/iomp5md/archive/31b4ccb.tar.gz               # [win]
     sha256: d9c6ad3976183f54b676335885d8557d67ca7b25ac4115b91b4cc42281d95f7c  # [win]
     folder: external_src                                                      # [win]
@@ -29,8 +28,7 @@ source:
 
 build:
   number: 2
-  skip: true  # [py != 310]
-  skip: true  # [x86_64]
+  #skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -91,9 +89,7 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - pybind11                               # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
-    #- pip                                    # [build_platform != target_platform]
-    - qcelemental                            # [build_platform != target_platform]
-    #- poetry-core                            # [build_platform != target_platform]
+    - qcelemental                            # [build_platform != target_platform]  # version detection w/cross+poetry
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
