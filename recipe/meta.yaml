@@ -17,6 +17,9 @@ source:
   #- url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
   - url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
+    patches:
+      - 0001-add-pydantic-v1-and-v2-compatibility.patch
+      - 0002-local-qcengine-src.patch
   - url: https://github.com/psi4/iomp5md/archive/31b4ccb.tar.gz               # [win]
     sha256: d9c6ad3976183f54b676335885d8557d67ca7b25ac4115b91b4cc42281d95f7c  # [win]
     folder: external_src                                                      # [win]
@@ -24,7 +27,7 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 1
+  number: 2
   #skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
@@ -86,6 +89,7 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - pybind11                               # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
+    - qcelemental                            # [build_platform != target_platform]  # version detection w/cross+poetry
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
@@ -107,6 +111,7 @@ requirements:
     - pybind11-abi
     - python
     - zlib                                             # pcmsolver detection, not direct dep, so ignore_run_exports above
+      #- pip                                           # internal builds of python modules, so usually off
     # qc req'd
     - gau2grid
     - libint 2.7.3dev1
@@ -114,7 +119,6 @@ requirements:
     - optking
     - qcelemental
     - qcengine
-    - pydantic =1
     # qc opt'l, build-time
     - dkh
     - libecpint
@@ -132,7 +136,6 @@ requirements:
     - numpy
     - python
     - scipy
-    - pydantic =1
     # qc
     - libint 2.7.3dev1                                 # 2.7.3dev1 provides rt-switchable ordering (src) and derivative integrals (build)
     - {{ pin_compatible('optking', max_pin='x.x') }}
