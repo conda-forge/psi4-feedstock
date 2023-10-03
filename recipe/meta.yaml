@@ -27,7 +27,7 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 2
+  number: 3
   #skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
@@ -98,7 +98,7 @@ requirements:
     - llvm-openmp                            # [unix]
   host:
     - eigen
-    - boost-cpp
+    - libboost-headers
     - libblas * *mkl                         # [x86_64]
     - mkl-devel                              # [x86_64 and unix]
     - mkl-devel {{ mkl }}                    # [x86_64 and win]
@@ -176,7 +176,7 @@ test:
     - make                                                               # [unix]
     - pybind11                                                           # [unix]
     - eigen                                                              # [unix]
-    - boost-cpp                                                          # [unix]
+    - libboost-headers                                                          # [unix]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
