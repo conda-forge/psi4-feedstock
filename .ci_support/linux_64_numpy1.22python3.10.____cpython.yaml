@@ -1,5 +1,3 @@
-boost_cpp:
-- 1.78.0
 c_compiler:
 - gcc
 c_compiler_version:
@@ -21,10 +19,8 @@ mkl:
 mkl_devel:
 - '2022'
 numpy:
-- '1.21'
+- '1.22'
 pin_run_as_build:
-  boost-cpp:
-    max_pin: x.x.x
   python:
     min_pin: x.x
     max_pin: x.x
