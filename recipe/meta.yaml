@@ -27,7 +27,7 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 3
+  number: 4
   #skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
