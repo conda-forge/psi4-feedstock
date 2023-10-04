@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
-{% set version = "1.8.1" %}
-{% set commit = "232bcd5f5" %}
-{% set sha256 = "f1431a68fd67ae8c31fdb3a8c135061d148246b9687c80decdc1b7ad917fe80b" %}
+{% set version = "1.8.2" %}
+{% set commit = "8a65ae0fc" %}
+{% set sha256 = "8c446d5df498896ca04f2cd699ff116bfad4566359eba0b514f887d55995f2e8" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -17,9 +17,6 @@ source:
   #- url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
   - url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
-    patches:
-      - 0001-add-pydantic-v1-and-v2-compatibility.patch
-      - 0002-local-qcengine-src.patch
   - url: https://github.com/psi4/iomp5md/archive/31b4ccb.tar.gz               # [win]
     sha256: d9c6ad3976183f54b676335885d8557d67ca7b25ac4115b91b4cc42281d95f7c  # [win]
     folder: external_src                                                      # [win]
@@ -27,8 +24,8 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 3
-  #skip: true  # [py != 310]
+  number: 0
+  skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -138,9 +135,9 @@ requirements:
     - scipy
     # qc
     - libint 2.7.3dev1                                 # 2.7.3dev1 provides rt-switchable ordering (src) and derivative integrals (build)
-    - {{ pin_compatible('optking', max_pin='x.x') }}
-    - {{ pin_compatible('qcelemental', max_pin='x.x') }}
-    - {{ pin_compatible('qcengine', max_pin='x.x') }}
+    - {{ pin_compatible('optking', max_pin='x') }}
+    - {{ pin_compatible('qcelemental', max_pin='x') }}
+    - {{ pin_compatible('qcengine', max_pin='x') }}
   run_constrained:
     - pytest >=7.0.1
     # qc opt'l, run-time
@@ -176,7 +173,7 @@ test:
     - make                                                               # [unix]
     - pybind11                                                           # [unix]
     - eigen                                                              # [unix]
-    - libboost-headers                                                          # [unix]
+    - libboost-headers                                                   # [unix]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
