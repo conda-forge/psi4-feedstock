@@ -88,7 +88,7 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - pybind11                               # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
-    - qcelemental 2.7.0                      # [build_platform != target_platform]  # version detection w/cross+poetry
+    - qcelemental 0.27.0                     # [build_platform != target_platform]  # version detection w/cross+poetry
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
@@ -116,7 +116,7 @@ requirements:
     - libint 2.7.3dev1
     - libxc-c
     - optking
-    - qcelemental 2.7.0
+    - qcelemental 0.27.0
     - qcengine
     # qc opt'l, build-time
     - dkh
