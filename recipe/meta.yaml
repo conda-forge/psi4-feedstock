@@ -18,7 +18,7 @@ source:
   - url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
     patches:
-      - 0001-raw-strings-for-paths-help-win-py312.patch
+      - 0001-raw-str-winpaths-py312-and-qcf051.patch
   - url: https://github.com/psi4/iomp5md/archive/31b4ccb.tar.gz               # [win]
     sha256: d9c6ad3976183f54b676335885d8557d67ca7b25ac4115b91b4cc42281d95f7c  # [win]
     folder: external_src                                                      # [win]
@@ -27,7 +27,7 @@ source:
 
 build:
   number: 1
-  skip: true  # [py != 312]
+  skip: true  # [py < 311]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -88,7 +88,7 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - pybind11                               # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
-    - qcelemental                            # [build_platform != target_platform]  # version detection w/cross+poetry
+    - qcelemental 2.7.0                      # [build_platform != target_platform]  # version detection w/cross+poetry
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
@@ -116,7 +116,7 @@ requirements:
     - libint 2.7.3dev1
     - libxc-c
     - optking
-    - qcelemental
+    - qcelemental 2.7.0
     - qcengine
     # qc opt'l, build-time
     - dkh
@@ -136,7 +136,6 @@ requirements:
     - pydantic >=1.10
     - python
     - scipy
-    - libcxx                                 # [osx or osx-arm64]
     # qc
     - libint 2.7.3dev1                                 # 2.7.3dev1 provides rt-switchable ordering (src) and derivative integrals (build)
     - {{ pin_compatible('optking', max_pin='x') }}
@@ -153,7 +152,7 @@ requirements:
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
 
 # Several runtime-optional packages are commented so they don't factor into the py312 migration.
-#   No actual capability is compromised. ~adcc~, ~cppe~, ~pyddx~, ~dftd3-python~, ~dftd4-python~
+#   No actual capability is compromised. ~adcc~, cppe, ~pyddx~, ~dftd3-python~, ~dftd4-python~
 
 test:
   imports:
@@ -165,7 +164,7 @@ test:
     - m2w64-binutils                                                     # [win]   # provides objdump.exe
     # qc runtime opt'l
     - adcc                                                               # [unix]
-    - cppe
+    #- cppe
     - pyddx                                                              # [unix]
     - dftd3-python                                                       # [not (win and py==312)]
     - dftd4-python                                                       # [py != 312]
