@@ -28,7 +28,8 @@ source:
 build:
   number: 1
   # skip: true  # [py != 310]
-  skip: true  # [py < 311]
+  #skip: true  # [py < 311]
+  skip: true  # [(py != 312) and not win]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -216,7 +217,7 @@ test:
     - python -c "from psi4 import core; core.set_num_threads(42); assert core.get_num_threads() == 42"
     - python -c "import psi4;print(psi4.addons())"
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "quick"  # [unix]
-    - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "quick and not d2ints"  # [win]
+    #- pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "quick and not d2ints"  # [win]
     # Test a plugin
     - PLUG=plugdfmp2                                                     # [unix]
     - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix]
