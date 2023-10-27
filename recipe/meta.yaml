@@ -29,8 +29,6 @@ source:
 build:
   number: 1
   # skip: true  # [py != 310]
-  #skip: true  # [py < 311]
-  skip: true  # [(py < 311) or not (win or linux)]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -153,6 +151,7 @@ requirements:
     - pymdi >=1.2                                      # 1.2 has breaking API change
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
+    - cppe ==0.3.1                                     # 0.3.2 has libecpint problems
 
 # Several runtime-optional packages are commented so they don't factor into the py312 migration.
 #   No actual capability is compromised. ~adcc~, cppe, ~pyddx~, ~dftd3-python~, ~dftd4-python~
@@ -167,7 +166,7 @@ test:
     - m2w64-binutils                                                     # [win]   # provides objdump.exe
     # qc runtime opt'l
     - adcc                                                               # [unix]
-    #- cppe
+    - cppe                                                               # [unix and (py != 312)]
     - pyddx                                                              # [unix]
     - dftd3-python                                                       # [not (win and py==312)]
     - dftd4-python                                                       # [py != 312]
@@ -217,8 +216,8 @@ test:
     - python -c "import psi4;assert psi4.__version__ == '{{ version }}', f'{psi4.__version__=} differs from recipe=\'{{ version }}\''"
     - python -c "from psi4 import core; core.set_num_threads(42); assert core.get_num_threads() == 42"
     - python -c "import psi4;print(psi4.addons())"
-    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "quick"  # [unix]
-    - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "quick and not d2ints"  # [win]
+    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke"  # [unix]
+    - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints"  # [win]
     # Test a plugin
     - PLUG=plugdfmp2                                                     # [unix]
     - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix]
