@@ -3,5 +3,5 @@ channel_sources:
 # temporary to prevent rerender from setting mkl=2023 & mkl-devel=2022
 mkl:
   - 2023
-mkl-devel:
+mkl_devel:
   - 2023
