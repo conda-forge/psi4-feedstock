@@ -19,6 +19,7 @@ source:
     sha256: {{ sha256 }}
     patches:
       - 0001-raw-str-winpaths-py312-and-qcf051.patch
+      - 0002-make-psi4-version-faster-3064.patch
   - url: https://github.com/psi4/iomp5md/archive/31b4ccb.tar.gz               # [win]
     sha256: d9c6ad3976183f54b676335885d8557d67ca7b25ac4115b91b4cc42281d95f7c  # [win]
     folder: external_src                                                      # [win]
@@ -29,7 +30,7 @@ build:
   number: 1
   # skip: true  # [py != 310]
   #skip: true  # [py < 311]
-  skip: true  # [(py != 312) and not win]
+  skip: true  # [(py < 311) or not (win or linux)]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -90,7 +91,7 @@ requirements:
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - pybind11                               # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
-    - qcelemental 0.27.0                     # [build_platform != target_platform]  # version detection w/cross+poetry
+    - qcelemental                            # [build_platform != target_platform]  # version detection w/cross+poetry
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
@@ -118,8 +119,8 @@ requirements:
     - libint 2.7.3dev1
     - libxc-c
     - optking
-    - qcelemental 0.27.0
-    - qcengine 0.28.1 *_1
+    - qcelemental
+    - qcengine
     # qc opt'l, build-time
     - dkh
     - libecpint
@@ -217,7 +218,7 @@ test:
     - python -c "from psi4 import core; core.set_num_threads(42); assert core.get_num_threads() == 42"
     - python -c "import psi4;print(psi4.addons())"
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "quick"  # [unix]
-    #- pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "quick and not d2ints"  # [win]
+    - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "quick and not d2ints"  # [win]
     # Test a plugin
     - PLUG=plugdfmp2                                                     # [unix]
     - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix]

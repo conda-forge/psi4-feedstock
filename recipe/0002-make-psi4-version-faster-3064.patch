@@ -1,0 +1,51 @@
+From 2a956f4b7993ca46b5da1f25f44b4ed3bc70366e Mon Sep 17 00:00:00 2001
+From: "Lori A. Burns" <lori.burns@gmail.com>
+Date: Thu, 26 Oct 2023 17:38:27 -0400
+Subject: [PATCH] make `psi4 --version` faster (#3064)
+
+* Update run_psi4.py
+
+* Update run_psi4.py
+---
+ psi4/run_psi4.py | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/psi4/run_psi4.py b/psi4/run_psi4.py
+index 3e667db79..a421cd744 100755
+--- a/psi4/run_psi4.py
++++ b/psi4/run_psi4.py
+@@ -33,6 +33,7 @@ import atexit
+ import datetime
+ import json
+ import os
++import re
+ import sys
+ import warnings
+ from pathlib import Path
+@@ -200,6 +201,12 @@ if args["psidatadir"] is not None:
+     data_dir = os.path.abspath(os.path.expanduser(args["psidatadir"]))
+     os.environ["PSIDATADIR"] = data_dir
+ 
++if args["version"]:
++    with (psi4_module_loc / "metadata.py").open() as fp: verline = fp.readline()
++    __version__ = re.match(r"__version__ = ['\"](?P<ver>.*)['\"]", verline).group("ver")
++    print(__version__)
++    sys.exit()
++
+ ### Actually import psi4 and apply setup ###
+ 
+ # Arrange for warnings to ignore everything except the message
+@@ -212,10 +219,6 @@ warnings.formatwarning = custom_formatwarning
+ sys.path.insert(1, lib_dir)
+ import psi4  # isort:skip
+ 
+-if args["version"]:
+-    print(psi4.__version__)
+-    sys.exit()
+-
+ # Prevents a poor option combination
+ if args['plugin_template'] and (not args['plugin_name']):
+     raise KeyError("Please specify a '--plugin-name' for your plugin template!")
+-- 
+2.40.1
+
