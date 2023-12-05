@@ -2,6 +2,8 @@ if [ "$(uname)" == "Darwin" ]; then
     ARCH_ARGS=""
 
     # c-f-provided CMAKE_ARGS handles CMAKE_OSX_DEPLOYMENT_TARGET, CMAKE_OSX_SYSROOT
+    # avoid "error: 'value' is unavailable: introduced in macOS 10.13"
+    CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 
     cp external_src/psi4PluginCacheosx.cmake t_plug0
 fi
