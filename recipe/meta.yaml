@@ -1,12 +1,12 @@
 {% set name = "psi4" %}
-{% set version = "1.8.2" %}
-{% set commit = "e4411877a" %}
-{% set sha256 = "0b356f29e6eefa6496e5ad58e09b7d090f12971e2ccb3d824e787713f1dd4a82" %}
+{% set version = "1.9.0rc1" %}
+{% set commit = "6c8178964" %}
+{% set sha256 = "e0039b0e15a5f9cf5fbf9715cb81d1b281a762160d2e2e5bc220351008651635" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
 #   so comment out the "echo ... metadata.py" cmds in build.sh and bld.bat. ("commit" var here also disposable.)
-# * to package _any_ commit, set it to "commit" jinja, set "version" jinja to a fake prerelease tag, and let the "echo ... metadata.py" machinery work.
+# * to package _any_ commit, set it to "commit" jinja, set "version" jinja to a fake prerelease tag, use the "commit" version for source/url, edit the sha256, and let the "echo ... metadata.py" machinery work.
 #   note that the non-c-f recipe didn't need this machinery b/c it used source/git_url and load_setup_py_data.
 
 package:
@@ -14,8 +14,8 @@ package:
   version: {{ version }}
 
 source:
-  #- url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  - url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
+  - url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
+  #- url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
     patches:
       - 0001-raw-str-winpaths-py312-and-qcf051.patch
@@ -27,8 +27,8 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 2
-  # skip: true  # [py != 310]
+  number: 0
+  skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
