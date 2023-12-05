@@ -1,12 +1,12 @@
 {% set name = "psi4" %}
-{% set version = "1.9.0rc1" %}
+{% set version = "1.9a1" %}
 {% set commit = "6c8178964" %}
 {% set sha256 = "e0039b0e15a5f9cf5fbf9715cb81d1b281a762160d2e2e5bc220351008651635" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
 #   so comment out the "echo ... metadata.py" cmds in build.sh and bld.bat. ("commit" var here also disposable.)
-# * to package _any_ commit, set it to "commit" jinja, set "version" jinja to a fake prerelease tag, use the "commit" version for source/url, edit the sha256, and let the "echo ... metadata.py" machinery work.
+# * to package _any_ commit, set it to "commit" jinja, set "version" jinja to a fake prerelease tag like "1.8a3", use the "commit" version for source/url, edit the sha256, and let the "echo ... metadata.py" machinery work.
 #   note that the non-c-f recipe didn't need this machinery b/c it used source/git_url and load_setup_py_data.
 
 package:
