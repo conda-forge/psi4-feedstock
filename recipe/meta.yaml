@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
-{% set version = "1.9a1" %}
-{% set commit = "99633bb0c" %}
-{% set sha256 = "fc3a1ed003bff3add10bf32e06b2f8b611d2994a04763d6184a01380699e4644" %}
+{% set version = "1.9" %}
+{% set commit = "d99b6424f" %}
+{% set sha256 = "01429e9f93da3871183204a0406a1c9887329ece10d091857b5bdfbd1013dc8f" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -14,8 +14,8 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  #- url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
+  #- url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
+  - url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
   - url: https://github.com/psi4/iomp5md/archive/31b4ccb.tar.gz               # [win]
     sha256: d9c6ad3976183f54b676335885d8557d67ca7b25ac4115b91b4cc42281d95f7c  # [win]
@@ -207,7 +207,7 @@ test:
     - otool -L $SP_DIR/psi4/core*.so                                     # [osx]
     - objdump.exe -p %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"       # [win]
     # Actually test
-    #- pip check  # my bad, I didn't update setup.py for qcng _1
+    - pip check
     - python -c "import psi4;assert psi4.__version__ == '{{ version }}', f'{psi4.__version__=} differs from recipe=\'{{ version }}\''"
     - python -c "from psi4 import core; core.set_num_threads(42); assert core.get_num_threads() == 42"
     - python -c "import psi4;print(psi4.addons())"
