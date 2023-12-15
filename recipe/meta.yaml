@@ -104,7 +104,7 @@ requirements:
       #- pip                                           # internal builds of python modules, so usually off
     # qc req'd
     - gau2grid
-    - libint >=2.8.0
+    - libint 2.8.0
     - libxc-c
     - optking
     - qcelemental
