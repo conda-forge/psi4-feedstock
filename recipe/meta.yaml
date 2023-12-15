@@ -24,7 +24,7 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 0
+  number: 1
   # skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
@@ -33,15 +33,9 @@ build:
     # only relevant for the rare "psi4 plugin" case (links to psi4/core.*so), not the usual "psi4 module" case (import psi4)
     - {{ pin_subpackage('psi4', max_pin='x.x') }}
   ignore_run_exports:
-    - libint
     - numpy
   ignore_run_exports_from:
     - zlib
-
-# bkgd: the libint story
-# * this recipe is using a libint dev package for reasons at https://github.com/conda-forge/libint-feedstock/issues/15
-# * libint_dev pkg has a run_exports `x`, which is true for the package in general
-# * but since API is not finalized, it's prudent for now to pin req/run to exact, hence the ignore_run_exports above
 
 # bkgd: the numpy story
 # * psi4 uses numpy at runtime and has no version constraints
@@ -110,7 +104,7 @@ requirements:
       #- pip                                           # internal builds of python modules, so usually off
     # qc req'd
     - gau2grid
-    - libint 2.7.3dev1
+    - libint >=2.8.0
     - libxc-c
     - optking
     - qcelemental
@@ -133,7 +127,6 @@ requirements:
     - python
     - scipy
     # qc
-    - libint 2.7.3dev1                                 # 2.7.3dev1 provides rt-switchable ordering (src) and derivative integrals (build)
     - {{ pin_compatible('optking', max_pin='x') }}
     - {{ pin_compatible('qcelemental', max_pin='x') }}
     - {{ pin_compatible('qcengine', max_pin='x') }}
