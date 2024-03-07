@@ -24,7 +24,7 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 0
+  number: 1
   # skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
@@ -104,7 +104,7 @@ requirements:
       #- pip                                           # internal builds of python modules, so usually off
     # qc req'd
     - gau2grid
-    - libint 2.8.2
+    - libint 2.9.0
     - libxc-c
     - optking
     - qcelemental
