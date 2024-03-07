@@ -24,7 +24,7 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 0
+  number: 1
   # skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
@@ -130,6 +130,7 @@ requirements:
     - {{ pin_compatible('optking', max_pin='x') }}
     - {{ pin_compatible('qcelemental', max_pin='x') }}
     - {{ pin_compatible('qcengine', max_pin='x') }}
+    - {{ pin_compatible('libint', max_pin='x.x.x') }}
   run_constrained:
     - pytest >=7.0.1,<8
     # qc opt'l, run-time
