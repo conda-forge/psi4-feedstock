@@ -24,7 +24,7 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 1
+  number: 2
   # skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
@@ -32,8 +32,6 @@ build:
   run_exports:
     # only relevant for the rare "psi4 plugin" case (links to psi4/core.*so), not the usual "psi4 module" case (import psi4)
     - {{ pin_subpackage('psi4', max_pin='x.x') }}
-  ignore_run_exports:
-    - numpy
   ignore_run_exports_from:
     - zlib
 
