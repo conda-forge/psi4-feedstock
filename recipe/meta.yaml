@@ -80,8 +80,9 @@ requirements:
     - pybind11                               # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - qcelemental                            # [build_platform != target_platform]  # version detection w/cross+poetry
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
+    - {{ stdlib("c") }}
+    - {{ compiler("c") }}
+    - {{ compiler("cxx") }}
     - cmake
     - make                                   # [unix]
     - ninja                                  # [win]
@@ -105,8 +106,8 @@ requirements:
     - libint 2.9.0
     - libxc-c
     - optking
-    - qcelemental
-    - qcengine
+    - qcelemental 0.28.0
+    - qcengine 0.29.0
     # qc opt'l, build-time
     - dkh
     - libecpint
