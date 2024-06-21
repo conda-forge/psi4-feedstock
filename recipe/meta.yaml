@@ -121,7 +121,7 @@ requirements:
     - liblapack                              # [not x86_64]
     - msgpack-python
     - networkx
-    - numpy
+    - {{ pin_compatible('numpy') }}
     - pydantic >=1.10
     - python
     - scipy
