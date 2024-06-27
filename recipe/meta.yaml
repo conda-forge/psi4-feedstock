@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.10a1" %}
-{% set commit = "1670c89" %}
-{% set sha256 = "87b41a40611a64bdd1f6109ccf4603f2da9d42f7c5a6170c52553e9c286555db" %}
+{% set commit = "2c683fb" %}
+{% set sha256 = "9ddf1c36e0e62c09a7139eb9c46442653b8a6d513faab9315f5085a211b40d5f" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -110,7 +110,10 @@ requirements:
     - qcengine
     # qc opt'l, build-time
     - dkh
-    - einsums                                # [unix]
+    - einsums * mkl*                         # [unix and x86_64]
+    - einsums * openblas*                    # [unix and not x86_64]
+    - hdf5                                   # [unix]  # indirect dep from einsums
+    - fmt                                    # [unix]  # indirect dep from einsums
     - libecpint
     - pcmsolver
   run:
@@ -157,7 +160,7 @@ test:
     - cppe                                                               # [unix and (py != 312)]
     - pyddx                                                              # [unix]
     - dftd3-python                                                       # [not (win and py==312)]
-    - dftd4-python                                                       # [py != 312]
+    - dftd4-python                                                       # [not (win and py==312)]
     - toml                                                                         # needed for qcengine/dftd4-python interface
     - pylibefp
     - gcp-correction
@@ -200,7 +203,7 @@ test:
     - otool -L $SP_DIR/psi4/core*.so                                     # [osx]
     - objdump.exe -p %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"       # [win]
     # Actually test
-    #- pip check  # temp until qcng is fixed up
+    - pip check
     - python -c "import psi4;assert psi4.__version__ == '{{ version }}', f'{psi4.__version__=} differs from recipe=\'{{ version }}\''"
     - python -c "from psi4 import core; core.set_num_threads(42); assert core.get_num_threads() == 42"
     - python -c "import psi4;print(psi4.addons())"
