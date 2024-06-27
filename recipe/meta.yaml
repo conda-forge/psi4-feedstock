@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.10a1" %}
-{% set commit = "560aebb" %}
-{% set sha256 = "37eae9f6dbf2c8f5f635121e4537d1010cbb547c501a8cf6367334368d3e1b6d" %}
+{% set commit = "1670c89" %}
+{% set sha256 = "87b41a40611a64bdd1f6109ccf4603f2da9d42f7c5a6170c52553e9c286555db" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -106,10 +106,11 @@ requirements:
     - libint 2.9.0
     - libxc-c
     - optking
-    - qcelemental 0.28.0
-    - qcengine 0.29.0
+    - qcelemental
+    - qcengine
     # qc opt'l, build-time
     - dkh
+    - einsums                                # [unix]
     - libecpint
     - pcmsolver
   run:
