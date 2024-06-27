@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
-{% set version = "1.9.1" %}
-{% set commit = "f53cdd7cb" %}
-{% set sha256 = "ccd69bdc1d8319470513b4d3c1e0d737fc7788a50d7e48f8db762a0fcf795dad" %}
+{% set version = "1.10a1" %}
+{% set commit = "f920122cb" %}
+{% set sha256 = "d35322ad4d5e822cdaeb3ba73af632f34c4b9540852f014c00c2f2c1ef3d22be" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -14,8 +14,8 @@ package:
   version: {{ version }}
 
 source:
-  #- url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  - url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
+  - url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
+  #- url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
   - url: https://github.com/psi4/iomp5md/archive/31b4ccb.tar.gz               # [win]
     sha256: d9c6ad3976183f54b676335885d8557d67ca7b25ac4115b91b4cc42281d95f7c  # [win]
@@ -24,8 +24,8 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 2
-  # skip: true  # [py != 310]
+  number: 0
+  skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
