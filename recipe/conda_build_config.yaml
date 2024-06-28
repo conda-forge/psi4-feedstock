@@ -1,5 +1,5 @@
-## temporary to prevent rerender from setting mkl=2023 & mkl_devel=2022
-#mkl:
-#  - 2023
-#mkl_devel:
-#  - 2023
+# temporary to prevent rerender from setting mkl=2023 & mkl_devel=2022
+mkl:
+  - 2023
+mkl_devel:
+  - 2023
