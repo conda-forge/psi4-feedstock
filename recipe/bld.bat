@@ -1,5 +1,5 @@
 
-REM echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
+echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
 
 cmake %CMAKE_ARGS% ^
   -G "Ninja" ^
@@ -43,6 +43,7 @@ cmake %CMAKE_ARGS% ^
   -D CMAKE_PREFIX_PATH="%LIBRARY_PREFIX%"
 if errorlevel 1 exit 1
 
+set CMAKE_BUILD_PARALLEL_LEVEL=1
 cmake --build build ^
       --config Release ^
       --target install ^
