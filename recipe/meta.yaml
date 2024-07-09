@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
-{% set version = "1.10a1" %}
-{% set commit = "00aac09" %}
-{% set sha256 = "e77b6c7bf9389a972f746c079bc920e0568ccc14871f05d950810d47036082b3" %}
+{% set version = "1.9.1" %}
+{% set commit = "f53cdd7cb" %}
+{% set sha256 = "ccd69bdc1d8319470513b4d3c1e0d737fc7788a50d7e48f8db762a0fcf795dad" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -14,15 +14,15 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  #- url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
+  #- url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
+  - url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
   - path: ./src                                                               # [unix]
     folder: external_src                                                      # [unix]
 
 build:
-  number: 0
-  skip: true  # [py != 310]
+  number: 3
+  # skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -56,6 +56,7 @@ build:
 # * without the `{{ mkl }}` pin, various attempts would either install mkl + openblas + libblas=*=*openblas or try to fall back to libblas==3.8.0=10_mkl
 # * current conda-forge-pinning is mkl=mkl-devel=2022, so hopefully this recipe is still consistent with the c-f stack.
 # * [Oct 2023, #19] new libblas w/mkl2023 available for all arch, so releasing pin and consolidating lines
+# * [Jul 2024] removing the cbc.yaml now that mkl2023 is universal. also can use adcc again
 
 # bkgd: the windows openmp story
 # * the windows mkl package depends on intel-openmp (provides libiomp5md.dll).
@@ -69,6 +70,7 @@ build:
 # * for threading on windows, we're certainly willing for the psi4 recipe to do whatever works well with the c-f stack.
 #   However, at the moment this aspect of the stack seems a little fractured, so the recipe is defaulting to the
 #   mkl + intel-openmp + stashed libiomp5md.lib procedure that has worked compatibly with c-f for the last couple years.
+# * [Jul 2024] intel-openmp now provides libiomp5md.lib so dropping the external src.
 
 requirements:
   build:
@@ -108,10 +110,6 @@ requirements:
     - qcengine
     # qc opt'l, build-time
     - dkh
-    - einsums * mkl*                         # [unix and x86_64]
-    - einsums * openblas*                    # [unix and not x86_64]
-    - hdf5                                   # [unix]  # indirect dep from einsums
-    - fmt                                    # [unix]  # indirect dep from einsums
     - libecpint
     - pcmsolver
   run:
@@ -131,8 +129,6 @@ requirements:
     - {{ pin_compatible('optking', max_pin='x') }}
     - {{ pin_compatible('qcelemental', max_pin='x') }}
     - {{ pin_compatible('qcengine', max_pin='x') }}
-    - einsums * mkl*                         # [unix and x86_64]
-    - einsums * openblas*                    # [unix and not x86_64]
   run_constrained:
     - pytest >=7.0.1,<8
     # qc opt'l, run-time
@@ -163,7 +159,6 @@ test:
     - dftd4-python                                                       # [not (win and py==312)]
     - toml                                                                         # needed for qcengine/dftd4-python interface
     - pylibefp
-    #- forte                                                              # [unix]
     - gcp-correction
     - geometric
     - pygdma
@@ -204,7 +199,6 @@ test:
     - ldd -v $SP_DIR/psi4/core*.so                                       # [linux]
     - otool -L $SP_DIR/psi4/core*.so                                     # [osx]
     - objdump.exe -p %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"       # [win]
-    - objdump.exe -p %PREFIX%\\Library\\bin\\mkl_rt.*.dll | findstr /i "dll"  # [win]
     # Actually test
     - pip check
     - python -c "import psi4;assert psi4.__version__ == '{{ version }}', f'{psi4.__version__=} differs from recipe=\'{{ version }}\''"

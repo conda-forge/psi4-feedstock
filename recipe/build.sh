@@ -24,7 +24,7 @@ else
     export LAPACK_LIBRARIES="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}"
 fi
 
-echo '__version_long = '"'$PSI4_PRETEND_VERSIONLONG'" > psi4/metadata.py
+#echo '__version_long = '"'$PSI4_PRETEND_VERSIONLONG'" > psi4/metadata.py
 
 # Note: bizarrely, Linux (but not Mac) using `-G Ninja` hangs on [205/1223] at
 #   c-f/staged-recipes Azure CI --- thus the fallback to GNU Make.
@@ -55,8 +55,6 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D CMAKE_INSIST_FIND_PACKAGE_dkh=ON \
   -D ENABLE_ecpint=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_ecpint=ON \
-  -D ENABLE_Einsums=ON \
-  -D CMAKE_INSIST_FIND_PACKAGE_Einsums=ON \
   -D ENABLE_PCMSolver=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_PCMSolver=ON \
   -D ENABLE_OPENMP=ON \
@@ -76,6 +74,8 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
 #  -D ENABLE_simint=ON \
 #  -D SIMINT_VECTOR=sse \
 #  -D CMAKE_INSIST_FIND_PACKAGE_simint=ON \
+#  -D ENABLE_Einsums=ON \
+#  -D CMAKE_INSIST_FIND_PACKAGE_Einsums=ON \
 
 cmake --build build --target install -j${CPU_COUNT}
 
