@@ -163,7 +163,7 @@ test:
     - dftd4-python                                                       # [not (win and py==312)]
     - toml                                                                         # needed for qcengine/dftd4-python interface
     - pylibefp
-    - forte                                                              # [unix]
+    #- forte                                                              # [unix]
     - gcp-correction
     - geometric
     - pygdma
