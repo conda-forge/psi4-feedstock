@@ -21,7 +21,6 @@ cmake %CMAKE_ARGS% ^
   -D TargetHDF5_INSTALL_CMAKEDIR="Library\\share\\cmake\\TargetHDF5" ^
   -D Python_EXECUTABLE="%PYTHON%" ^
   -D LAPACK_LIBRARIES="%PREFIX%\\Library\\lib\\mkl_rt.lib" ^
-  -D OpenMP_LIBRARY_DIRS="%SRC_DIR%\\external_src\\conda\\win\\2019.1" ^
   -D BUILD_SHARED_LIBS=OFF ^
   -D ENABLE_OPENMP=ON ^
   -D CMAKE_INSIST_FIND_PACKAGE_gau2grid=ON ^
@@ -43,6 +42,7 @@ cmake %CMAKE_ARGS% ^
   -D CMAKE_PREFIX_PATH="%LIBRARY_PREFIX%"
 if errorlevel 1 exit 1
 
+set CMAKE_BUILD_PARALLEL_LEVEL=1
 cmake --build build ^
       --config Release ^
       --target install ^
@@ -70,3 +70,6 @@ REM pytest in conda testing stage
 :: echo LLVM
 :: lib /list "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Tools/Llvm/x64/lib/libiomp5md.lib"
 :: echo end
+
+:: Expired
+::  -D OpenMP_LIBRARY_DIRS="%SRC_DIR%\\external_src\\conda\\win\\2019.1"

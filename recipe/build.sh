@@ -74,6 +74,8 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
 #  -D ENABLE_simint=ON \
 #  -D SIMINT_VECTOR=sse \
 #  -D CMAKE_INSIST_FIND_PACKAGE_simint=ON \
+#  -D ENABLE_Einsums=ON \
+#  -D CMAKE_INSIST_FIND_PACKAGE_Einsums=ON \
 
 cmake --build build --target install -j${CPU_COUNT}
 
