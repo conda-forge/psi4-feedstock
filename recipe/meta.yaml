@@ -21,7 +21,7 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 3
+  number: 4
   # skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
@@ -82,7 +82,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
-    - cmake 3.29                                       # 3.30 failing for intel mac
+    - cmake
     - make                                   # [unix]
     - ninja                                  # [win]
     - llvm-openmp                            # [unix]
@@ -121,7 +121,7 @@ requirements:
     - liblapack                              # [not x86_64]
     - msgpack-python
     - networkx
-    - {{ pin_compatible('numpy') }}
+    # - {{ pin_compatible('numpy') }}        # should be handled by run_exports on np now
     - pydantic >=1.10
     - python
     - scipy
