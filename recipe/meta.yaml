@@ -82,7 +82,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
-    - cmake
+    - cmake 3.29
     - make                                   # [unix]
     - ninja                                  # [win]
     - llvm-openmp                            # [unix]
@@ -121,7 +121,7 @@ requirements:
     - liblapack                              # [not x86_64]
     - msgpack-python
     - networkx
-    # - {{ pin_compatible('numpy') }}        # should be handled by run_exports on np now
+    - numpy
     - pydantic >=1.10
     - python
     - scipy
