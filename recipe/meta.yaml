@@ -17,11 +17,9 @@ source:
   #- url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
   - url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
     sha256: {{ sha256 }}
-  - path: ./src                                                               # [unix]
-    folder: external_src                                                      # [unix]
 
 build:
-  number: 4
+  number: 5
   # skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
@@ -82,7 +80,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
-    - cmake 3.29                                       # 3.30 failing for intel mac
+    - cmake 3.29.*                                     # 3.30 failing for intel mac
     - make                                   # [unix]
     - ninja                                  # [win]
     - llvm-openmp                            # [unix]
@@ -164,7 +162,7 @@ test:
     - pymdi
     # plugin testing
     - {{ compiler('cxx') }}                                              # [unix]
-    - cmake 3.29                                                         # [unix]
+    - cmake 3.29.*                                                       # [unix]
     - make                                                               # [unix]
     - pybind11                                                           # [unix]
     - eigen                                                              # [unix]

@@ -5,7 +5,7 @@ if [ "$(uname)" == "Darwin" ]; then
     # avoid "error: 'value' is unavailable: introduced in macOS 10.13"
     CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 
-    cp external_src/psi4PluginCacheosx.cmake t_plug0
+    cp "${RECIPE_DIR}/src/psi4PluginCacheosx.cmake" t_plug0
 fi
 if [ "$(uname)" == "Linux" ]; then
     ARCH_ARGS=""
@@ -15,7 +15,7 @@ if [ "$(uname)" == "Linux" ]; then
     git rev-parse --is-inside-work-tree
     git rev-parse --show-toplevel
 
-    cp external_src/psi4PluginCachelinux.cmake t_plug0
+    cp "${RECIPE_DIR}/src/psi4PluginCachelinux.cmake" t_plug0
 fi
 
 if [[ "${target_platform}" == "osx-arm64" ]]; then
