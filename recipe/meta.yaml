@@ -206,11 +206,11 @@ test:
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke"  # [unix]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints"  # [win]
     # Test a plugin
-    #- PLUG=plugdfmp2                                                     # [unix]
-    #- psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix]
-    #- cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix]
-    #- PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix]
-    #- PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --passfail --ldd --module="$PLUG/$PLUG"  # [unix]
+    - PLUG=plugdfmp2                                                     # [unix]
+    - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix]
+    - cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --passfail --ldd --module="$PLUG/$PLUG"  # [unix]
 
 about:
   home: http://psicode.org
