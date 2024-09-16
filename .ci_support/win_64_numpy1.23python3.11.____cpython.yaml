@@ -9,7 +9,7 @@ channel_targets:
 cxx_compiler:
 - vs2019
 libboost_headers:
-- '1.84'
+- '1.86'
 mkl:
 - '2023'
 mkl_devel:
