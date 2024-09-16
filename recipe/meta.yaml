@@ -21,7 +21,7 @@ source:
     folder: external_src                                                      # [unix]
 
 build:
-  number: 3
+  number: 4
   # skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
@@ -121,7 +121,6 @@ requirements:
     - liblapack                              # [not x86_64]
     - msgpack-python
     - networkx
-    - {{ pin_compatible('numpy') }}
     - pydantic >=1.10
     - python
     - scipy
