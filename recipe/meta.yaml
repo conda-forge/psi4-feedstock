@@ -135,7 +135,7 @@ requirements:
     - pymdi >=1.2                                      # 1.2 has breaking API change
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
-    - cppe ==0.3.1                                     # 0.3.2 has libecpint problems
+    #- cppe ==0.3.1                                     # 0.3.2 has libecpint problems
 
 # Several runtime-optional packages are commented so they don't factor into the py312 migration.
 #   No actual capability is compromised. ~adcc~, cppe, ~pyddx~, ~dftd3-python~, ~dftd4-python~
@@ -150,7 +150,7 @@ test:
     - m2w64-binutils                                                     # [win]   # provides objdump.exe
     # qc runtime opt'l
     - adcc                                                               # [unix]
-    - cppe                                                               # [unix and (py != 312)]
+    - cppe
     - pyddx                                                              # [unix]
     - dftd3-python                                                       # [not (win and py==312)]
     - dftd4-python                                                       # [not (win and py==312)]
