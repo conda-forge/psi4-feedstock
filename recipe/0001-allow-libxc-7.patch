@@ -1,0 +1,96 @@
+From 71d18399019775cfc98271b994f675b966a5c22f Mon Sep 17 00:00:00 2001
+From: Susi Lehtola <susi.lehtola@gmail.com>
+Date: Thu, 10 Oct 2024 19:36:38 +0300
+Subject: [PATCH 1/4] Update libxc to version 7
+
+---
+ external/upstream/libxc/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/external/upstream/libxc/CMakeLists.txt b/external/upstream/libxc/CMakeLists.txt
+index 1cc0a058247..eb09078e066 100644
+--- a/external/upstream/libxc/CMakeLists.txt
++++ b/external/upstream/libxc/CMakeLists.txt
+@@ -20,7 +20,7 @@ else()
+         # Default: use a stable release tarball of libxc. To use the
+         # development version of libxc, instead, comment the URL line,
+         # and uncomment the GIT lines.
+-        URL https://gitlab.com/libxc/libxc/-/archive/6.2.2/libxc-6.2.2.tar.gz
++        URL https://gitlab.com/libxc/libxc/-/archive/7.0.0/libxc-7.0.0.tar.gz
+         #GIT_REPOSITORY https://gitlab.com/libxc/libxc.git
+         #GIT_TAG 5.1.5
+         #UPDATE_COMMAND ""
+
+From 849f530ccaa974b14a18bb72f819be030d259e85 Mon Sep 17 00:00:00 2001
+From: "Lori A. Burns" <lori.burns@gmail.com>
+Date: Fri, 11 Oct 2024 21:13:52 -0400
+Subject: [PATCH 2/4] Update codedeps.yaml
+
+---
+ codedeps.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/codedeps.yaml b/codedeps.yaml
+index aec5dee9c12..33d62728644 100644
+--- a/codedeps.yaml
++++ b/codedeps.yaml
+@@ -944,7 +944,7 @@ data:
+       host: gitlab
+       account: libxc
+       name: libxc
+-      commit: 6.2.2
++      commit: 7.0.0
+     #cmake:
+     #  name: Libxc
+     #  constraint: 6.1.0
+
+From 38988d13fae18f0a48d063b0eb12c29c63a38a41 Mon Sep 17 00:00:00 2001
+From: "Lori A. Burns" <lori.burns@gmail.com>
+Date: Fri, 11 Oct 2024 21:30:09 -0400
+Subject: [PATCH 3/4] Update CMakeLists.txt
+
+---
+ external/upstream/libxc/CMakeLists.txt | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/external/upstream/libxc/CMakeLists.txt b/external/upstream/libxc/CMakeLists.txt
+index eb09078e066..6906ae513c3 100644
+--- a/external/upstream/libxc/CMakeLists.txt
++++ b/external/upstream/libxc/CMakeLists.txt
+@@ -1,4 +1,8 @@
+-find_package(Libxc 6.1.0 CONFIG QUIET COMPONENTS C)
++find_package(Libxc 7.0.0 CONFIG QUIET COMPONENTS C)
++if(NOT ${Libxc_FOUND})
++    # LibxcConfig.cmake encodes searching only within major version, so need two calls to allow v6 or v7
++    find_package(Libxc 6.1.0 CONFIG QUIET COMPONENTS C)
++endif()
+ 
+ if(${Libxc_FOUND})
+     get_property(_loc TARGET Libxc::xc PROPERTY LOCATION)
+
+From 5a9e05d1c5c6caf167bb5ad5f89ef62e3d41d26c Mon Sep 17 00:00:00 2001
+From: "Lori A. Burns" <lori.burns@gmail.com>
+Date: Fri, 11 Oct 2024 21:31:48 -0400
+Subject: [PATCH 4/4] Update CMakeLists.txt
+
+---
+ psi4/CMakeLists.txt | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/psi4/CMakeLists.txt b/psi4/CMakeLists.txt
+index 4da1c21a007..5f86f669b82 100644
+--- a/psi4/CMakeLists.txt
++++ b/psi4/CMakeLists.txt
+@@ -234,7 +234,10 @@ else()
+     message(STATUS "Disabled BrianQC ${BrianQC_DIR}")
+ endif()
+ 
+-find_package(Libxc 6.1.0 CONFIG REQUIRED COMPONENTS C)
++find_package(Libxc 7.0.0 CONFIG QUIET COMPONENTS C)
++if(NOT ${Libxc_FOUND})
++    find_package(Libxc 6.1.0 CONFIG REQUIRED COMPONENTS C)
++endif()
+ get_property(_loc TARGET Libxc::xc PROPERTY LOCATION)
+ list(APPEND _addons ${_loc})
+ message(STATUS "${Cyan}Using Libxc${ColourReset}: ${_loc} (version ${Libxc_VERSION})")
+ 
