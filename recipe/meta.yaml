@@ -124,6 +124,7 @@ requirements:
     - pydantic >=1.10
     - python
     - scipy
+    - {{ pin_compatible('numpy') }}          # shouldn't be needed but last round had constraint >=1.19,<3 so allowed v1 np in a v2 psi4 build on win
     # qc
     - {{ pin_compatible('optking', max_pin='x') }}
     - {{ pin_compatible('qcelemental', max_pin='x') }}
