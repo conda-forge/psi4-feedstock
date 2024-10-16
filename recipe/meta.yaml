@@ -85,8 +85,6 @@ requirements:
     - ninja                                  # [win]
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
-    - pkgconfig   # temp for adcc
-    - wget  # temp for adcc
   host:
     - eigen
     - libboost-headers
@@ -112,11 +110,6 @@ requirements:
     - dkh
     - libecpint
     - pcmsolver
-    - setuptools  # temp for adcc
-    - pip  # temp for adcc
-    # below are temp for adcc
-    - libtensorlight 3.0.1 *_5  # [osx]
-    - libtensorlight 3.0.1 *_7  # [not osx]
   run:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
@@ -133,13 +126,6 @@ requirements:
     - {{ pin_compatible('optking', max_pin='x') }}
     - {{ pin_compatible('qcelemental', max_pin='x') }}
     - {{ pin_compatible('qcengine', max_pin='x') }}
-    - setuptools  # temp for adcc
-    - h5py >=2.9  # temp for adcc
-    - scipy >=1.2  # temp for adcc
-    - tqdm >=4.30  # temp for adcc
-    - opt_einsum >=3.0  # temp for adcc
-    # below is temp for adcc
-    - libtensorlight 3.0.1 *_5  # [osx]
   run_constrained:
     - pytest >=7.0.1,<8
     # qc opt'l, run-time
@@ -148,7 +134,7 @@ requirements:
     - geometric >=1.0                                  # 1.0 has new API
     - pymdi >=1.2                                      # 1.2 has breaking API change
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
-    #- adcc >=0.15.16  # temp for adcc                                   # 0.15.16 has transition moment corrections
+    - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     #- cppe ==0.3.1                                     # 0.3.2 has libecpint problems
 
 test:
