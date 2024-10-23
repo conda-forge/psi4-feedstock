@@ -11,9 +11,9 @@ cxx_compiler:
 libboost_headers:
 - '1.86'
 mkl:
-- '2023'
+- '2024'
 mkl_devel:
-- '2023'
+- '2024'
 numpy:
 - '2.0'
 pin_run_as_build:
