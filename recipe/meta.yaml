@@ -21,7 +21,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 8
+  number: 9
   # skip: true  # [py != 310]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
