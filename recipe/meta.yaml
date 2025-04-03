@@ -111,7 +111,6 @@ requirements:
     # qc opt'l, build-time
     - dkh
     - libecpint
-    - pcmsolver
   run:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
@@ -147,13 +146,12 @@ test:
     - pip                                                                          # provides `pip check`
     - pytest
     - pytest-xdist
-    - m2w64-binutils                                                     # [win]   # provides objdump.exe
     # qc runtime opt'l
     - adcc                                                               # [unix and py!=313]
-    - cppe                                                               # [py!=313]
+    - cppe
     - pyddx                                                              # [unix]
-    - dftd3-python                                                       # [not (win and py==312)]
-    - dftd4-python                                                       # [not (win and py==312)]
+    - dftd3-python
+    - dftd4-python
     - toml                                                                         # needed for qcengine/dftd4-python interface
     - pylibefp
     - gcp-correction
@@ -195,9 +193,9 @@ test:
     # Inspect linkage
     - ldd -v $SP_DIR/psi4/core*.so                                       # [linux]
     - otool -L $SP_DIR/psi4/core*.so                                     # [osx]
-    - objdump.exe -p %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"       # [win]
+    - '%OBJDUMP% -p %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"'       # [win]
     # Actually test
-    #- pip check
+    - pip check
     - python -c "import psi4;assert psi4.__version__ == '{{ version }}', f'{psi4.__version__=} differs from recipe=\'{{ version }}\''"
     - python -c "from psi4 import core; core.set_num_threads(42); assert core.get_num_threads() == 42"
     - python -c "import psi4;print(psi4.addons())"
