@@ -146,6 +146,7 @@ test:
     - pip                                                                          # provides `pip check`
     - pytest
     - pytest-xdist
+    - m2w64-binutils                                                     # [win]   # provides objdump.exe
     # qc runtime opt'l
     - adcc                                                               # [unix and py!=313]
     - cppe
@@ -192,7 +193,7 @@ test:
     # Inspect linkage
     - ldd -v $SP_DIR/psi4/core*.so                                       # [linux]
     - otool -L $SP_DIR/psi4/core*.so                                     # [osx]
-    - '%OBJDUMP% -p %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"'       # [win]
+    - objdump.exe -p %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"       # [win]
     # Actually test
     # - pip check                                                        # present until poetry killed off in qcel
     - python -c "import psi4;assert psi4.__version__ == '{{ version }}', f'{psi4.__version__=} differs from recipe=\'{{ version }}\''"
