@@ -35,16 +35,17 @@ cmake %CMAKE_ARGS% ^
   -D CMAKE_INSIST_FIND_PACKAGE_dkh=ON ^
   -D ENABLE_ecpint=ON ^
   -D CMAKE_INSIST_FIND_PACKAGE_ecpint=ON ^
+  -D ENABLE_PCMSolver=ON
+  -D CMAKE_INSIST_FIND_PACKAGE_PCMSolver=ON
   -D ENABLE_XHOST=OFF ^
   -D CMAKE_VERBOSE_MAKEFILE=OFF ^
   -D CMAKE_PREFIX_PATH="%LIBRARY_PREFIX%"
 if errorlevel 1 exit 1
 
-set CMAKE_BUILD_PARALLEL_LEVEL=1
+::set CMAKE_BUILD_PARALLEL_LEVEL=1
 cmake --build build ^
       --config Release ^
-      --target install ^
-      -- -j %CPU_COUNT%
+      --target install
 if errorlevel 1 exit 1
 
 REM pytest in conda testing stage
@@ -59,6 +60,7 @@ REM pytest in conda testing stage
 :: if errorlevel 1 exit 1
 
 :: Probe linking - only available with m2w64-binutils package - add dep in meta.yaml or defer to test stage
+:: [Apr 2025] now m2w64-binutils can't be solved for. use %OBJDUMP% w/o -p and never completes
 :: objdump.exe -p %PREFIX%\Lib\site-packages\psi4\core.*.pyd | findstr /i "dll"
 :: objdump.exe -p %PREFIX%\Library\bin\mkl_rt.*.dll | findstr /i "dll"
 

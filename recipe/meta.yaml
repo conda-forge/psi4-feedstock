@@ -111,6 +111,7 @@ requirements:
     # qc opt'l, build-time
     - dkh
     - libecpint
+    - pcmsolver
   run:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
@@ -132,7 +133,7 @@ requirements:
     - pytest >=7.0.1,<8
     # qc opt'l, run-time
     - pylibefp ==0.6.2                                 # 0.6.2 provides windows arch
-      # - dftd4-python >=3.5.0                         # 3.5.0 provides b97-3c parameters
+    - dftd4-python >=3.5.0                         # 3.5.0 provides b97-3c parameters
     - geometric >=1.0                                  # 1.0 has new API
     - pymdi >=1.2                                      # 1.2 has breaking API change
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
@@ -147,7 +148,8 @@ test:
     - pytest
     - pytest-xdist
     # qc runtime opt'l
-    - adcc                                                               # [unix and py!=313]
+    - adcc                                                               # [unix]
+    #- adcc                                                               # [unix and py!=313]
     - cppe
     - pyddx                                                              # [unix]
     - dftd3-python
@@ -156,6 +158,7 @@ test:
     - pylibefp
     - gcp-correction
     - geometric
+    - pygdma
     - pymdi
     # plugin testing
     - {{ compiler('cxx') }}                                              # [unix]
