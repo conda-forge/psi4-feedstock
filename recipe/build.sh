@@ -1,4 +1,4 @@
-if [ "$(uname)" == "Darwin" ]; then
+if [[ "$target_platform" == osx-* ]]; then
     ARCH_ARGS=""
 
     # c-f-provided CMAKE_ARGS handles CMAKE_OSX_DEPLOYMENT_TARGET, CMAKE_OSX_SYSROOT
@@ -7,7 +7,7 @@ if [ "$(uname)" == "Darwin" ]; then
 
     cp "${RECIPE_DIR}/src/psi4PluginCacheosx.cmake" t_plug0
 fi
-if [ "$(uname)" == "Linux" ]; then
+if [[ "$target_platform" == linux-* ]]; then
     ARCH_ARGS=""
 
     # c-f/staged-recipes and c-f/*-feedstock on Linux is inside a non-psi4 git repo, messing up psi4's version computation.
@@ -18,7 +18,7 @@ if [ "$(uname)" == "Linux" ]; then
     cp "${RECIPE_DIR}/src/psi4PluginCachelinux.cmake" t_plug0
 fi
 
-if [[ "${target_platform}" == "osx-arm64" ]]; then
+if [[ "${target_platform}" == "osx-arm64" || "$target_platform" == "linux-aarch64" || "$target_platform" == "linux-ppc64le" ]]; then
     export LAPACK_LIBRARIES="${PREFIX}/lib/liblapack${SHLIB_EXT};${PREFIX}/lib/libblas${SHLIB_EXT}"
 else
     export LAPACK_LIBRARIES="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}"

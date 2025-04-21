@@ -148,7 +148,7 @@ test:
     - pytest
     - pytest-xdist
     # qc runtime opt'l
-    - adcc                                                               # [unix]
+    - adcc                                                               # [unix and not ppc64le]
     - cppe
     - pyddx                                                              # [unix]
     - dftd3-python
