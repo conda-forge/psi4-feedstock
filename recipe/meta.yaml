@@ -22,7 +22,7 @@ source:
 
 build:
   number: 9
-  # skip: true  # [py != 310]
+  skip: true  # [py != 312]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
