@@ -87,7 +87,7 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
 #  -D ENABLE_Einsums=ON \
 #  -D CMAKE_INSIST_FIND_PACKAGE_Einsums=ON \
 
-cmake --build build --target install
+CMAKE_BUILD_PARALLEL_LEVEL=1 cmake --build build --target install #-j${CPU_COUNT}
 
 # replace conda-build-bound Cache file
 sed "s;@PY_VER@;${PY_VER};g" t_plug0 > t_plug1
