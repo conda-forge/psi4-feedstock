@@ -82,7 +82,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
-    - cmake 3.29.*                                     # 3.30 failing for intel mac
+    - cmake
     - make                                   # [unix]
     - ninja                                  # [win]
     - llvm-openmp                            # [unix]
@@ -161,7 +161,7 @@ test:
     - pymdi
     # plugin testing
     - {{ compiler('cxx') }}                                              # [unix]
-    - cmake 3.29.*                                                       # [unix]
+    - cmake
     - make                                                               # [unix]
     - pybind11                                                           # [unix]
     - eigen                                                              # [unix]
