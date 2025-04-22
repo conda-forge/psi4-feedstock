@@ -39,6 +39,7 @@ CMAKE_ARGS="${CMAKE_ARGS} -DPython3_INCLUDE_DIR:PATH=${Python_INCLUDE_DIR}"
 CMAKE_ARGS="${CMAKE_ARGS} -DPython3_NumPy_INCLUDE_DIR=${Python_NumPy_INCLUDE_DIR}"
 
 ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
+  -G Ninja \
   -S ${SRC_DIR} \
   -B build \
   -D CMAKE_INSTALL_PREFIX=${PREFIX} \
@@ -86,7 +87,7 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
 #  -D ENABLE_Einsums=ON \
 #  -D CMAKE_INSIST_FIND_PACKAGE_Einsums=ON \
 
-cmake --build build --target install -j${CPU_COUNT}
+cmake --build build --target install
 
 # replace conda-build-bound Cache file
 sed "s;@PY_VER@;${PY_VER};g" t_plug0 > t_plug1

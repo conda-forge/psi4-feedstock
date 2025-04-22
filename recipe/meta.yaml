@@ -83,8 +83,7 @@ requirements:
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
     - cmake
-    - make                                   # [unix]
-    - ninja                                  # [win]
+    - ninja
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
   host:
