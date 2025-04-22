@@ -82,7 +82,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
-    - cmake
+    - cmake 3.29.*                                     # 3.30 failing for intel mac
     - ninja
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
@@ -160,7 +160,7 @@ test:
     - pymdi
     # plugin testing
     - {{ compiler('cxx') }}                                              # [unix]
-    - cmake
+    - cmake 3.29.*                                                       # [unix]
     - make                                                               # [unix]
     - pybind11                                                           # [unix]
     - eigen                                                              # [unix]
@@ -191,7 +191,7 @@ test:
     - if not exist %PREFIX%\\Library\\share\\cmake\\TargetLAPACK\\TargetLAPACKConfig.cmake exit 1  # [win]
     - if not exist %PREFIX%\\Library\\share\\psi4\\basis\\cc-pvdz.gbs exit 1  # [win]
     # Inspect linkage
-    - ldd -v $SP_DIR/psi4/core*.so                                       # [linux]
+    - ldd -v $SP_DIR/psi4/core*.so                                       # [linux and build_platform == target_platform]
     - otool -L $SP_DIR/psi4/core*.so                                     # [osx]
       # TOO LONG - '%OBJDUMP% %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"'          # [win]
     # Actually test

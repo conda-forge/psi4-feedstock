@@ -17,6 +17,11 @@ if [[ "$target_platform" == linux-* ]]; then
 
     cp "${RECIPE_DIR}/src/psi4PluginCachelinux.cmake" t_plug0
 fi
+if [[ "$target_platform" == "linux-ppc64le" ]]; then
+  CFLAGS="$(echo $CFLAGS | sed 's/-fno-plt //g')"
+  CXXFLAGS="$(echo $CXXFLAGS | sed 's/-fno-plt //g')"
+fi
+
 
 if [[ "${target_platform}" == "osx-arm64" || "$target_platform" == "linux-aarch64" || "$target_platform" == "linux-ppc64le" ]]; then
     export LAPACK_LIBRARIES="${PREFIX}/lib/liblapack${SHLIB_EXT};${PREFIX}/lib/libblas${SHLIB_EXT}"
