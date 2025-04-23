@@ -199,17 +199,19 @@ test:
     - python -c "import psi4;assert psi4.__version__ == '{{ version }}', f'{psi4.__version__=} differs from recipe=\'{{ version }}\''"
     - python -c "from psi4 import core; core.set_num_threads(42); assert core.get_num_threads() == 42"
     - python -c "import psi4;print(psi4.addons())"
-    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not pe_ecp"  # [unix]
-    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix]
+    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not pe_ecp"  # [unix and build_platform == target_platform]
+    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix and build_platform == target_platform]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints" -k "not pe_ecp and not d4"  # [win]
+    - pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not (pe_ecp or (sapt and _d))"  # [unix and build_platform != target_platform]
       # cn_cc-pvdz_adc2_any_6 only trouble for py39 + osx-64
       # d4 trouble only temp for win
+      # emulated aarch64 passes usual smoke+adcc tests but takes 2h, so skipping longest
     # Test a plugin
-    - PLUG=plugdfmp2                                                     # [unix]
-    - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix]
-    - cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix]
-    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix]
-    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --passfail --ldd --module="$PLUG/$PLUG"  # [unix]
+    - PLUG=plugdfmp2                                                     # [unix and build_platform == target_platform]
+    - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix and build_platform == target_platform]
+    - cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix and build_platform == target_platform]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix and build_platform == target_platform]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --passfail --ldd --module="$PLUG/$PLUG"  # [unix and build_platform == target_platform]
 
 about:
   home: http://psicode.org
