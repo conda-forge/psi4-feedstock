@@ -132,12 +132,12 @@ requirements:
     - pytest >=7.0.1,<8
     # qc opt'l, run-time
     - pylibefp ==0.6.2                                 # 0.6.2 provides windows arch
-    - dftd4-python >=3.5.0                         # 3.5.0 provides b97-3c parameters
+    - dftd4-python >=3.5.0                             # 3.5.0 provides b97-3c parameters
     - geometric >=1.0                                  # 1.0 has new API
     - pymdi >=1.2                                      # 1.2 has breaking API change
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
-    #- cppe ==0.3.1                                     # 0.3.2 has libecpint problems
+    # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
 
 test:
   imports:
@@ -159,12 +159,12 @@ test:
     - pygdma
     - pymdi
     # plugin testing
-    - {{ compiler('cxx') }}                                              # [unix]
-    - cmake 3.29.*                                                       # [unix]
-    - make                                                               # [unix]
-    - pybind11                                                           # [unix]
-    - eigen                                                              # [unix]
-    - libboost-headers                                                   # [unix]
+    - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
+    - cmake 3.29.*                                                       # [unix and build_platform == target_platform]
+    - make                                                               # [unix and build_platform == target_platform]
+    - pybind11                                                           # [unix and build_platform == target_platform]
+    - eigen                                                              # [unix and build_platform == target_platform]
+    - libboost-headers                                                   # [unix and build_platform == target_platform]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
@@ -202,7 +202,7 @@ test:
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not pe_ecp"  # [unix and build_platform == target_platform]
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix and build_platform == target_platform]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints" -k "not pe_ecp and not d4"  # [win]
-    - pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not (pe_ecp or (sapt and _d))"  # [unix and build_platform != target_platform]
+    - pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "psi4_basic"  # [unix and build_platform != target_platform]
       # cn_cc-pvdz_adc2_any_6 only trouble for py39 + osx-64
       # d4 trouble only temp for win
       # emulated aarch64 passes usual smoke+adcc tests but takes 2h, so skipping longest

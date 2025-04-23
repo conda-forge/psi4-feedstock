@@ -23,8 +23,9 @@ if [[ "$target_platform" == "linux-ppc64le" ]]; then
     CXXFLAGS="$(echo $CXXFLAGS | sed 's/-fno-plt //g')"
 fi
 
-if [[ "$target_platform" == "linux-aarch64" || "$target_platform" == "linux-ppc64le" ]]; then
+if [[ "$target_platform" == "linux-64" || "$target_platform" == "linux-aarch64" || "$target_platform" == "linux-ppc64le" ]]; then
     # avoid builds halting for lack of response ~70m
+    # try to release when src w/jobpool is in use
     export CMAKE_BUILD_PARALLEL_LEVEL=1
 fi
 
