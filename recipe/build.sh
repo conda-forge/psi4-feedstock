@@ -42,6 +42,9 @@ fi
 # helps cross-compile Py detection according to https://conda-forge.org/docs/maintainer/knowledge_base/#how-to-enable-cross-compilation
 Python_INCLUDE_DIR="$(python -c 'import sysconfig; print(sysconfig.get_path("include"))')"
 Python_NumPy_INCLUDE_DIR="$(python -c 'import numpy;print(numpy.get_include())')"
+CMAKE_ARGS="${CMAKE_ARGS} -DPython_EXECUTABLE:PATH=${PYTHON}"
+CMAKE_ARGS="${CMAKE_ARGS} -DPython_INCLUDE_DIR:PATH=${Python_INCLUDE_DIR}"
+CMAKE_ARGS="${CMAKE_ARGS} -DPython_NumPy_INCLUDE_DIR=${Python_NumPy_INCLUDE_DIR}"
 
 cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -G Ninja \
@@ -57,9 +60,6 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D CMAKE_Fortran_FLAGS="${FFLAGS}" \
   -D CMAKE_INSTALL_LIBDIR=lib \
   -D PYMOD_INSTALL_LIBDIR="/python${PY_VER}/site-packages" \
-  -D Python_EXECUTABLE:PATH=${PYTHON} \
-  -D Python_INCLUDE_DIR:PATH=${Python_INCLUDE_DIR}" \
-  -D Python_NumPy_INCLUDE_DIR=${Python_NumPy_INCLUDE_DIR}" \
   -D CMAKE_INSIST_FIND_PACKAGE_gau2grid=ON \
   -D MAX_AM_ERI=5 \
   -D CMAKE_INSIST_FIND_PACKAGE_Libint2=ON \
