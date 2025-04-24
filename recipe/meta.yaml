@@ -199,6 +199,8 @@ test:
     - python -c "import psi4;assert psi4.__version__ == '{{ version }}', f'{psi4.__version__=} differs from recipe=\'{{ version }}\''"
     - python -c "from psi4 import core; core.set_num_threads(42); assert core.get_num_threads() == 42"
     - python -c "import psi4;print(psi4.addons())"
+    - pytest -rws -v --durations=20 --color-yes -n auto $SP_DIR/qcengine  # [unix and build_platform == target_platform]
+    - pytest -rws -v --durations=20 --color-yes -n auto %SP_DIR%\\qcengine  # [win]
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not pe_ecp"  # [unix and build_platform == target_platform]
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix and build_platform == target_platform]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints" -k "not pe_ecp and not d4"  # [win]
