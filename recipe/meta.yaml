@@ -108,7 +108,6 @@ requirements:
     - qcelemental
     - qcengine
     # qc opt'l, build-time
-    - libecpint
   run:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
