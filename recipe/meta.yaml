@@ -108,9 +108,9 @@ requirements:
     - qcelemental
     - qcengine
     # qc opt'l, build-time
-    - dkh
-    - libecpint
-    - pcmsolver
+#    - dkh
+#    - libecpint
+#    - pcmsolver
   run:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
@@ -147,24 +147,24 @@ test:
     - pytest
     - pytest-xdist
     # qc runtime opt'l
-    - adcc                                                               # [unix and not ppc64le]
-    - cppe
-    - pyddx                                                              # [unix]
-    - dftd3-python
-    - dftd4-python
-    - toml                                                                         # needed for qcengine/dftd4-python interface
-    - pylibefp
-    - gcp-correction
-    - geometric
-    - pygdma
-    - pymdi
+#    - adcc                                                               # [unix and not ppc64le]
+#    - cppe
+#    - pyddx                                                              # [unix]
+#    - dftd3-python
+#    - dftd4-python
+#    - toml                                                                         # needed for qcengine/dftd4-python interface
+#    - pylibefp
+#    - gcp-correction
+#    - geometric
+#    - pygdma
+#    - pymdi
     # plugin testing
-    - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
-    - cmake 3.29.*                                                       # [unix and build_platform == target_platform]
-    - make                                                               # [unix and build_platform == target_platform]
-    - pybind11                                                           # [unix and build_platform == target_platform]
-    - eigen                                                              # [unix and build_platform == target_platform]
-    - libboost-headers                                                   # [unix and build_platform == target_platform]
+#    - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
+#    - cmake 3.29.*                                                       # [unix and build_platform == target_platform]
+#    - make                                                               # [unix and build_platform == target_platform]
+#    - pybind11                                                           # [unix and build_platform == target_platform]
+#    - eigen                                                              # [unix and build_platform == target_platform]
+#    - libboost-headers                                                   # [unix and build_platform == target_platform]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
