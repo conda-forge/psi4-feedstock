@@ -108,9 +108,7 @@ requirements:
     - qcelemental
     - qcengine
     # qc opt'l, build-time
-    - dkh
     - libecpint
-    - pcmsolver
   run:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
