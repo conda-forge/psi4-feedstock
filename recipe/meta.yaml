@@ -109,7 +109,7 @@ requirements:
     - qcengine
     # qc opt'l, build-time
 #    - dkh
-#    - libecpint
+    - libecpint
 #    - pcmsolver
   run:
     - llvm-openmp                            # [unix]
