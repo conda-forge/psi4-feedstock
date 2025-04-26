@@ -52,7 +52,7 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -S ${SRC_DIR} \
   -B build \
   -D CMAKE_INSTALL_PREFIX=${PREFIX} \
-  -D CMAKE_BUILD_TYPE=Release \
+  -D CMAKE_BUILD_TYPE=Debug \
   -D CMAKE_C_COMPILER=${CC} \
   -D CMAKE_CXX_COMPILER=${CXX} \
   -D CMAKE_C_FLAGS="${CFLAGS}" \
