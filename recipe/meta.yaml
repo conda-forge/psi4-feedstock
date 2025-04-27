@@ -85,7 +85,7 @@ requirements:
     - cmake 3.29.*                                     # 3.30 failing for intel mac
     - ninja
     - llvm-openmp                            # [unix]
-    - intel-openmp 2025.*                    # [win]
+    - intel-openmp 2024.*                    # [win]
   host:
     - eigen
     - libboost-headers
@@ -113,7 +113,7 @@ requirements:
 #    - pcmsolver
   run:
     - llvm-openmp                            # [unix]
-    - intel-openmp 2025.*                    # [win]
+    - intel-openmp 2024.*                    # [win]
     - libblas * *mkl                         # [x86_64]
     - mkl                                    # [x86_64]
     - libblas                                # [not x86_64]
