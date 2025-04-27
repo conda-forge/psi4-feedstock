@@ -108,7 +108,7 @@ requirements:
     - qcelemental
     - qcengine
     # qc opt'l, build-time
-#    - dkh
+    - dkh
     - libecpint
 #    - pcmsolver
   run:
