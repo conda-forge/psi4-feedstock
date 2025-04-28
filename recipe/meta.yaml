@@ -84,7 +84,7 @@ requirements:
     - {{ compiler("cxx") }}
     - cmake 3.29.*                                     # 3.30 failing for intel mac
     - ninja
-    - llvm-openmp                            # [unix]
+    - llvm-openmp
     #- intel-openmp 2024.*                    # [win]
   host:
     - eigen
@@ -112,7 +112,7 @@ requirements:
     - libecpint
 #    - pcmsolver
   run:
-    - llvm-openmp                            # [unix]
+    - llvm-openmp
     #- intel-openmp 2024.*                    # [win]
     - libblas * *mkl                         # [x86_64 and not win]
     - mkl                                    # [x86_64 and not win]
