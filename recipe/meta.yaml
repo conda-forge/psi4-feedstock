@@ -92,8 +92,9 @@ requirements:
     - libblas * *mkl                         # [x86_64 and not win]
     - mkl-devel                              # [x86_64 and not win]
     - mkl                                    # [x86_64 and not win]
-    - libblas * *netlib                      # [win or not x86_64]
-    - liblapack * *netlib                    # [win or not x86_64]
+    - libblas * *netlib                      # [not x86_64]
+    - liblapack * *netlib                    # [not x86_64]
+    - libblas =*=*blis                       # [win]
     - numpy
     - pybind11
     - pybind11-abi
@@ -116,8 +117,9 @@ requirements:
     #- intel-openmp 2024.*                    # [win]
     - libblas * *mkl                         # [x86_64 and not win]
     - mkl                                    # [x86_64 and not win]
-    - libblas                                # [win or not x86_64]
-    - liblapack                              # [win or not x86_64]
+    - libblas                                # [not x86_64]
+    - liblapack                              # [not x86_64]
+    - libblas =*=*blis                       # [win]
     - msgpack-python
     - networkx
     - pydantic >=1.10
