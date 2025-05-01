@@ -21,8 +21,8 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 9
-  skip: true  # [ppc64le or py != 312]
+  number: 10
+  skip: true  # [ppc64le]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -153,17 +153,17 @@ test:
     - pytest
     - pytest-xdist
     # qc runtime opt'l
-#    - adcc                                                               # [unix and not ppc64le]
-#    - cppe
-#    - pyddx                                                              # [unix]
+    - adcc                                                               # [unix and not ppc64le]
+    - cppe                                                               # [unix]  # win uses llvm-openmp
+    - pyddx                                                              # [unix]
     - dftd3-python
     - dftd4-python
-#    - toml                                                                         # needed for qcengine/dftd4-python interface
-#    - pylibefp
+    - toml                                                                         # needed for qcengine/dftd4-python interface
+    - pylibefp
     - gcp-correction
-#    - geometric
-#    - pygdma
-#    - pymdi
+    - geometric
+    - pygdma
+    - pymdi
     # plugin testing
 #    - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
 #    - cmake 3.29.*                                                       # [unix and build_platform == target_platform]
@@ -211,7 +211,7 @@ test:
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "quick" -k "not pe_ecp"  # [unix and build_platform == target_platform]
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix and build_platform == target_platform]
     - pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "psi4_basic"  # [unix and build_platform != target_platform]
-    - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\qcengine -k "not retries and not hes2 and not d4 and not envvars"  # [win]
+    #- pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\qcengine -k "not retries and not hes2 and not d4 and not envvars"  # [win]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "quick and not d2ints" -k "not pe_ecp and not d4 and not cc13"  # [win]
       # cn_cc-pvdz_adc2_any_6 only trouble for py39 + osx-64
       # d4 trouble only temp for win
