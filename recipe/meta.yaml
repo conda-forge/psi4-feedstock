@@ -92,6 +92,7 @@ requirements:
     - libblas * *mkl                         # [x86_64]
     - mkl-devel                              # [x86_64 and not win]
     - mkl-devel 2024.1.*                     # [x86_64 and win]
+    - intel-openmp 2024.1.*                  # [win]
     #- mkl                                    # [x86_64]
     - mkl                                    # [x86_64 and not win]
     - mkl 2024.1.*                           # [x86_64 and win]
@@ -119,7 +120,8 @@ requirements:
     - intel-openmp 2024.1.*                  # [win]
     - libblas * *mkl                         # [x86_64]
     - mkl                                    # [x86_64 and not win]
-    - mkl 2024.1.*                           # [x86_64 and win]
+    #- mkl 2024.1.*                           # [x86_64 and win]
+    - {{ pin_compatible('mkl', max_pin='x.x') }}  # [x86_64 and win]
     - libblas                                # [not x86_64]
     - liblapack                              # [not x86_64]
     - msgpack-python
@@ -133,7 +135,7 @@ requirements:
     - {{ pin_compatible('qcelemental', max_pin='x') }}
     - {{ pin_compatible('qcengine', max_pin='x') }}
   run_constrained:
-    - pytest >=7.0.1,<8
+    - pytest >=7.0.1 #,<8
     # qc opt'l, run-time
     - pylibefp ==0.6.2                                 # 0.6.2 provides windows arch
     - dftd4-python >=3.5.0                             # 3.5.0 provides b97-3c parameters
@@ -156,11 +158,11 @@ test:
 #    - adcc                                                               # [unix and not ppc64le]
 #    - cppe
 #    - pyddx                                                              # [unix]
-#    - dftd3-python
-#    - dftd4-python
+    - dftd3-python
+    - dftd4-python
 #    - toml                                                                         # needed for qcengine/dftd4-python interface
 #    - pylibefp
-#    - gcp-correction
+    - gcp-correction
 #    - geometric
 #    - pygdma
 #    - pymdi
@@ -210,7 +212,6 @@ test:
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix and build_platform == target_platform]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\qcengine -k "not retries and not hes2 and not d4 and not envvars"  # [win]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "quick and not d2ints" -k "not pe_ecp and not d4 and not cc13"  # [win]
-    - set "MKL_CBWR=AVX"                                                 # [win]
     - pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "psi4_basic"  # [unix and build_platform != target_platform]
       # cn_cc-pvdz_adc2_any_6 only trouble for py39 + osx-64
       # d4 trouble only temp for win
