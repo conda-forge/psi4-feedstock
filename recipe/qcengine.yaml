@@ -1,5 +1,0 @@
-all:
-  hostname_pattern: "*"
-  memory: 3
-  ncores: 1
-
