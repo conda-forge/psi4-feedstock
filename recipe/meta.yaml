@@ -88,7 +88,11 @@ requirements:
     - llvm-openmp                            # [unix]
 #    - intel-openmp 2024.1.*                  # [win]
     - intel-openmp                           # [win]
+    - setuptools
+    - packaging
   host:
+    - setuptools
+    - packaging
     - eigen
     - libboost-headers
     - libblas * *mkl                         # [x86_64]
