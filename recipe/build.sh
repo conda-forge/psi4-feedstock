@@ -1,4 +1,4 @@
-if [ "$(uname)" == "Darwin" ]; then
+if [[ "$target_platform" == osx-* ]]; then
     ARCH_ARGS=""
 
     # c-f-provided CMAKE_ARGS handles CMAKE_OSX_DEPLOYMENT_TARGET, CMAKE_OSX_SYSROOT
@@ -7,7 +7,7 @@ if [ "$(uname)" == "Darwin" ]; then
 
     cp "${RECIPE_DIR}/src/psi4PluginCacheosx.cmake" t_plug0
 fi
-if [ "$(uname)" == "Linux" ]; then
+if [[ "$target_platform" == linux-* ]]; then
     ARCH_ARGS=""
 
     # c-f/staged-recipes and c-f/*-feedstock on Linux is inside a non-psi4 git repo, messing up psi4's version computation.
@@ -17,11 +17,22 @@ if [ "$(uname)" == "Linux" ]; then
 
     cp "${RECIPE_DIR}/src/psi4PluginCachelinux.cmake" t_plug0
 fi
+if [[ "$target_platform" == "linux-ppc64le" ]]; then
+    # avoid "relocation truncated to fit: R_PPC64_REL24 against symbol"
+    CFLAGS="$(echo $CFLAGS | sed 's/-fno-plt //g')"
+    CXXFLAGS="$(echo $CXXFLAGS | sed 's/-fno-plt //g')"
+fi
 
-if [[ "${target_platform}" == "osx-arm64" ]]; then
-    export LAPACK_LIBRARIES="${PREFIX}/lib/liblapack${SHLIB_EXT};${PREFIX}/lib/libblas${SHLIB_EXT}"
+if [[ "$target_platform" == "linux-64" || "$target_platform" == "linux-aarch64" || "$target_platform" == "linux-ppc64le" ]]; then
+    # avoid builds halting for lack of response ~70m
+    # try to release when src w/jobpool is in use
+    export CMAKE_BUILD_PARALLEL_LEVEL=1
+fi
+
+if [[ "${target_platform}" == "osx-arm64" || "$target_platform" == "linux-aarch64" || "$target_platform" == "linux-ppc64le" ]]; then
+    LAPACK_LIBRARIES="${PREFIX}/lib/liblapack${SHLIB_EXT};${PREFIX}/lib/libblas${SHLIB_EXT}"
 else
-    export LAPACK_LIBRARIES="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}"
+    LAPACK_LIBRARIES="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}"
 fi
 
 #echo '__version_long = '"'$PSI4_PRETEND_VERSIONLONG'" > psi4/metadata.py
@@ -29,7 +40,15 @@ fi
 # Note: bizarrely, Linux (but not Mac) using `-G Ninja` hangs on [205/1223] at
 #   c-f/staged-recipes Azure CI --- thus the fallback to GNU Make.
 
-${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
+# helps cross-compile Py detection according to https://conda-forge.org/docs/maintainer/knowledge_base/#how-to-enable-cross-compilation
+Python_INCLUDE_DIR="$(python -c 'import sysconfig; print(sysconfig.get_path("include"))')"
+Python_NumPy_INCLUDE_DIR="$(python -c 'import numpy;print(numpy.get_include())')"
+CMAKE_ARGS="${CMAKE_ARGS} -DPython_EXECUTABLE:PATH=${PYTHON}"
+CMAKE_ARGS="${CMAKE_ARGS} -DPython_INCLUDE_DIR:PATH=${Python_INCLUDE_DIR}"
+CMAKE_ARGS="${CMAKE_ARGS} -DPython_NumPy_INCLUDE_DIR=${Python_NumPy_INCLUDE_DIR}"
+
+cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
+  -G Ninja \
   -S ${SRC_DIR} \
   -B build \
   -D CMAKE_INSTALL_PREFIX=${PREFIX} \
@@ -42,7 +61,6 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D CMAKE_Fortran_FLAGS="${FFLAGS}" \
   -D CMAKE_INSTALL_LIBDIR=lib \
   -D PYMOD_INSTALL_LIBDIR="/python${PY_VER}/site-packages" \
-  -D Python_EXECUTABLE=${PYTHON} \
   -D CMAKE_INSIST_FIND_PACKAGE_gau2grid=ON \
   -D MAX_AM_ERI=5 \
   -D CMAKE_INSIST_FIND_PACKAGE_Libint2=ON \
@@ -77,7 +95,7 @@ ${BUILD_PREFIX}/bin/cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
 #  -D ENABLE_Einsums=ON \
 #  -D CMAKE_INSIST_FIND_PACKAGE_Einsums=ON \
 
-cmake --build build --target install -j${CPU_COUNT}
+cmake --build build --target install
 
 # replace conda-build-bound Cache file
 sed "s;@PY_VER@;${PY_VER};g" t_plug0 > t_plug1
