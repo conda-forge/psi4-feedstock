@@ -93,6 +93,7 @@ requirements:
     - libboost-headers
     - libblas * *mkl                         # [x86_64]
     - mkl-devel                              # [x86_64]
+    - intel-openmp                           # [win]
     - mkl                                    # [x86_64]
     - libblas * *netlib                      # [not x86_64]
     - liblapack * *netlib                    # [not x86_64]
@@ -204,10 +205,10 @@ test:
     - python -c "import psi4;print(psi4.addons())"
     - psi4 $SP_DIR/psi4/tests/tu1-h2o-energy/input.dat -o stdout         # [unix]
     - psi4 %SP_DIR%\\psi4\\tests\\tu1-h2o-energy\\input.dat -o stdout    # [win]
-    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "quick" -k "not pe_ecp"  # [unix and build_platform == target_platform]
+    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not pe_ecp"  # [unix and build_platform == target_platform]
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix and build_platform == target_platform]
     - pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "psi4_basic"  # [unix and build_platform != target_platform]
-    - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "quick and not d2ints" -k "not pe_ecp and not cc13"  # [win]
+    - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints" -k "not pe_ecp and not cc13"  # [win]
       # cn_cc-pvdz_adc2_any_6 only trouble for py39 + osx-64
       # emulated aarch64 passes usual smoke+adcc tests but takes 2h, so skipping longest
     # Test a plugin
