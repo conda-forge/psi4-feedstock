@@ -1,0 +1,6 @@
+mkl:
+  - 2024.1     # [win]
+mkl_devel:
+  - 2024.1     # [win]
+intel_openmp:
+  - 2024.1     # [win]

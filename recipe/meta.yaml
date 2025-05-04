@@ -21,8 +21,9 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 9
-  # skip: true  # [py != 310]
+  number: 10
+  skip: true    # [ppc64le]
+  # skip: true  # [ppc64le or py != 312]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -83,15 +84,16 @@ requirements:
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
     - cmake 3.29.*                                     # 3.30 failing for intel mac
-    - make                                   # [unix]
-    - ninja                                  # [win]
+    - ninja
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
   host:
+    - setuptools                                       # qcelemental detection
     - eigen
     - libboost-headers
     - libblas * *mkl                         # [x86_64]
     - mkl-devel                              # [x86_64]
+    - intel-openmp                           # [win]
     - mkl                                    # [x86_64]
     - libblas * *netlib                      # [not x86_64]
     - liblapack * *netlib                    # [not x86_64]
@@ -114,9 +116,10 @@ requirements:
     - pcmsolver
   run:
     - llvm-openmp                            # [unix]
-    - intel-openmp                           # [win]
+    - {{ pin_compatible('intel-openmp', max_pin='x.x') }}  # [win]  # avert 2024.2.2
     - libblas * *mkl                         # [x86_64]
-    - mkl                                    # [x86_64]
+    - mkl                                    # [x86_64 and not win]
+    - {{ pin_compatible('mkl', max_pin='x.x') }}  # [x86_64 and win]  # avert 2024.2.2
     - libblas                                # [not x86_64]
     - liblapack                              # [not x86_64]
     - msgpack-python
@@ -130,15 +133,15 @@ requirements:
     - {{ pin_compatible('qcelemental', max_pin='x') }}
     - {{ pin_compatible('qcengine', max_pin='x') }}
   run_constrained:
-    - pytest >=7.0.1,<8
+    - pytest >=7.0.1
     # qc opt'l, run-time
     - pylibefp ==0.6.2                                 # 0.6.2 provides windows arch
-    - dftd4-python >=3.5.0                         # 3.5.0 provides b97-3c parameters
+    - dftd4-python >=3.5.0                             # 3.5.0 provides b97-3c parameters
     - geometric >=1.0                                  # 1.0 has new API
     - pymdi >=1.2                                      # 1.2 has breaking API change
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
-    #- cppe ==0.3.1                                     # 0.3.2 has libecpint problems
+    # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
 
 test:
   imports:
@@ -148,8 +151,8 @@ test:
     - pytest
     - pytest-xdist
     # qc runtime opt'l
-    - adcc                                                               # [unix]
-    - cppe
+    - adcc                                                               # [unix and not ppc64le]
+    - cppe                                                               # [unix]  # win uses llvm-openmp
     - pyddx                                                              # [unix]
     - dftd3-python
     - dftd4-python
@@ -160,12 +163,12 @@ test:
     - pygdma
     - pymdi
     # plugin testing
-    - {{ compiler('cxx') }}                                              # [unix]
-    - cmake 3.29.*                                                       # [unix]
-    - make                                                               # [unix]
-    - pybind11                                                           # [unix]
-    - eigen                                                              # [unix]
-    - libboost-headers                                                   # [unix]
+    - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
+    - cmake 3.29.*                                                       # [unix and build_platform == target_platform]
+    - make                                                               # [unix and build_platform == target_platform]
+    - pybind11                                                           # [unix and build_platform == target_platform]
+    - eigen                                                              # [unix and build_platform == target_platform]
+    - libboost-headers                                                   # [unix and build_platform == target_platform]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
@@ -192,25 +195,28 @@ test:
     - if not exist %PREFIX%\\Library\\share\\cmake\\TargetLAPACK\\TargetLAPACKConfig.cmake exit 1  # [win]
     - if not exist %PREFIX%\\Library\\share\\psi4\\basis\\cc-pvdz.gbs exit 1  # [win]
     # Inspect linkage
-    - ldd -v $SP_DIR/psi4/core*.so                                       # [linux]
+    - ldd -v $SP_DIR/psi4/core*.so                                       # [linux and build_platform == target_platform]
     - otool -L $SP_DIR/psi4/core*.so                                     # [osx]
-      # TOO LONG - '%OBJDUMP% %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"'          # [win]
+      # LONG - '%OBJDUMP% %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"' # [win]
     # Actually test
     # - pip check                                                        # present until poetry killed off in qcel
     - python -c "import psi4;assert psi4.__version__ == '{{ version }}', f'{psi4.__version__=} differs from recipe=\'{{ version }}\''"
     - python -c "from psi4 import core; core.set_num_threads(42); assert core.get_num_threads() == 42"
     - python -c "import psi4;print(psi4.addons())"
-    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not pe_ecp"  # [unix]
-    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix]
-    - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints" -k "not pe_ecp and not d4"  # [win]
+    - psi4 $SP_DIR/psi4/tests/tu1-h2o-energy/input.dat -o stdout         # [unix]
+    - psi4 %SP_DIR%\\psi4\\tests\\tu1-h2o-energy\\input.dat -o stdout    # [win]
+    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not pe_ecp"  # [unix and build_platform == target_platform]
+    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix and build_platform == target_platform]
+    - pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "psi4_basic"  # [unix and build_platform != target_platform]
+    - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints" -k "not pe_ecp and not cc13"  # [win]
       # cn_cc-pvdz_adc2_any_6 only trouble for py39 + osx-64
-      # d4 trouble only temp for win
+      # emulated aarch64 passes usual smoke+adcc tests but takes 2h, so skipping longest
     # Test a plugin
-    - PLUG=plugdfmp2                                                     # [unix]
-    - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix]
-    - cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix]
-    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix]
-    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --passfail --ldd --module="$PLUG/$PLUG"  # [unix]
+    - PLUG=plugdfmp2                                                     # [unix and build_platform == target_platform]
+    - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix and build_platform == target_platform]
+    - cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix and build_platform == target_platform]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix and build_platform == target_platform]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --passfail --ldd --module="$PLUG/$PLUG"  # [unix and build_platform == target_platform]
 
 about:
   home: http://psicode.org
