@@ -88,8 +88,6 @@ requirements:
     - llvm-openmp                            # [unix]
 #    - intel-openmp 2024.1.*                  # [win]
     - intel-openmp                           # [win]
-    - setuptools
-    - packaging
   host:
     - setuptools
     - packaging
@@ -125,12 +123,12 @@ requirements:
     - pcmsolver
   run:
     - llvm-openmp                            # [unix]
-    - intel-openmp                           # [win]
+#    - intel-openmp                           # [win]
 #    - intel-openmp 2024.1.*                  # [win]
+    - {{ pin_compatible('intel-openmp', max_pin='x.x') }}  # [win]  # avert 2024.2.2
     - libblas * *mkl                         # [x86_64]
-    - mkl                                    # [x86_64]
-#    - mkl                                    # [x86_64 and not win]
-#    - {{ pin_compatible('mkl', max_pin='x.x') }}  # [x86_64 and win]
+    - mkl                                    # [x86_64 and not win]
+    - {{ pin_compatible('mkl', max_pin='x.x') }}  # [x86_64 and win]  # avert 2024.2.2
     - libblas                                # [not x86_64]
     - liblapack                              # [not x86_64]
     - msgpack-python
