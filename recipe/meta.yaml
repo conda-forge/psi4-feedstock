@@ -170,12 +170,12 @@ test:
     - pygdma
     - pymdi
     # plugin testing
-#    - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
-#    - cmake 3.29.*                                                       # [unix and build_platform == target_platform]
-#    - make                                                               # [unix and build_platform == target_platform]
-#    - pybind11                                                           # [unix and build_platform == target_platform]
-#    - eigen                                                              # [unix and build_platform == target_platform]
-#    - libboost-headers                                                   # [unix and build_platform == target_platform]
+    - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
+    - cmake 3.29.*                                                       # [unix and build_platform == target_platform]
+    - make                                                               # [unix and build_platform == target_platform]
+    - pybind11                                                           # [unix and build_platform == target_platform]
+    - eigen                                                              # [unix and build_platform == target_platform]
+    - libboost-headers                                                   # [unix and build_platform == target_platform]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
@@ -204,7 +204,7 @@ test:
     # Inspect linkage
     - ldd -v $SP_DIR/psi4/core*.so                                       # [linux and build_platform == target_platform]
     - otool -L $SP_DIR/psi4/core*.so                                     # [osx]
-      # TOO LONG - '%OBJDUMP% %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"'  # [win]
+      # LONG - '%OBJDUMP% %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"' # [win]
     # Actually test
     # - pip check                                                        # present until poetry killed off in qcel
     - python -c "import psi4;assert psi4.__version__ == '{{ version }}', f'{psi4.__version__=} differs from recipe=\'{{ version }}\''"
@@ -220,14 +220,13 @@ test:
     #- pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\qcengine -k "not retries and not hes2 and not d4 and not envvars"  # [win]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "quick and not d2ints" -k "not pe_ecp and not cc13"  # [win]
       # cn_cc-pvdz_adc2_any_6 only trouble for py39 + osx-64
-      # d4 trouble only temp for win
       # emulated aarch64 passes usual smoke+adcc tests but takes 2h, so skipping longest
     # Test a plugin
-    #- PLUG=plugdfmp2                                                     # [unix and build_platform == target_platform]
-    #- psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix and build_platform == target_platform]
-    #- cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix and build_platform == target_platform]
-    #- PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix and build_platform == target_platform]
-    #- PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --passfail --ldd --module="$PLUG/$PLUG"  # [unix and build_platform == target_platform]
+    - PLUG=plugdfmp2                                                     # [unix and build_platform == target_platform]
+    - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix and build_platform == target_platform]
+    - cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix and build_platform == target_platform]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix and build_platform == target_platform]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --passfail --ldd --module="$PLUG/$PLUG"  # [unix and build_platform == target_platform]
 
 about:
   home: http://psicode.org
