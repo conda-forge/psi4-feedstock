@@ -89,8 +89,7 @@ requirements:
 #    - intel-openmp 2024.1.*                  # [win]
     - intel-openmp                           # [win]
   host:
-    - setuptools
-    - packaging
+    - setuptools                                       # qcelemental detection
     - eigen
     - libboost-headers
     - libblas * *mkl                         # [x86_64]
@@ -155,6 +154,8 @@ requirements:
 test:
   imports:
     - psi4
+  files:
+    - test_ghost.py
   requires:
     - pip                                                                          # provides `pip check`
     - pytest
@@ -214,6 +215,7 @@ test:
     - python -c "import psi4;print(psi4.addons())"
     - psi4 $SP_DIR/psi4/tests/tu1-h2o-energy/input.dat -o stdout         # [unix]
     - psi4 %SP_DIR%\\psi4\\tests\\tu1-h2o-energy\\input.dat -o stdout    # [win]
+    - python test_ghost.py
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "quick" -k "not pe_ecp"  # [unix and build_platform == target_platform]
     - MKL_CBWR=AVX pytest -rws -v --color yes $SP_DIR/qcengine -k "ghost"  # [unix and build_platform == target_platform]
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix and build_platform == target_platform]
