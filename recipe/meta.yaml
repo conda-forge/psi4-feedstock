@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
-{% set version = "1.9.1" %}
-{% set commit = "f53cdd7cb" %}
-{% set sha256 = "ccd69bdc1d8319470513b4d3c1e0d737fc7788a50d7e48f8db762a0fcf795dad" %}
+{% set version = "1.10a2" %}
+{% set commit = "fb48da030" %}
+{% set sha256 = "b9e69b1f2ba0be869f1b01115e4ccb043b8e2c50e4d7fe069d260fa0c90d2a35" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -14,16 +14,17 @@ package:
   version: {{ version }}
 
 source:
-  #- url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
-  patches:
-    - 0001-allow-libxc-7.patch
+  # - url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
+  - url: https://github.com/loriab/{{ name }}/archive/{{ commit }}.tar.gz
+  #url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
+#  patches:
+#    - 0001-allow-libxc-7.patch
   sha256: {{ sha256 }}
 
 build:
   number: 10
-  skip: true    # [ppc64le]
-  # skip: true  # [ppc64le or py != 312]
+  #skip: true    # [ppc64le]
+  skip: true  # [ppc64le or py != 312]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -83,7 +84,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
-    - cmake 3.29.*                                     # 3.30 failing for intel mac
+    - cmake
     - ninja
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
@@ -164,7 +165,7 @@ test:
     - pymdi
     # plugin testing
     - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
-    - cmake 3.29.*                                                       # [unix and build_platform == target_platform]
+    - cmake                                                              # [unix and build_platform == target_platform]
     - make                                                               # [unix and build_platform == target_platform]
     - pybind11                                                           # [unix and build_platform == target_platform]
     - eigen                                                              # [unix and build_platform == target_platform]
