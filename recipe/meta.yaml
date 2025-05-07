@@ -14,8 +14,8 @@ package:
   version: {{ version }}
 
 source:
-  # - url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  - url: https://github.com/loriab/{{ name }}/archive/{{ commit }}.tar.gz
+  # url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
+  url: https://github.com/loriab/{{ name }}/archive/{{ commit }}.tar.gz
   #url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
 #  patches:
 #    - 0001-allow-libxc-7.patch
