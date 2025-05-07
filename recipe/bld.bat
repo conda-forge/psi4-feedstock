@@ -6,11 +6,19 @@ cmake %CMAKE_ARGS% ^
   -S %SRC_DIR% ^
   -B build ^
   -D CMAKE_BUILD_TYPE=Release ^
-  -D CMAKE_INSTALL_PREFIX="%LIBRARY_PREFIX%" ^
+  -D CMAKE_INSTALL_PREFIX="%PREFIX%" ^
   -D CMAKE_C_COMPILER=clang-cl ^
   -D CMAKE_C_FLAGS="%CFLAGS%" ^
   -D CMAKE_CXX_COMPILER=clang-cl ^
   -D CMAKE_CXX_FLAGS="%CXXFLAGS%" ^
+  -D CMAKE_INSTALL_LIBDIR="Library\\lib" ^
+  -D CMAKE_INSTALL_INCLUDEDIR="Library\\include" ^
+  -D CMAKE_INSTALL_BINDIR="Scripts" ^
+  -D CMAKE_INSTALL_DATADIR="Library\\share" ^
+  -D PYMOD_INSTALL_LIBDIR="/../../Lib/site-packages" ^
+  -D psi4_INSTALL_CMAKEDIR="Library\\share\\cmake\\psi4" ^
+  -D TargetLAPACK_INSTALL_CMAKEDIR="Library\\share\\cmake\\TargetLAPACK" ^
+  -D TargetHDF5_INSTALL_CMAKEDIR="Library\\share\\cmake\\TargetHDF5" ^
   -D Python_EXECUTABLE="%PYTHON%" ^
   -D BUILD_SHARED_LIBS=OFF ^
   -D ENABLE_OPENMP=ON ^
