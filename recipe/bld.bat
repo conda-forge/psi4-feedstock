@@ -20,7 +20,6 @@ cmake %CMAKE_ARGS% ^
   -D TargetLAPACK_INSTALL_CMAKEDIR="Library\\share\\cmake\\TargetLAPACK" ^
   -D TargetHDF5_INSTALL_CMAKEDIR="Library\\share\\cmake\\TargetHDF5" ^
   -D Python_EXECUTABLE="%PYTHON%" ^
-  -D LAPACK_LIBRARIES="%PREFIX%\\Library\\lib\\mkl_rt.lib" ^
   -D BUILD_SHARED_LIBS=OFF ^
   -D ENABLE_OPENMP=ON ^
   -D CMAKE_INSIST_FIND_PACKAGE_gau2grid=ON ^
@@ -74,3 +73,4 @@ REM pytest in conda testing stage
 :: Expired
 ::  -D OpenMP_LIBRARY_DIRS="%SRC_DIR%\\external_src\\conda\\win\\2019.1"
 ::  Library/lib/libiomp5md.lib
+  ::-D LAPACK_LIBRARIES="%LIBRARY_PREFIX%\\lib\\mkl_rt.lib" ^
