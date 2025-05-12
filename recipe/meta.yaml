@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.10a2" %}
-{% set commit = "d1d56d2ed" %}
-{% set sha256 = "d1f5afc2c8ba3137f9f2f3e9ee58eb07a4219fc3a7cad0ee06225c16d35384f8" %}
+{% set commit = "dbb7c1322" %}
+{% set sha256 = "8ce89007089c7d8fa949f180f2b189faef1e047714129526a6db8b5c2706af7b" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -104,6 +104,7 @@ requirements:
     - python
     - zlib                                             # pcmsolver detection, not direct dep, so ignore_run_exports above
       #- pip                                           # internal builds of python modules, so usually off
+    - libgcc ==14.2.0  # [win]
     # qc req'd
     - gau2grid
     - libint 2.9.0
@@ -143,6 +144,7 @@ requirements:
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
+    - libgcc ==14.2.0  # [win]
 
 test:
   imports:
