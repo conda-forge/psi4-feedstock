@@ -17,8 +17,9 @@ source:
   # url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
   url: https://github.com/loriab/{{ name }}/archive/{{ commit }}.tar.gz
   #url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
-#  patches:
+  patches:                                # [linux]
 #    - 0001-allow-libxc-7.patch
+    - 0002-single-job-l2ints-linux.patch  # [linux]
   sha256: {{ sha256 }}
 
 build:
@@ -143,7 +144,7 @@ requirements:
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
-    - libgcc ==14.*                          # [win]   # 15 has " ImportError: DLL load failed while importing core: The specified procedure could not be found."
+    - libgcc <15.0                           # [win]   # 15 has " ImportError: DLL load failed while importing core: The specified procedure could not be found."
 
 test:
   imports:
