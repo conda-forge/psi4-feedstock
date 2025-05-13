@@ -1,0 +1,25 @@
+From 6ae9fab1427ed4afc7e74b79c58f7040eb854afb Mon Sep 17 00:00:00 2001
+From: "Lori A. Burns" <lori.burns@gmail.com>
+Date: Mon, 12 May 2025 23:21:12 -0400
+Subject: [PATCH] one job for patch
+
+---
+ psi4/src/psi4/libmints/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/psi4/src/psi4/libmints/CMakeLists.txt b/psi4/src/psi4/libmints/CMakeLists.txt
+index 38206b48c..4a7ca78f8 100644
+--- a/psi4/src/psi4/libmints/CMakeLists.txt
++++ b/psi4/src/psi4/libmints/CMakeLists.txt
+@@ -98,7 +98,7 @@ cmake_host_system_information(RESULT _numcore QUERY NUMBER_OF_PHYSICAL_CORES)
+ math(EXPR _memrat "${_memfree} / ${_numcore}")
+ message("AVAILABLE_PHYSICAL_MEMORY ${_memfree} / NUMBER_OF_PHYSICAL_CORES ${_numcore} = ${_memrat}")
+ if(_numcore LESS 5)
+-    set_property(TARGET l2intf PROPERTY JOB_POOL_COMPILE two_jobs)
++    set_property(TARGET l2intf PROPERTY JOB_POOL_COMPILE one_job)
+ else()
+     set_property(TARGET l2intf PROPERTY JOB_POOL_COMPILE four_jobs)
+ endif()
+-- 
+2.48.1
+
