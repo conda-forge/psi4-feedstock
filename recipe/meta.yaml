@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.10a2" %}
-{% set commit = "dbb7c1322" %}
-{% set sha256 = "8ce89007089c7d8fa949f180f2b189faef1e047714129526a6db8b5c2706af7b" %}
+{% set commit = "cf60de63f" %}
+{% set sha256 = "fed58eb4df6b20e19927c33ee05309aa489e450459ad5ab566473db3e0655dac" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -17,8 +17,6 @@ source:
   # url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
   url: https://github.com/loriab/{{ name }}/archive/{{ commit }}.tar.gz
   #url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
-  patches:
-#    - 0001-allow-libxc-7.patch
   sha256: {{ sha256 }}
 
 build:
