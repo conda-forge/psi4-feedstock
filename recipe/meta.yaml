@@ -144,7 +144,7 @@ requirements:
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
-    - libgcc <15.1.0                         # [win]   # 15: "ImportError: DLL load failed while importing core: The specified procedure could not be found."
+    - libgcc <15.1.0                         # [win]
 
 test:
   imports:
