@@ -24,8 +24,9 @@ if [[ "$target_platform" == "linux-ppc64le" ]]; then
 fi
 
 if [[ "$target_platform" == "linux-64" || "$target_platform" == "linux-aarch64" || "$target_platform" == "linux-ppc64le" ]]; then
+    :
     # avoid builds halting for lack of response ~70m
-    # try to release when src w/jobpool is in use
+    # jobpool can't help. only alternative is GNU Makefiles
     export CMAKE_BUILD_PARALLEL_LEVEL=1
 fi
 
@@ -35,7 +36,7 @@ else
     LAPACK_LIBRARIES="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}"
 fi
 
-#echo '__version_long = '"'$PSI4_PRETEND_VERSIONLONG'" > psi4/metadata.py
+echo '__version_long = '"'$PSI4_PRETEND_VERSIONLONG'" > psi4/metadata.py
 
 # Note: bizarrely, Linux (but not Mac) using `-G Ninja` hangs on [205/1223] at
 #   c-f/staged-recipes Azure CI --- thus the fallback to GNU Make.
