@@ -104,7 +104,6 @@ requirements:
     - python
     - zlib                                             # pcmsolver detection, not direct dep, so ignore_run_exports above
       #- pip                                           # internal builds of python modules, so usually off
-    - libgcc ==14.2.0  # [win]
     # qc req'd
     - gau2grid
     - libint 2.9.0
@@ -144,7 +143,7 @@ requirements:
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
-    - libgcc ==14.2.0  # [win]
+    - libgcc ==14.*                          # [win]   # 15 has " ImportError: DLL load failed while importing core: The specified procedure could not be found."
 
 test:
   imports:
