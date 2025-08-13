@@ -29,8 +29,8 @@ build:
   run_exports:
     # only relevant for the rare "psi4 plugin" case (links to psi4/core.*so), not the usual "psi4 module" case (import psi4)
     - {{ pin_subpackage('psi4', max_pin='x.x') }}
-  ignore_run_exports_from:
-    - zlib
+  #ignore_run_exports_from:
+  #  - zlib
 
 # bkgd: the numpy story
 # * psi4 uses numpy at runtime and has no version constraints
@@ -85,7 +85,7 @@ requirements:
     - cmake
     - ninja
     - llvm-openmp                            # [unix]
-    - llvm-openmp                            # [win]
+    - intel-openmp                           # [win]
   host:
     - setuptools                                       # qcelemental detection
     - eigen
@@ -111,12 +111,13 @@ requirements:
     - qcengine
     - qcmanybody
     # qc opt'l, build-time
-    - dkh
-    - libecpint
-    - pcmsolver
-    - einsums                                # [unix]
-    - hdf5                                   # [unix]  # indirect dep from einsums
-    - fmt                                    # [unix]  # indirect dep from einsums
+    - dkh  # [unix]
+    - libecpint  # [unix]
+    - pcmsolver  # [unix]
+    - einsums                                # [unix and not aarch64]
+    - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums
+    - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
+    - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
     # - openorbitaloptimizer                   # [unix]
   run:
     - llvm-openmp                            # [unix]
