@@ -19,8 +19,10 @@ if [[ "$target_platform" == linux-* ]]; then
 fi
 if [[ "$target_platform" == "linux-aarch64" ]]; then
     _EINSUMS=OFF
+    _OOO=OFF
 else
     _EINSUMS=ON
+    _OOO=ON
 fi
 if [[ "$target_platform" == "linux-ppc64le" ]]; then
     # avoid "relocation truncated to fit: R_PPC64_REL24 against symbol"
@@ -84,8 +86,8 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D CMAKE_INSIST_FIND_PACKAGE_PCMSolver=ON \
   -D ENABLE_Einsums=${_EINSUMS} \
   -D CMAKE_INSIST_FIND_PACKAGE_Einsums=${_EINSUMS} \
-  -D ENABLE_OpenOrbitalOptimizer=ON \
-  -D CMAKE_INSIST_FIND_PACKAGE_OpenOrbitalOptimizer=ON \
+  -D ENABLE_OpenOrbitalOptimizer=${_OOO} \
+  -D CMAKE_INSIST_FIND_PACKAGE_OpenOrbitalOptimizer=${_OOO} \
   -D ENABLE_OPENMP=ON \
   -D ENABLE_XHOST=OFF \
   -D ENABLE_GENERIC=OFF \

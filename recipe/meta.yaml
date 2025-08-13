@@ -118,7 +118,7 @@ requirements:
     - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
     - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
     - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
-    - openorbitaloptimizer                   # [unix]
+    - openorbitaloptimizer                   # [unix and not aarch64]
   run:
     - llvm-openmp                            # [unix]
     - {{ pin_compatible('intel-openmp', max_pin='x.x') }}  # [win]  # avert 2024.2.2
