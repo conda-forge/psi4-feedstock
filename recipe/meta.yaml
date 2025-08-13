@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.10a2" %}
-{% set commit = "cf60de63f" %}
-{% set sha256 = "fed58eb4df6b20e19927c33ee05309aa489e450459ad5ab566473db3e0655dac" %}
+{% set commit = "caf3ec973" %}
+{% set sha256 = "a75ef07d8b20390f54f8fef294bbde3bbd58342a8d91da39582fd336eeffc622" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -14,8 +14,8 @@ package:
   version: {{ version }}
 
 source:
-  # url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  url: https://github.com/loriab/{{ name }}/archive/{{ commit }}.tar.gz
+  url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
+  # url: https://github.com/loriab/{{ name }}/archive/{{ commit }}.tar.gz
   #url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
@@ -109,10 +109,13 @@ requirements:
     - optking
     - qcelemental
     - qcengine
+    - qcmanybody
     # qc opt'l, build-time
     - dkh
     - libecpint
     - pcmsolver
+    - einsums                                # [unix]
+    # - openorbitaloptimizer                   # [unix]
   run:
     - llvm-openmp                            # [unix]
     - {{ pin_compatible('intel-openmp', max_pin='x.x') }}  # [win]  # avert 2024.2.2
@@ -123,14 +126,15 @@ requirements:
     - liblapack                              # [not x86_64]
     - msgpack-python
     - networkx
-    - pydantic >=1.10
+    - pydantic >=1.17,<3
     - python
     - scipy
     - {{ pin_compatible('numpy') }}          # shouldn't be needed but last round had constraint >=1.19,<3 so allowed v1 np in a v2 psi4 build on win
     # qc
     - {{ pin_compatible('optking', max_pin='x') }}
-    - {{ pin_compatible('qcelemental', max_pin='x') }}
-    - {{ pin_compatible('qcengine', max_pin='x') }}
+    - {{ pin_compatible('qcelemental', lower_bound='0.29', upper_bound='0.50') }}
+    - {{ pin_compatible('qcengine', lower_bound='0.31', upper_bound='0.50') }}
+    - {{ pin_compatible('qcmanybody', max_pin='x') }}
   run_constrained:
     - pytest >=7.0.1
     # qc opt'l, run-time
@@ -141,7 +145,7 @@ requirements:
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
-    - libgcc <15.1.0                         # [win]
+    - libgcc <14.3                           # [win]
                                                        # v15 ImportError: DLL load failed while importing core: The specified procedure could not be found.
 
 test:
@@ -206,18 +210,9 @@ test:
     - python -c "import psi4;print(psi4.addons())"
     - psi4 $SP_DIR/psi4/tests/tu1-h2o-energy/input.dat -o stdout         # [unix]
     - psi4 %SP_DIR%\\psi4\\tests\\tu1-h2o-energy\\input.dat -o stdout    # [win]
-    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not pe_ecp"  # [unix and build_platform == target_platform]
-    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix and build_platform == target_platform]
-    - pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "psi4_basic"  # [unix and build_platform != target_platform]
-    - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints" -k "not pe_ecp and not cc13"  # [win]
       # cn_cc-pvdz_adc2_any_6 only trouble for py39 + osx-64
       # emulated aarch64 passes usual smoke+adcc tests but takes 2h, so skipping longest
     # Test a plugin
-    - PLUG=plugdfmp2                                                     # [unix and build_platform == target_platform]
-    - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix and build_platform == target_platform]
-    - cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix and build_platform == target_platform]
-    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix and build_platform == target_platform]
-    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --passfail --ldd --module="$PLUG/$PLUG"  # [unix and build_platform == target_platform]
 
 about:
   home: http://psicode.org

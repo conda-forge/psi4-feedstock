@@ -69,6 +69,7 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D CMAKE_INSIST_FIND_PACKAGE_Libxc=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_qcelemental=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_qcengine=ON \
+  -D CMAKE_INSIST_FIND_PACKAGE_qcmanybody=ON \
   -D psi4_SKIP_ENABLE_Fortran=ON \
   -D ENABLE_dkh=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_dkh=ON \
@@ -76,6 +77,8 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D CMAKE_INSIST_FIND_PACKAGE_ecpint=ON \
   -D ENABLE_PCMSolver=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_PCMSolver=ON \
+  -D ENABLE_Einsums=ON \
+  -D CMAKE_INSIST_FIND_PACKAGE_Einsums=ON \
   -D ENABLE_OPENMP=ON \
   -D ENABLE_XHOST=OFF \
   -D ENABLE_GENERIC=OFF \
@@ -93,8 +96,6 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
 #  -D ENABLE_simint=ON \
 #  -D SIMINT_VECTOR=sse \
 #  -D CMAKE_INSIST_FIND_PACKAGE_simint=ON \
-#  -D ENABLE_Einsums=ON \
-#  -D CMAKE_INSIST_FIND_PACKAGE_Einsums=ON \
 
 cmake --build build --target install
 
