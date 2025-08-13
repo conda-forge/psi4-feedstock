@@ -10,7 +10,7 @@ cmake %CMAKE_ARGS% ^
   -D CMAKE_C_COMPILER=clang-cl ^
   -D CMAKE_C_FLAGS="%CFLAGS%" ^
   -D CMAKE_CXX_COMPILER=clang-cl ^
-  -D CMAKE_CXX_FLAGS="%CXXFLAGS%" ^
+  -D CMAKE_CXX_FLAGS="-Xclang -fopenmp=libiomp5 %CXXFLAGS%" ^
   -D CMAKE_INSTALL_LIBDIR="Library\\lib" ^
   -D CMAKE_INSTALL_INCLUDEDIR="Library\\include" ^
   -D CMAKE_INSTALL_BINDIR="Scripts" ^

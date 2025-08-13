@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.10a2" %}
-{% set commit = "caf3ec973" %}
-{% set sha256 = "a75ef07d8b20390f54f8fef294bbde3bbd58342a8d91da39582fd336eeffc622" %}
+{% set commit = "c714e0051" %}
+{% set sha256 = "e336756c229a8f39a744cb79b83f0edd92ab923ae203b7398e882dc10a4dc7f4" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -14,8 +14,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  # url: https://github.com/loriab/{{ name }}/archive/{{ commit }}.tar.gz
+  url: https://github.com/loriab/psi4/archive/{{ commit }}.tar.gz
   #url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
@@ -119,7 +118,7 @@ requirements:
     - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
     - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
     - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
-    # - openorbitaloptimizer                   # [unix]
+    - openorbitaloptimizer                   # [unix]
   run:
     - llvm-openmp                            # [unix]
     - {{ pin_compatible('intel-openmp', max_pin='x.x') }}  # [win]  # avert 2024.2.2
