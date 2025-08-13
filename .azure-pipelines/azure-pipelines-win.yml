@@ -8,10 +8,10 @@ jobs:
     vmImage: windows-2022
   strategy:
     matrix:
-      win_64_numpy2.0python3.12.____cpython:
-        CONFIG: win_64_numpy2.0python3.12.____cpython
+      win_64_python3.12.____cpython:
+        CONFIG: win_64_python3.12.____cpython
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: win_64_numpy2.0python3.12.____cpython
+        SHORT_CONFIG: win_64_python3.12.____cpython
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\
