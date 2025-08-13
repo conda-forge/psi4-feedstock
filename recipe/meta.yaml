@@ -85,7 +85,7 @@ requirements:
     - cmake
     - ninja
     - llvm-openmp                            # [unix]
-    - intel-openmp                           # [win]
+    - llvm-openmp                            # [win]
   host:
     - setuptools                                       # qcelemental detection
     - eigen
@@ -115,6 +115,8 @@ requirements:
     - libecpint
     - pcmsolver
     - einsums                                # [unix]
+    - hdf5                                   # [unix]  # indirect dep from einsums
+    - fmt                                    # [unix]  # indirect dep from einsums
     # - openorbitaloptimizer                   # [unix]
   run:
     - llvm-openmp                            # [unix]
