@@ -118,6 +118,7 @@ requirements:
     - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums
     - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
     - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
+    - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
     # - openorbitaloptimizer                   # [unix]
   run:
     - llvm-openmp                            # [unix]
