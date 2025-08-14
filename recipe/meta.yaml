@@ -109,6 +109,7 @@ requirements:
     - optking
     - qcelemental
     - qcengine
+    - qcmanybody
     # qc opt'l, build-time
     - dkh
     - libecpint
