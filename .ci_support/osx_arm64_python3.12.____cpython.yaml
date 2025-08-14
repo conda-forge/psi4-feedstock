@@ -18,6 +18,10 @@ cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '19'
+fmt:
+- '11.2'
+hdf5:
+- 1.14.3
 libblas:
 - 3.9.* *netlib
 libboost_headers:
@@ -38,6 +42,8 @@ pybind11_abi:
 - '4'
 python:
 - 3.12.* *_cpython
+spdlog:
+- '1.15'
 target_platform:
 - osx-arm64
 zip_keys:
