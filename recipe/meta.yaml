@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
-{% set version = "1.9.1" %}
-{% set commit = "f53cdd7cb" %}
-{% set sha256 = "ccd69bdc1d8319470513b4d3c1e0d737fc7788a50d7e48f8db762a0fcf795dad" %}
+{% set version = "1.10a3" %}
+{% set commit = "c714e0051" %}
+{% set sha256 = "e336756c229a8f39a744cb79b83f0edd92ab923ae203b7398e882dc10a4dc7f4" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -15,9 +15,8 @@ package:
 
 source:
   #- url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
-  patches:
-    - 0001-allow-libxc-7.patch
+  url: https://github.com/loriab/psi4/archive/{{ commit }}.tar.gz
+  # url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
@@ -83,7 +82,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
-    - cmake 3.29.*                                     # 3.30 failing for intel mac
+    - cmake                                            # 3.30 failing for intel mac
     - ninja
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
@@ -166,7 +165,7 @@ test:
     - pymdi
     # plugin testing
     - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
-    - cmake 3.29.*                                                       # [unix and build_platform == target_platform]
+    - cmake                                                              # [unix and build_platform == target_platform]
     - make                                                               # [unix and build_platform == target_platform]
     - pybind11                                                           # [unix and build_platform == target_platform]
     - eigen                                                              # [unix and build_platform == target_platform]
