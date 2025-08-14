@@ -15,9 +15,8 @@ package:
 
 source:
   # url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  url: https://github.com/loriab/{{ name }}/archive/{{ commit }}.tar.gz
+  url: https://github.com/loriab/psi4/archive/susi_ooo_iomp5.tar.gz
   #url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
-  sha256: {{ sha256 }}
 
 build:
   number: 10
@@ -111,6 +110,7 @@ requirements:
     - optking
     - qcelemental
     - qcengine
+    - qcmanybody
     # qc opt'l, build-time
     - dkh
     - libecpint
