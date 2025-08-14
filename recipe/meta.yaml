@@ -86,7 +86,7 @@ requirements:
     - ninja
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
-    - vc14_runtime 14.42 *_26  # [win]
+    - vc14_runtime 14.42.34438 *_26  # [win]
     - libgcc 14.2  # [win]
   host:
     - setuptools                                       # qcelemental detection
@@ -115,7 +115,7 @@ requirements:
     - dkh
     - libecpint
     - pcmsolver
-    - vc14_runtime 14.42 *_26  # [win]
+    - vc14_runtime 14.42.34438 *_26  # [win]
     - libgcc 14.2  # [win]
   run:
     - llvm-openmp                            # [unix]

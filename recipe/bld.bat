@@ -20,6 +20,8 @@ cmake %CMAKE_ARGS% ^
   -D TargetLAPACK_INSTALL_CMAKEDIR="Library\\share\\cmake\\TargetLAPACK" ^
   -D TargetHDF5_INSTALL_CMAKEDIR="Library\\share\\cmake\\TargetHDF5" ^
   -D Python_EXECUTABLE="%PYTHON%" ^
+  -D OpenMP_C_FLAG="-fopenmp=libiomp5" ^
+  -D OpenMP_CXX_FLAG="-fopenmp=libiomp5" ^
   -D LAPACK_LIBRARIES="%PREFIX%\\Library\\lib\\mkl_rt.lib" ^
   -D BUILD_SHARED_LIBS=OFF ^
   -D ENABLE_OPENMP=ON ^
@@ -38,9 +40,11 @@ cmake %CMAKE_ARGS% ^
   -D ENABLE_PCMSolver=ON ^
   -D CMAKE_INSIST_FIND_PACKAGE_PCMSolver=ON ^
   -D ENABLE_XHOST=OFF ^
-  -D CMAKE_VERBOSE_MAKEFILE=OFF ^
+  -D CMAKE_VERBOSE_MAKEFILE=ON ^
   -D CMAKE_PREFIX_PATH="%LIBRARY_PREFIX%"
 if errorlevel 1 exit 1
+
+clang-cl -c psi4/src/psi4/libmints/extern.cc -showIncludes
 
 ::set CMAKE_BUILD_PARALLEL_LEVEL=1
 cmake --build build ^
