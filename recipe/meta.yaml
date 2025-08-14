@@ -22,8 +22,8 @@ source:
 
 build:
   number: 10
-  skip: true    # [ppc64le]
-  # skip: true  # [ppc64le or py != 312]
+  # skip: true    # [ppc64le]
+  skip: true  # [ppc64le or py != 312]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -142,6 +142,8 @@ requirements:
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
+    - libgcc <14.3                           # [win]
+                                                       # v14.3 ImportError: DLL load failed while importing core: The specified procedure could not be found.
 
 test:
   imports:
