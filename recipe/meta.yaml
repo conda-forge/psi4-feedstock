@@ -28,8 +28,6 @@ build:
   run_exports:
     # only relevant for the rare "psi4 plugin" case (links to psi4/core.*so), not the usual "psi4 module" case (import psi4)
     - {{ pin_subpackage('psi4', max_pin='x.x') }}
-  #ignore_run_exports_from:
-  #  - zlib
 
 # bkgd: the numpy story
 # * psi4 uses numpy at runtime and has no version constraints
@@ -149,7 +147,7 @@ requirements:
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
     - libgcc <14.3                           # [win]
-                                                       # v15 ImportError: DLL load failed while importing core: The specified procedure could not be found.
+                                                       # v14.3 ImportError: DLL load failed while importing core: The specified procedure could not be found.
 
 test:
   imports:
@@ -213,9 +211,18 @@ test:
     - python -c "import psi4;print(psi4.addons())"
     - psi4 $SP_DIR/psi4/tests/tu1-h2o-energy/input.dat -o stdout         # [unix]
     - psi4 %SP_DIR%\\psi4\\tests\\tu1-h2o-energy\\input.dat -o stdout    # [win]
+    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not pe_ecp"  # [unix and build_platform == target_platform]
+    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix and build_platform == target_platform]
+    - pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "psi4_basic"  # [unix and build_platform != target_platform]
+    - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints" -k "not pe_ecp and not cc13"  # [win]
       # cn_cc-pvdz_adc2_any_6 only trouble for py39 + osx-64
       # emulated aarch64 passes usual smoke+adcc tests but takes 2h, so skipping longest
     # Test a plugin
+    - PLUG=plugdfmp2                                                     # [unix and build_platform == target_platform]
+    - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix and build_platform == target_platform]
+    - cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix and build_platform == target_platform]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix and build_platform == target_platform]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --passfail --ldd --module="$PLUG/$PLUG"  # [unix and build_platform == target_platform]
 
 about:
   home: http://psicode.org

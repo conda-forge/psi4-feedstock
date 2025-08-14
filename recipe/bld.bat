@@ -10,7 +10,7 @@ cmake %CMAKE_ARGS% ^
   -D CMAKE_C_COMPILER=clang-cl ^
   -D CMAKE_C_FLAGS="%CFLAGS%" ^
   -D CMAKE_CXX_COMPILER=clang-cl ^
-  -D CMAKE_CXX_FLAGS="/Zl -Xclang -fopenmp=libiomp5 %CXXFLAGS% -Xclang -fopenmp=libiomp5" ^
+  -D CMAKE_CXX_FLAGS="-Xclang -fopenmp=libiomp5 %CXXFLAGS% -Xclang -fopenmp=libiomp5" ^
   -D CMAKE_INSTALL_LIBDIR="Library\\lib" ^
   -D CMAKE_INSTALL_INCLUDEDIR="Library\\include" ^
   -D CMAKE_INSTALL_BINDIR="Scripts" ^
@@ -21,6 +21,7 @@ cmake %CMAKE_ARGS% ^
   -D TargetHDF5_INSTALL_CMAKEDIR="Library\\share\\cmake\\TargetHDF5" ^
   -D Python_EXECUTABLE="%PYTHON%" ^
   -D LAPACK_LIBRARIES="%PREFIX%\\Library\\lib\\mkl_rt.lib" ^
+  -D OpenMP_LIBRARY_DIRS="%SRC_DIR%\\Library\\lib" ^
   -D BUILD_SHARED_LIBS=OFF ^
   -D ENABLE_OPENMP=ON ^
   -D CMAKE_INSIST_FIND_PACKAGE_gau2grid=ON ^
