@@ -2,7 +2,7 @@
 echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
 
 :: catch intel-openmp's omp.h
-set INCLUDE=%PREFIX%\opt\compiler\include;%INCLUDE%
+::set INCLUDE=%PREFIX%\opt\compiler\include;%INCLUDE%
 ::set LIB=%PREFIX%\Library\lib;%LIB%
 
 cmake %CMAKE_ARGS% ^
