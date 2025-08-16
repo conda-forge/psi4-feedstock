@@ -1,14 +1,9 @@
 
 echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
 
-::clang-cl -Xclang -fopenmp -E -showIncludes %SRC_DIR%\psi4\src\psi4\libsapt_solver\sapt.cc | findstr /i omp.h
-
+:: catch intel-openmp's omp.h
 set INCLUDE=%PREFIX%\opt\compiler\include;%INCLUDE%
-set LIB=%PREFIX%\Library\libi;%LIB%
-
-
-::clang-cl -Xclang -fopenmp -E -showIncludes %SRC_DIR%\psi4\src\psi4\libsapt_solver\sapt.cc | findstr /i omp.h
-
+::set LIB=%PREFIX%\Library\lib;%LIB%
 
 cmake %CMAKE_ARGS% ^
   -G "Ninja" ^
@@ -32,7 +27,6 @@ cmake %CMAKE_ARGS% ^
   -D LAPACK_LIBRARIES="%PREFIX%\\Library\\lib\\mkl_rt.lib" ^
   -D BUILD_SHARED_LIBS=OFF ^
   -D ENABLE_OPENMP=ON ^
-  -D OpenMP_LIBRARY_DIRS="%PREFIX%\\Library\\lib" ^
   -D CMAKE_INSIST_FIND_PACKAGE_gau2grid=ON ^
   -D MAX_AM_ERI=5 ^
   -D CMAKE_INSIST_FIND_PACKAGE_Libint2=ON ^
@@ -42,8 +36,14 @@ cmake %CMAKE_ARGS% ^
   -D CMAKE_INSIST_FIND_PACKAGE_qcengine=ON ^
   -D CMAKE_INSIST_FIND_PACKAGE_qcmanybody=ON ^
   -D psi4_SKIP_ENABLE_Fortran=ON ^
+  -D ENABLE_dkh=ON ^
+  -D CMAKE_INSIST_FIND_PACKAGE_dkh=ON ^
+  -D ENABLE_ecpint=ON ^
+  -D CMAKE_INSIST_FIND_PACKAGE_ecpint=ON ^
+  -D ENABLE_PCMSolver=ON ^
+  -D CMAKE_INSIST_FIND_PACKAGE_PCMSolver=ON ^
   -D ENABLE_XHOST=OFF ^
-  -D CMAKE_VERBOSE_MAKEFILE=ON ^
+  -D CMAKE_VERBOSE_MAKEFILE=OFF ^
   -D CMAKE_PREFIX_PATH="%LIBRARY_PREFIX%"
 if errorlevel 1 exit 1
 
@@ -87,3 +87,4 @@ REM pytest in conda testing stage
 ::   llvm-openmp
 ::    %PREFIX%/Library/include/omp.h
 ::    %PREFIX%/Library/lib/libomp.lib
+::   clang-cl -Xclang -fopenmp -E -showIncludes %SRC_DIR%\psi4\src\psi4\libsapt_solver\sapt.cc | findstr /i omp.h

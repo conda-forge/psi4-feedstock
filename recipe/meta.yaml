@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.10a2" %}
-{% set commit = "c714e0051" %}
-{% set sha256 = "e336756c229a8f39a744cb79b83f0edd92ab923ae203b7398e882dc10a4dc7f4" %}
+{% set commit = "06d324dc6" %}
+{% set sha256 = "55b43555607c416f17e2b312d4f7b67aaa50011b5d0b9510961098160ead9411" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -69,6 +69,8 @@ build:
 #   However, at the moment this aspect of the stack seems a little fractured, so the recipe is defaulting to the
 #   mkl + intel-openmp + stashed libiomp5md.lib procedure that has worked compatibly with c-f for the last couple years.
 # * [Jul 2024] intel-openmp now provides libiomp5md.lib so dropping the external src.
+# * [Aug 2025] need something like clangdev and envvar INCLUDE to pull correct OpenMP (header and lib)
+
 
 requirements:
   build:
@@ -85,11 +87,6 @@ requirements:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
     - clangdev 17.0.6                        # [win]
-    #- libgcc <14.3                           # [win]
-    #- libblas * *mkl                         # [win]
-    #- mkl-devel                              # [win]
-    #- intel-openmp                           # [win]
-    #- mkl                                    # [win]
   host:
     - setuptools                                       # qcelemental detection
     - eigen
@@ -105,8 +102,6 @@ requirements:
     - pybind11-abi
     - python
     - zlib                                             # pcmsolver detection, not direct dep, so ignore_run_exports above
-    #- clangdev 17.0.6                        # [win]
-    #- libgcc <14.3                           # [win]
       #- pip                                           # internal builds of python modules, so usually off
     # qc req'd
     - gau2grid
@@ -117,11 +112,11 @@ requirements:
     - qcengine
     - qcmanybody
     # qc opt'l, build-time
-    - dkh  # [unix]
-    - libecpint  # [unix]
-    - pcmsolver  # [unix]
+    - dkh
+    - libecpint
+    - pcmsolver
     - einsums 1.0.6                          # [unix and not aarch64]
-    - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums
+    - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums, see also cbc
     - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
     - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
     - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
