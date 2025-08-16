@@ -70,7 +70,7 @@ build:
 #   mkl + intel-openmp + stashed libiomp5md.lib procedure that has worked compatibly with c-f for the last couple years.
 # * [Jul 2024] intel-openmp now provides libiomp5md.lib so dropping the external src.
 # * [Aug 2025] need something like clangdev and envvar INCLUDE to pull correct OpenMP (header and lib)
-
+#      ~[343/1219] %SRC_DIR%\psi4\src\psi4\libsapt_solver\sapt.cc(68,5): error: use of undeclared identifier 'omp_set_max_active_levels'
 
 requirements:
   build:
@@ -86,7 +86,7 @@ requirements:
     - ninja
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
-    - clangdev 17.0.6                        # [win]
+    #- clangdev 17.0.6                        # [win]
   host:
     - setuptools                                       # qcelemental detection
     - eigen
