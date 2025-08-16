@@ -1,23 +1,13 @@
 
 echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
 
-clang-cl -Xclang -fopenmp -E -showIncludes %SRC_DIR%\psi4\src\psi4\libsapt_solver\sapt.cc | findstr /i omp.h
+::clang-cl -Xclang -fopenmp -E -showIncludes %SRC_DIR%\psi4\src\psi4\libsapt_solver\sapt.cc | findstr /i omp.h
 
 set INCLUDE=%PREFIX%\opt\compiler\include;%INCLUDE%
 set LIB=%PREFIX%\Library\libi;%LIB%
 
 
-clang-cl -Xclang -fopenmp -E -showIncludes %SRC_DIR%\psi4\src\psi4\libsapt_solver\sapt.cc | findstr /i omp.h
-
-::target_compile_options(sapt_solver PRIVATE -Xclang -fopenmp)
-::target_link_libraries(sapt_solver PRIVATE "C:/Program Files (x86)/Intel/oneAPI/compiler/2025.0/windows/compiler/lib/intel64/libiomp5md.lib")
-
-::intel-openmp
-:: %PREFIX%/opt/compiler/include/omp.h
-:: %PREFIX%/Library/lib/libiomp5md.lib
-::llvm-openmp
-:: %PREFIX%/Library/include/omp.h
-:: %PREFIX%/Library/lib/libomp.lib
+::clang-cl -Xclang -fopenmp -E -showIncludes %SRC_DIR%\psi4\src\psi4\libsapt_solver\sapt.cc | findstr /i omp.h
 
 
 cmake %CMAKE_ARGS% ^
@@ -89,4 +79,11 @@ REM pytest in conda testing stage
 :: Expired
 ::  -D OpenMP_LIBRARY_DIRS="%SRC_DIR%\\external_src\\conda\\win\\2019.1"
 ::  Library/lib/libiomp5md.lib
-::  -D CMAKE_CXX_FLAGS="-Xclang -fopenmp=libiomp5 %CXXFLAGS% -Xclang -fopenmp=libiomp5"
+
+:: Info
+::   intel-openmp
+::    %PREFIX%/opt/compiler/include/omp.h
+::    %PREFIX%/Library/lib/libiomp5md.lib
+::   llvm-openmp
+::    %PREFIX%/Library/include/omp.h
+::    %PREFIX%/Library/lib/libomp.lib
