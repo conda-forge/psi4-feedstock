@@ -86,6 +86,10 @@ requirements:
     - intel-openmp                           # [win]
     - clangdev 17.0.6                        # [win]
     - libgcc <14.3                           # [win]
+    - libblas * *mkl                         # [win]
+    - mkl-devel                              # [win]
+    - intel-openmp                           # [win]
+    - mkl                                    # [win]
   host:
     - setuptools                                       # qcelemental detection
     - eigen
