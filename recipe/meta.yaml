@@ -21,8 +21,8 @@ source:
 
 build:
   number: 10
-  #skip: true    # [ppc64le]
-  skip: true  # [ppc64le or py != 312]
+  skip: true    # [ppc64le]
+  # skip: true  # [ppc64le or py != 312]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -69,8 +69,9 @@ build:
 #   However, at the moment this aspect of the stack seems a little fractured, so the recipe is defaulting to the
 #   mkl + intel-openmp + stashed libiomp5md.lib procedure that has worked compatibly with c-f for the last couple years.
 # * [Jul 2024] intel-openmp now provides libiomp5md.lib so dropping the external src.
-# * [Aug 2025] need something like clangdev and envvar INCLUDE to pull correct OpenMP (header and lib)
+# * [Aug 2025] need clangdev and envvar INCLUDE to pull correct Intel OpenMP
 #      ~[343/1219] %SRC_DIR%\psi4\src\psi4\libsapt_solver\sapt.cc(68,5): error: use of undeclared identifier 'omp_set_max_active_levels'
+#      [1222/1222] Linking CXX shared library src\core.cp312-win_amd64.pyd lld-link: error: undefined symbol: __kmpc_dispatch_deinit
 
 requirements:
   build:
@@ -86,7 +87,7 @@ requirements:
     - ninja
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
-    #- clangdev 17.0.6                        # [win]
+    - clangdev 17.0.6                        # [win]
   host:
     - setuptools                                       # qcelemental detection
     - eigen
