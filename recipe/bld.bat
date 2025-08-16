@@ -69,3 +69,4 @@ REM pytest in conda testing stage
 :: Expired
 ::  -D OpenMP_LIBRARY_DIRS="%SRC_DIR%\\external_src\\conda\\win\\2019.1"
 ::  Library/lib/libiomp5md.lib
+::  -D CMAKE_CXX_FLAGS="-Xclang -fopenmp=libiomp5 %CXXFLAGS% -Xclang -fopenmp=libiomp5"

@@ -85,6 +85,7 @@ requirements:
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
     - clangdev 17.0.6                        # [win]
+    - libgcc <14.3                           # [win]
   host:
     - setuptools                                       # qcelemental detection
     - eigen
@@ -100,6 +101,8 @@ requirements:
     - pybind11-abi
     - python
     - zlib                                             # pcmsolver detection, not direct dep, so ignore_run_exports above
+    - clangdev 17.0.6                        # [win]
+    - libgcc <14.3                           # [win]
       #- pip                                           # internal builds of python modules, so usually off
     # qc req'd
     - gau2grid
