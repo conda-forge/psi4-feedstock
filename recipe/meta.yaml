@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
-{% set version = "1.10a2" %}
-{% set commit = "06d324dc6" %}
-{% set sha256 = "55b43555607c416f17e2b312d4f7b67aaa50011b5d0b9510961098160ead9411" %}
+{% set version = "1.10a3" %}
+{% set commit = "ae0b1baec" %}
+{% set sha256 = "3e99c7085b2de2cc2fc0ebbab6835c02ed20a0c5b6b40b8ab6d4ab12e96df82a" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -153,6 +153,7 @@ requirements:
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
     - libgcc <14.3                           # [win]
                                                        # v14.3 ImportError: DLL load failed while importing core: The specified procedure could not be found.
+    - qcfractal >=0.60,!=0.62                          # v0.60 includes new compute_tag syntax. v0.62 hangs for snowflake jobs
 
 test:
   imports:
