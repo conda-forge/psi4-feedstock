@@ -21,7 +21,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 10
+  number: 11
   skip: true    # [ppc64le]
   # skip: true  # [ppc64le or py != 312]
   script_env:
@@ -142,6 +142,7 @@ requirements:
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
+    - libgcc <14.3 # [win]                             # Prevent DLL import issues on Windows
 
 test:
   imports:
