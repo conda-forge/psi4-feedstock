@@ -1,6 +1,9 @@
 
 REM echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
 
+:: catch intel-openmp's omp.h to avoid omp_set_max_active_levels error in sapt.cc
+set INCLUDE=%PREFIX%\opt\compiler\include;%INCLUDE%
+
 cmake %CMAKE_ARGS% ^
   -G "Ninja" ^
   -S %SRC_DIR% ^
@@ -10,7 +13,7 @@ cmake %CMAKE_ARGS% ^
   -D CMAKE_C_COMPILER=clang-cl ^
   -D CMAKE_C_FLAGS="%CFLAGS%" ^
   -D CMAKE_CXX_COMPILER=clang-cl ^
-  -D CMAKE_CXX_FLAGS="%CXXFLAGS%" ^
+  -D CMAKE_CXX_FLAGS="%CXXFLAGS% -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH=1" ^
   -D CMAKE_INSTALL_LIBDIR="Library\\lib" ^
   -D CMAKE_INSTALL_INCLUDEDIR="Library\\include" ^
   -D CMAKE_INSTALL_BINDIR="Scripts" ^
