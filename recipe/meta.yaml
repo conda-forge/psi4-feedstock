@@ -87,6 +87,7 @@ requirements:
     - ninja
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
+    - clangdev 17.0.6                        # [win]
   host:
     - setuptools                                       # qcelemental detection
     - eigen
@@ -124,14 +125,14 @@ requirements:
     - liblapack                              # [not x86_64]
     - msgpack-python
     - networkx
-    - pydantic >=1.10
+    - pydantic >=1.10,<3
     - python
     - scipy
     - {{ pin_compatible('numpy') }}          # shouldn't be needed but last round had constraint >=1.19,<3 so allowed v1 np in a v2 psi4 build on win
     # qc
     - {{ pin_compatible('optking', max_pin='x') }}
-    - {{ pin_compatible('qcelemental', max_pin='x') }}
-    - {{ pin_compatible('qcengine', max_pin='x') }}
+    - {{ pin_compatible('qcelemental', lower_bound='0.29', upper_bound='0.50') }}
+    - {{ pin_compatible('qcengine', lower_bound='0.31', upper_bound='0.50') }}
   run_constrained:
     - pytest >=7.0.1
     # qc opt'l, run-time
@@ -142,7 +143,9 @@ requirements:
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
-    - libgcc <14.3  # [win]                            # Prevent DLL import issues on Windows
+    - libgcc <14.3                           # [win]
+                                                       # v14.3 ImportError: DLL load failed while importing core: The specified procedure could not be found.
+    - qcfractal !=0.62                                 # v0.62 hangs for snowflake jobs
 
 test:
   imports:
