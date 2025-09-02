@@ -1,6 +1,9 @@
 
 REM echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
 
+:: catch intel-openmp's omp.h to avoid omp_set_max_active_levels error in sapt.cc
+set INCLUDE=%PREFIX%\opt\compiler\include;%INCLUDE%
+
 cmake %CMAKE_ARGS% ^
   -G "Ninja" ^
   -S %SRC_DIR% ^
