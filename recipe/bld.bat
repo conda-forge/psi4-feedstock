@@ -1,5 +1,5 @@
 
-REM echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
+echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
 
 :: catch intel-openmp's omp.h to avoid omp_set_max_active_levels error in sapt.cc
 set INCLUDE=%PREFIX%\opt\compiler\include;%INCLUDE%
@@ -13,7 +13,7 @@ cmake %CMAKE_ARGS% ^
   -D CMAKE_C_COMPILER=clang-cl ^
   -D CMAKE_C_FLAGS="%CFLAGS%" ^
   -D CMAKE_CXX_COMPILER=clang-cl ^
-  -D CMAKE_CXX_FLAGS="%CXXFLAGS% -D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH=1" ^
+  -D CMAKE_CXX_FLAGS="%CXXFLAGS%" ^
   -D CMAKE_INSTALL_LIBDIR="Library\\lib" ^
   -D CMAKE_INSTALL_INCLUDEDIR="Library\\include" ^
   -D CMAKE_INSTALL_BINDIR="Scripts" ^
@@ -33,6 +33,8 @@ cmake %CMAKE_ARGS% ^
   -D CMAKE_INSIST_FIND_PACKAGE_Libxc=ON ^
   -D CMAKE_INSIST_FIND_PACKAGE_qcelemental=ON ^
   -D CMAKE_INSIST_FIND_PACKAGE_qcengine=ON ^
+  -D CMAKE_INSIST_FIND_PACKAGE_optking=ON ^
+  -D CMAKE_INSIST_FIND_PACKAGE_qcmanybody=ON ^
   -D psi4_SKIP_ENABLE_Fortran=ON ^
   -D ENABLE_dkh=ON ^
   -D CMAKE_INSIST_FIND_PACKAGE_dkh=ON ^
@@ -77,3 +79,13 @@ REM pytest in conda testing stage
 :: Expired
 ::  -D OpenMP_LIBRARY_DIRS="%SRC_DIR%\\external_src\\conda\\win\\2019.1"
 ::  Library/lib/libiomp5md.lib
+
+:: Info
+::   set LIB=%PREFIX%\Library\lib;%LIB%
+::   intel-openmp
+::    %PREFIX%/opt/compiler/include/omp.h
+::    %PREFIX%/Library/lib/libiomp5md.lib
+::   llvm-openmp
+::    %PREFIX%/Library/include/omp.h
+::    %PREFIX%/Library/lib/libomp.lib
+::   clang-cl -Xclang -fopenmp -E -showIncludes %SRC_DIR%\psi4\src\psi4\libsapt_solver\sapt.cc | findstr /i omp.h
