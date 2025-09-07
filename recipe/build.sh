@@ -17,6 +17,13 @@ if [[ "$target_platform" == linux-* ]]; then
 
     cp "${RECIPE_DIR}/src/psi4PluginCachelinux.cmake" t_plug0
 fi
+if [[ "$target_platform" == "linux-aarch64" ]]; then
+    _EINSUMS=OFF
+    _OOO=OFF
+else
+    _EINSUMS=ON
+    _OOO=ON
+fi
 if [[ "$target_platform" == "linux-ppc64le" ]]; then
     # avoid "relocation truncated to fit: R_PPC64_REL24 against symbol"
     CFLAGS="$(echo $CFLAGS | sed 's/-fno-plt //g')"
@@ -24,8 +31,9 @@ if [[ "$target_platform" == "linux-ppc64le" ]]; then
 fi
 
 if [[ "$target_platform" == "linux-64" || "$target_platform" == "linux-aarch64" || "$target_platform" == "linux-ppc64le" ]]; then
+    :
     # avoid builds halting for lack of response ~70m
-    # try to release when src w/jobpool is in use
+    # jobpool can't help. only alternative is GNU Makefiles
     export CMAKE_BUILD_PARALLEL_LEVEL=1
 fi
 
@@ -68,6 +76,8 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D CMAKE_INSIST_FIND_PACKAGE_Libxc=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_qcelemental=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_qcengine=ON \
+  -D CMAKE_INSIST_FIND_PACKAGE_optking=ON \
+  -D CMAKE_INSIST_FIND_PACKAGE_qcmanybody=ON \
   -D psi4_SKIP_ENABLE_Fortran=ON \
   -D ENABLE_dkh=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_dkh=ON \
@@ -75,6 +85,10 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D CMAKE_INSIST_FIND_PACKAGE_ecpint=ON \
   -D ENABLE_PCMSolver=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_PCMSolver=ON \
+  -D ENABLE_Einsums=${_EINSUMS} \
+  -D CMAKE_INSIST_FIND_PACKAGE_Einsums=${_EINSUMS} \
+  -D ENABLE_OpenOrbitalOptimizer=${_OOO} \
+  -D CMAKE_INSIST_FIND_PACKAGE_OpenOrbitalOptimizer=${_OOO} \
   -D ENABLE_OPENMP=ON \
   -D ENABLE_XHOST=OFF \
   -D ENABLE_GENERIC=OFF \
@@ -87,13 +101,9 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
 #  -D CMAKE_INSIST_FIND_PACKAGE_ambit=ON \
 #  -D ENABLE_CheMPS2=ON \
 #  -D CMAKE_INSIST_FIND_PACKAGE_CheMPS2=ON \
-#  -D ENABLE_gdma=ON \
-#  -D CMAKE_INSIST_FIND_PACKAGE_gdma=ON \
 #  -D ENABLE_simint=ON \
 #  -D SIMINT_VECTOR=sse \
 #  -D CMAKE_INSIST_FIND_PACKAGE_simint=ON \
-#  -D ENABLE_Einsums=ON \
-#  -D CMAKE_INSIST_FIND_PACKAGE_Einsums=ON \
 
 cmake --build build --target install
 
