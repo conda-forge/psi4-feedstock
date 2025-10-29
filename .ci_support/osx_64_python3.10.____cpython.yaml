@@ -29,9 +29,9 @@ llvm_openmp:
 macos_machine:
 - x86_64-apple-darwin13.4.0
 mkl:
-- '2023'
+- '2025'
 mkl_devel:
-- '2023'
+- '2025'
 numpy:
 - '2'
 pin_run_as_build:

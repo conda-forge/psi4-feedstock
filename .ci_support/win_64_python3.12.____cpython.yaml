@@ -13,9 +13,9 @@ intel_openmp:
 libboost_headers:
 - '1.86'
 mkl:
-- '2024.1'
+- '2025'
 mkl_devel:
-- '2024.1'
+- '2025'
 numpy:
 - '2'
 pin_run_as_build:
