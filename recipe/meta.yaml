@@ -86,7 +86,6 @@ requirements:
     - ninja
     - llvm-openmp                            # [unix]
     - intel-openmp                           # [win]
-    - clangdev 17.0.6                        # [win]
   host:
     - setuptools                                       # qcelemental detection
     - eigen
