@@ -22,8 +22,6 @@ hdf5:
 - 1.14.6
 libboost_headers:
 - '1.86'
-mkl:
-- '2025'
 mkl_devel:
 - '2025'
 numpy:
