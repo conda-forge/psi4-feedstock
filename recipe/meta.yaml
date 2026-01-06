@@ -91,7 +91,6 @@ requirements:
     - llvm-openmp
     - libblas * *mkl                         # [x86_64]
     - mkl-devel                              # [x86_64]
-    - mkl                                    # [x86_64]
     - libblas * *netlib                      # [not x86_64]
     - liblapack * *netlib                    # [not x86_64]
     - numpy
@@ -119,17 +118,11 @@ requirements:
     - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
     - openorbitaloptimizer                   # [unix and not aarch64]
   run:
-    - libblas * *mkl                         # [x86_64]
-    - mkl                                    # [x86_64 and not win]
-    - {{ pin_compatible('mkl', max_pin='x.x') }}  # [x86_64 and win]  # avert 2024.2.2
-    - libblas                                # [not x86_64]
-    - liblapack                              # [not x86_64]
     - msgpack-python
     - networkx
     - pydantic >=1.17,<3
     - python
     - scipy
-    - {{ pin_compatible('numpy') }}          # shouldn't be needed but last round had constraint >=1.19,<3 so allowed v1 np in a v2 psi4 build on win
     # qc
     - {{ pin_compatible('optking', max_pin='x') }}
     - {{ pin_compatible('qcelemental', lower_bound='0.29', upper_bound='0.50') }}
