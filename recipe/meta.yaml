@@ -19,7 +19,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
   skip: true    # [ppc64le]
   # skip: true  # [ppc64le or py != 312]
   script_env:
@@ -84,17 +84,13 @@ requirements:
     - {{ compiler("cxx") }}
     - cmake
     - ninja
-    - llvm-openmp                            # [unix]
-    - intel-openmp                           # [win]
-    - clangdev 17.0.6                        # [win]
   host:
     - setuptools                                       # qcelemental detection
     - eigen
     - libboost-headers
+    - llvm-openmp
     - libblas * *mkl                         # [x86_64]
     - mkl-devel                              # [x86_64]
-    - intel-openmp                           # [win]
-    - mkl                                    # [x86_64]
     - libblas * *netlib                      # [not x86_64]
     - liblapack * *netlib                    # [not x86_64]
     - numpy
@@ -115,26 +111,18 @@ requirements:
     - dkh
     - libecpint
     - pcmsolver
-    - einsums 1.0.6                          # [unix and not aarch64]
+    - einsums 1.*                            # [unix and not aarch64]
     - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums, see also cbc
     - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
     - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
     - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
     - openorbitaloptimizer                   # [unix and not aarch64]
   run:
-    - llvm-openmp                            # [unix]
-    - {{ pin_compatible('intel-openmp', max_pin='x.x') }}  # [win]  # avert 2024.2.2
-    - libblas * *mkl                         # [x86_64]
-    - mkl                                    # [x86_64 and not win]
-    - {{ pin_compatible('mkl', max_pin='x.x') }}  # [x86_64 and win]  # avert 2024.2.2
-    - libblas                                # [not x86_64]
-    - liblapack                              # [not x86_64]
     - msgpack-python
     - networkx
     - pydantic >=1.17,<3
     - python
     - scipy
-    - {{ pin_compatible('numpy') }}          # shouldn't be needed but last round had constraint >=1.19,<3 so allowed v1 np in a v2 psi4 build on win
     # qc
     - {{ pin_compatible('optking', max_pin='x') }}
     - {{ pin_compatible('qcelemental', lower_bound='0.29', upper_bound='0.50') }}
@@ -163,7 +151,7 @@ test:
     - pytest-xdist
     # qc runtime opt'l
     - adcc                                                               # [unix and not ppc64le]
-    - cppe                                                               # [unix]  # win uses llvm-openmp
+    - cppe
     - pyddx                                                              # [unix]
     - dftd3-python
     - dftd4-python

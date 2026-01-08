@@ -1,5 +1,7 @@
 c_compiler:
-- vs2022
+- clang-cl
+c_compiler_version:
+- '19'
 c_stdlib:
 - vs
 channel_sources:
@@ -7,15 +9,13 @@ channel_sources:
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2022
-intel_openmp:
-- '2024.1'
+- clang-cl
+cxx_compiler_version:
+- '19'
 libboost_headers:
 - '1.86'
-mkl:
-- '2024.1'
 mkl_devel:
-- '2024.1'
+- '2025'
 numpy:
 - '2'
 pin_run_as_build:
