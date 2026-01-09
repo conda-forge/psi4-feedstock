@@ -19,7 +19,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  number: 2
   skip: true    # [ppc64le]
   # skip: true  # [ppc64le or py != 312]
   script_env:
