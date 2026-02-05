@@ -19,9 +19,8 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 2
-  skip: true    # [ppc64le]
-  # skip: true  # [ppc64le or py != 312]
+  number: 3
+  skip: true  # [ppc64le or py != 312]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -101,7 +100,7 @@ requirements:
       #- pip                                           # internal builds of python modules, so usually off
     # qc req'd
     - gau2grid
-    - libint 2.9.0
+    - libint 2.13.1
     - libxc-c
     - optking
     - qcelemental

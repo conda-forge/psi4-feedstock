@@ -107,6 +107,16 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
 
 cmake --build build --target install
 
+# generalize Targets.cmake files (needed with Einsums addon)
+echo "BEFORE"
+cat ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+sed -i "s|${BUILD_PREFIX}/${HOST}/sysroot/usr/lib/librt.so|-lrt|g"           ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+sed -i "s|${BUILD_PREFIX}/${HOST}/sysroot/usr/lib/libpthread.so|-lpthread|g" ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+sed -i "s|${BUILD_PREFIX}/${HOST}/sysroot/usr/lib/libdl.so|-ldl|g"           ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+sed -i "s|${BUILD_PREFIX}/${HOST}/sysroot/usr/lib/libm.so|-lm|g"             ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+echo "AFTER"
+cat ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+
 # replace conda-build-bound Cache file
 sed "s;@PY_VER@;${PY_VER};g" t_plug0 > t_plug1
 sed "s;@HOST@;${HOST};g" t_plug1 > t_plug2
