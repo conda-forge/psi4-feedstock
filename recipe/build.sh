@@ -109,17 +109,18 @@ cmake --build build --target install
 
 # generalize Targets.cmake files (needed with Einsums addon)
 if [[ "$_EINSUMS" == "ON" ]]; then
-    if [[ "$target_platform" == linux-* ]]; then
-        _SED_CMD="-i"
-    else
-        _SED_CMD="-E -i.bak"
-    fi
     echo "BEFORE"
     cat ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
-    sed ${_SED_CMD} "s|${BUILD_PREFIX}/${HOST}/sysroot/usr/lib/librt.so|-lrt|g"           ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
-    sed ${_SED_CMD} "s|${BUILD_PREFIX}/${HOST}/sysroot/usr/lib/libpthread.so|-lpthread|g" ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
-    sed ${_SED_CMD} "s|${BUILD_PREFIX}/${HOST}/sysroot/usr/lib/libdl.so|-ldl|g"           ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
-    sed ${_SED_CMD} "s|${BUILD_PREFIX}/${HOST}/sysroot/usr/lib/libm.so|-lm|g"             ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+    if [[ "$target_platform" == linux-* ]]; then
+        sed -i "s|${BUILD_PREFIX}/${HOST}/sysroot/usr/lib/librt.so|-lrt|g"           ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+        sed -i "s|${BUILD_PREFIX}/${HOST}/sysroot/usr/lib/libpthread.so|-lpthread|g" ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+        sed -i "s|${BUILD_PREFIX}/${HOST}/sysroot/usr/lib/libdl.so|-ldl|g"           ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+        sed -i "s|${BUILD_PREFIX}/${HOST}/sysroot/usr/lib/libm.so|-lm|g"             ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+    else
+        sed -E -i.bak "s|${CONDA_BUILD_SYSROOT}/usr/lib/libpthread.tbd|-lpthread|g" ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+        sed -E -i.bak "s|${CONDA_BUILD_SYSROOT}/usr/lib/libdl.tbd|-ldl|g"           ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+        sed -E -i.bak "s|${CONDA_BUILD_SYSROOT}/usr/lib/libm.tbd|-lm|g"             ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
+    fi
     echo "AFTER"
     cat ${PREFIX}/share/cmake/TargetHDF5/TargetHDF5Targets.cmake
 fi

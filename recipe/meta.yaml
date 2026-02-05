@@ -20,7 +20,8 @@ source:
 
 build:
   number: 3
-  skip: true  # [ppc64le or py != 312]
+  skip: true    # [ppc64le]
+  # skip: true  # [ppc64le or py != 312]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
