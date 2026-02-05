@@ -123,10 +123,12 @@ requirements:
     - python
     - scipy
     # qc
-    - {{ pin_compatible('optking', max_pin='x') }}
+    #- {{ pin_compatible('optking', max_pin='x') }}
+    - {{ pin_compatible('optking', max_pin='x.x') }}
     - {{ pin_compatible('qcelemental', lower_bound='0.29', upper_bound='0.50') }}
     - {{ pin_compatible('qcengine', lower_bound='0.31', upper_bound='0.50') }}
-    - {{ pin_compatible('qcmanybody', max_pin='x') }}
+    #- {{ pin_compatible('qcmanybody', max_pin='x') }}
+    - {{ pin_compatible('qcmanybody', max_pin='x.x') }}
     - {{ pin_compatible('libint', max_pin='x.x') }}    # ABI-wise x is good, but practically to fend off breakage from AM bumps, impose x.x
   run_constrained:
     - pytest >=7.0.1
