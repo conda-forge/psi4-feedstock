@@ -110,7 +110,7 @@ requirements:
     - dkh
     - libecpint
     - pcmsolver
-    - einsums 1.*                            # [unix and not aarch64]
+    - einsums >=1.1.2                        # [unix and not aarch64]
     - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums, see also cbc
     - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
     - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
