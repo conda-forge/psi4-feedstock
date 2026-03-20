@@ -85,7 +85,7 @@ requirements:
     - cmake
     - ninja
   host:
-    - setuptools                                       # qcelemental detection
+    - setuptools <82.0.0                               # qcelemental detection (lt 82 or patch to fix FindPythonModule.cmake)
     - eigen
     - libboost-headers
     - llvm-openmp
