@@ -154,7 +154,7 @@ test:
     - pytest-xdist
     # qc runtime opt'l
     - adcc                                                               # [unix and not ppc64le]
-    - cppe
+    # - cppe                                                                       # skip until pybind11-abi=11
     - pyddx                                                              # [unix]
     - dftd3-python
     - dftd4-python
