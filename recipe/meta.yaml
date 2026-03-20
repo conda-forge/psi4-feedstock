@@ -20,8 +20,9 @@ source:
 
 build:
   number: 4
-  skip: true    # [ppc64le]
+#  skip: true    # [ppc64le]
   # skip: true  # [ppc64le or py != 312]
+  skip: true  # [not (win and py==313)]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -84,6 +85,7 @@ requirements:
     - {{ compiler("cxx") }}
     - cmake
     - ninja
+    - binutils                               # [win]
   host:
     - setuptools <82.0.0                               # qcelemental detection (lt 82 or patch to fix FindPythonModule.cmake)
     - eigen
@@ -108,15 +110,15 @@ requirements:
     - qcengine
     - qcmanybody
     # qc opt'l, build-time
-    - dkh
-    - libecpint
-    - pcmsolver
-    - einsums >=1.1.2                        # [unix and not aarch64]
-    - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums, see also cbc
-    - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
-    - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
-    - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
-    - openorbitaloptimizer                   # [unix and not aarch64]
+#    - dkh
+#    - libecpint
+#    - pcmsolver
+#    - einsums >=1.1.2                        # [unix and not aarch64]
+#    - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums, see also cbc
+#    - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
+#    - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
+#    - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
+#    - openorbitaloptimizer                   # [unix and not aarch64]
   run:
     - msgpack-python
     - networkx
@@ -152,25 +154,25 @@ test:
     - pip                                                                          # provides `pip check`
     - pytest
     - pytest-xdist
-    # qc runtime opt'l
-    - adcc                                                               # [unix and not ppc64le]
-    # - cppe                                                                       # skip until pybind11-abi=11
-    - pyddx                                                              # [unix]
-    - dftd3-python
-    - dftd4-python
-    - toml                                                                         # needed for qcengine/dftd4-python interface
-    - pylibefp
-    - gcp-correction
-    - geometric
-    - pygdma
-    - pymdi
-    # plugin testing
-    - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
-    - cmake                                                              # [unix and build_platform == target_platform]
-    - make                                                               # [unix and build_platform == target_platform]
-    - pybind11                                                           # [unix and build_platform == target_platform]
-    - eigen                                                              # [unix and build_platform == target_platform]
-    - libboost-headers                                                   # [unix and build_platform == target_platform]
+#    # qc runtime opt'l
+#    - adcc                                                               # [unix and not ppc64le]
+#    # - cppe                                                                       # skip until pybind11-abi=11
+#    - pyddx                                                              # [unix]
+#    - dftd3-python
+#    - dftd4-python
+#    - toml                                                                         # needed for qcengine/dftd4-python interface
+#    - pylibefp
+#    - gcp-correction
+#    - geometric
+#    - pygdma
+#    - pymdi
+#    # plugin testing
+#    - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
+#    - cmake                                                              # [unix and build_platform == target_platform]
+#    - make                                                               # [unix and build_platform == target_platform]
+#    - pybind11                                                           # [unix and build_platform == target_platform]
+#    - eigen                                                              # [unix and build_platform == target_platform]
+#    - libboost-headers                                                   # [unix and build_platform == target_platform]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
