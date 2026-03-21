@@ -37,8 +37,8 @@ cmake %CMAKE_ARGS% ^
   -D CMAKE_INSIST_FIND_PACKAGE_dkh=ON ^
   -D ENABLE_ecpint=ON ^
   -D CMAKE_INSIST_FIND_PACKAGE_ecpint=ON ^
-  -D ENABLE_PCMSolver=ON ^
-  -D CMAKE_INSIST_FIND_PACKAGE_PCMSolver=ON ^
+  -D ENABLE_PCMSolver=OFF ^
+  -D CMAKE_INSIST_FIND_PACKAGE_PCMSolver=OFF ^
   -D ENABLE_XHOST=OFF ^
   -D CMAKE_VERBOSE_MAKEFILE=OFF ^
   -D CMAKE_PREFIX_PATH="%LIBRARY_PREFIX%"
@@ -55,7 +55,7 @@ REM pytest in conda testing stage
 objdump.exe -p %PREFIX%\Library\bin\gg.dll | findstr /i "DLL Name libgcc libstdc++ winpthread"
 objdump.exe -p %PREFIX%\Library\bin\xc.dll | findstr /i "DLL Name libgcc libstdc++ winpthread"
 objdump.exe -p %PREFIX%\Library\bin\libdkh.dll | findstr /i "DLL Name libgcc libstdc++ winpthread"
-objdump.exe -p %PREFIX%\Library\bin\libpcm.dll | findstr /i "DLL Name libgcc libstdc++ winpthread"
+:: objdump.exe -p %PREFIX%\Library\bin\libpcm.dll | findstr /i "DLL Name libgcc libstdc++ winpthread"
 objdump.exe -p %PREFIX%\Library\bin\ecpint.dll | findstr /i "DLL Name libgcc libstdc++ winpthread"
 
 echo "LIBLIB Psi4"
@@ -66,8 +66,8 @@ echo "LIBLIB XC"
 objdump.exe -p %PREFIX%\Library\bin\xc.dll
 echo "LIBLIB DKH"
 objdump.exe -p %PREFIX%\Library\bin\libdkh.dll
-echo "LIBLIB PCM"
-objdump.exe -p %PREFIX%\Library\bin\libpcm.dll
+:: echo "LIBLIB PCM"
+:: objdump.exe -p %PREFIX%\Library\bin\libpcm.dll
 echo "LIBLIB ECPINT"
 objdump.exe -p %PREFIX%\Library\bin\ecpint.dll
 

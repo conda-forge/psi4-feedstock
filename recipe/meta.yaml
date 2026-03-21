@@ -112,7 +112,7 @@ requirements:
     # qc opt'l, build-time
     - dkh
     - libecpint
-    - pcmsolver
+ #   - pcmsolver
 #    - einsums >=1.1.2                        # [unix and not aarch64]
 #    - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums, see also cbc
 #    - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
