@@ -58,18 +58,18 @@ objdump.exe -p %PREFIX%\Library\bin\libdkh.dll | findstr /i "DLL Name libgcc lib
 :: objdump.exe -p %PREFIX%\Library\bin\libpcm.dll | findstr /i "DLL Name libgcc libstdc++ winpthread"
 objdump.exe -p %PREFIX%\Library\bin\ecpint.dll | findstr /i "DLL Name libgcc libstdc++ winpthread"
 
-echo "LIBLIB Psi4"
-objdump.exe -p %PREFIX%\Lib\site-packages\psi4\core.cp313-win_amd64.pyd
-echo "LIBLIB Gau2Grid"
-objdump.exe -p %PREFIX%\Library\bin\gg.dll
-echo "LIBLIB XC"
-objdump.exe -p %PREFIX%\Library\bin\xc.dll
-echo "LIBLIB DKH"
-objdump.exe -p %PREFIX%\Library\bin\libdkh.dll
+:: echo "LIBLIB Psi4"
+:: objdump.exe -p %PREFIX%\Lib\site-packages\psi4\core.cp313-win_amd64.pyd
+:: echo "LIBLIB Gau2Grid"
+:: objdump.exe -p %PREFIX%\Library\bin\gg.dll
+:: echo "LIBLIB XC"
+:: objdump.exe -p %PREFIX%\Library\bin\xc.dll
+:: echo "LIBLIB DKH"
+:: objdump.exe -p %PREFIX%\Library\bin\libdkh.dll
 :: echo "LIBLIB PCM"
 :: objdump.exe -p %PREFIX%\Library\bin\libpcm.dll
-echo "LIBLIB ECPINT"
-objdump.exe -p %PREFIX%\Library\bin\ecpint.dll
+:: echo "LIBLIB ECPINT"
+:: objdump.exe -p %PREFIX%\Library\bin\ecpint.dll
 
 :: Relocate python module to expected location (if positioning through PYMOD_INSTALL_LIBDIR="/" and CMAKE_INSTALL_BINDIR="Library\bin")
 ::copy /y "%PREFIX%\Library\bin\psi4" "%PREFIX%\Scripts"

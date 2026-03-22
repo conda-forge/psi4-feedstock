@@ -20,9 +20,9 @@ source:
 
 build:
   number: 4
-#  skip: true    # [ppc64le]
+  skip: true    # [ppc64le]
   # skip: true  # [ppc64le or py != 312]
-  skip: true  # [not (win and py==313)]
+  # skip: true  # [not (win and py==313)]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -112,13 +112,13 @@ requirements:
     # qc opt'l, build-time
     - dkh
     - libecpint
- #   - pcmsolver
-#    - einsums >=1.1.2                        # [unix and not aarch64]
-#    - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums, see also cbc
-#    - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
-#    - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
-#    - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
-#    - openorbitaloptimizer                   # [unix and not aarch64]
+    - pcmsolver                              # [not win]  # cause of "v14.3 ImportError: DLL" below
+    - einsums >=1.1.2                        # [unix and not aarch64]
+    - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums, see also cbc
+    - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
+    - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
+    - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
+    - openorbitaloptimizer                   # [unix and not aarch64]
   run:
     - msgpack-python
     - networkx
@@ -143,8 +143,6 @@ requirements:
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
-    # - libgcc <14.3                           # [win]
-                                                       # v14.3 ImportError: DLL load failed while importing core: The specified procedure could not be found.
     - qcfractal >=0.60,!=0.62                          # v0.60 includes new compute_tag syntax. v0.62 hangs for snowflake jobs
 
 test:
@@ -154,25 +152,25 @@ test:
     - pip                                                                          # provides `pip check`
     - pytest
     - pytest-xdist
-#    # qc runtime opt'l
-#    - adcc                                                               # [unix and not ppc64le]
-#    # - cppe                                                                       # skip until pybind11-abi=11
-#    - pyddx                                                              # [unix]
-#    - dftd3-python
-#    - dftd4-python
-#    - toml                                                                         # needed for qcengine/dftd4-python interface
-#    - pylibefp
-#    - gcp-correction
-#    - geometric
-#    - pygdma
-#    - pymdi
-#    # plugin testing
-#    - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
-#    - cmake                                                              # [unix and build_platform == target_platform]
-#    - make                                                               # [unix and build_platform == target_platform]
-#    - pybind11                                                           # [unix and build_platform == target_platform]
-#    - eigen                                                              # [unix and build_platform == target_platform]
-#    - libboost-headers                                                   # [unix and build_platform == target_platform]
+    # qc runtime opt'l
+    - adcc                                                               # [unix and not ppc64le]
+    # - cppe                                                                       # skip until pybind11-abi=11
+    - pyddx                                                              # [unix]
+    - dftd3-python
+    - dftd4-python
+    - toml                                                                         # needed for qcengine/dftd4-python interface
+    - pylibefp
+    - gcp-correction
+    - geometric
+    - pygdma
+    - pymdi
+    # plugin testing
+    - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
+    - cmake                                                              # [unix and build_platform == target_platform]
+    - make                                                               # [unix and build_platform == target_platform]
+    - pybind11                                                           # [unix and build_platform == target_platform]
+    - eigen                                                              # [unix and build_platform == target_platform]
+    - libboost-headers                                                   # [unix and build_platform == target_platform]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
@@ -259,3 +257,8 @@ extra:
 #   * dftd3
 #   * gcp
 #   * dftd4 (installer only)
+
+# * Retired
+    # requirements/run_constrained:
+    # - libgcc <14.3                           # [win]
+                                                       # v14.3 ImportError: DLL load failed while importing core: The specified procedure could not be found.
