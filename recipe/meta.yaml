@@ -11,7 +11,7 @@
 
 package:
   name: {{ name|lower }}
-  version: {{ version }}
+  version: "{{ version }}"
 
 source:
   #url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
@@ -19,9 +19,10 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 3
+  number: 4
   skip: true    # [ppc64le]
   # skip: true  # [ppc64le or py != 312]
+  # skip: true  # [not (win and py==313)]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -84,8 +85,9 @@ requirements:
     - {{ compiler("cxx") }}
     - cmake
     - ninja
+    - binutils                               # [win]
   host:
-    - setuptools                                       # qcelemental detection
+    - setuptools <82.0.0                               # qcelemental detection (lt 82 or patch to fix FindPythonModule.cmake)
     - eigen
     - libboost-headers
     - llvm-openmp
@@ -110,7 +112,7 @@ requirements:
     # qc opt'l, build-time
     - dkh
     - libecpint
-    - pcmsolver
+    - pcmsolver                              # [not win]  # cause of "v14.3 ImportError: DLL" below
     - einsums >=1.1.2                        # [unix and not aarch64]
     - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums, see also cbc
     - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
@@ -141,8 +143,6 @@ requirements:
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
-    - libgcc <14.3                           # [win]
-                                                       # v14.3 ImportError: DLL load failed while importing core: The specified procedure could not be found.
     - qcfractal >=0.60,!=0.62                          # v0.60 includes new compute_tag syntax. v0.62 hangs for snowflake jobs
 
 test:
@@ -154,7 +154,7 @@ test:
     - pytest-xdist
     # qc runtime opt'l
     - adcc                                                               # [unix and not ppc64le]
-    - cppe
+    # - cppe                                                                       # skip until pybind11-abi=11
     - pyddx                                                              # [unix]
     - dftd3-python
     - dftd4-python
@@ -257,3 +257,8 @@ extra:
 #   * dftd3
 #   * gcp
 #   * dftd4 (installer only)
+
+# * Retired
+    # requirements/run_constrained:
+    # - libgcc <14.3                           # [win]
+                                                       # v14.3 ImportError: DLL load failed while importing core: The specified procedure could not be found.
