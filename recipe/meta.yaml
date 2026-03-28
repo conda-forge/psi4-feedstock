@@ -112,7 +112,7 @@ requirements:
     # qc opt'l, build-time
     - dkh
     - libecpint
-    - pcmsolver                              # [not win]  # cause of "v14.3 ImportError: DLL" below
+    - pcmsolver
     - einsums >=1.1.2                        # [unix and not aarch64]
     - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums, see also cbc
     - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
@@ -154,7 +154,7 @@ test:
     - pytest-xdist
     # qc runtime opt'l
     - adcc                                                               # [unix and not ppc64le]
-    # - cppe                                                                       # skip until pybind11-abi=11
+    - cppe
     - pyddx                                                              # [unix]
     - dftd3-python
     - dftd4-python
@@ -259,6 +259,8 @@ extra:
 #   * dftd4 (installer only)
 
 # * Retired
+    # requirements/host
+    # - pcmsolver                              # [not win]  # cause of "v14.3 ImportError: DLL" below
     # requirements/run_constrained:
     # - libgcc <14.3                           # [win]
                                                        # v14.3 ImportError: DLL load failed while importing core: The specified procedure could not be found.
