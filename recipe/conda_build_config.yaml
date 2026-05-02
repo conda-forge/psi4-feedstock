@@ -6,3 +6,7 @@ cxx_compiler:           # [win]
   - clang-cl            # [win]
 cxx_compiler_version:   # [win]
   - 19                  # [win]
+channel_sources:
+  - conda-forge/label/qcelemental_dev,conda-forge/label/qcengine_dev,conda-forge
+channel_targets:
+  - conda-forge psi4_dev
