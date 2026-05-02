@@ -20,7 +20,8 @@ source:
 
 build:
   number: 0
-  skip: true    # [not (linux and x86_64 and (py==313 or py==314))]
+  skip: true    # [not (py==313 or py==314)]
+  #skip: true    # [not (linux and x86_64 and (py==313 or py==314))]
   # skip: true    # [ppc64le]
   # skip: true  # [ppc64le or py != 312]
   # skip: true  # [not (win and py==313)]
