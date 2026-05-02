@@ -7,9 +7,9 @@ c_stdlib:
 c_stdlib_version:
 - '2.17'
 channel_sources:
-- conda-forge
+- conda-forge/label/qcelemental_dev,conda-forge/label/qcengine_dev,conda-forge
 channel_targets:
-- conda-forge main
+- conda-forge psi4_dev
 cxx_compiler:
 - gxx
 cxx_compiler_version:
@@ -27,7 +27,7 @@ pin_run_as_build:
 pybind11_abi:
 - '11'
 python:
-- 3.10.* *_cpython
+- 3.14.* *_cp314
 target_platform:
 - linux-aarch64
 zip_keys:

@@ -5,9 +5,9 @@ c_compiler_version:
 c_stdlib:
 - vs
 channel_sources:
-- conda-forge
+- conda-forge/label/qcelemental_dev,conda-forge/label/qcengine_dev,conda-forge
 channel_targets:
-- conda-forge main
+- conda-forge psi4_dev
 cxx_compiler:
 - clang-cl
 cxx_compiler_version:
