@@ -1,25 +1,17 @@
 c_compiler:
-- gcc
+- clang-cl
 c_compiler_version:
-- '14'
+- '19'
 c_stdlib:
-- sysroot
-c_stdlib_version:
-- '2.17'
+- vs
 channel_sources:
-- conda-forge
+- conda-forge/label/qcelemental_dev,conda-forge/label/qcengine_dev,conda-forge
 channel_targets:
-- conda-forge main
+- conda-forge psi4_dev
 cxx_compiler:
-- gxx
+- clang-cl
 cxx_compiler_version:
-- '14'
-docker_image:
-- quay.io/condaforge/linux-anvil-x86_64:alma9
-fmt:
-- '12.1'
-hdf5:
-- 1.14.6
+- '19'
 libboost_headers:
 - '1.88'
 mkl_devel:
@@ -33,13 +25,8 @@ pin_run_as_build:
 pybind11_abi:
 - '11'
 python:
-- 3.12.* *_cpython
-spdlog:
-- '1.17'
+- 3.14.* *_cp314
 target_platform:
-- linux-64
-zip_keys:
-- - c_compiler_version
-  - cxx_compiler_version
+- win-64
 zlib:
 - '1'
