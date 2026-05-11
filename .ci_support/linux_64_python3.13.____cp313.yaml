@@ -23,7 +23,7 @@ hdf5:
 libboost_headers:
 - '1.88'
 mkl_devel:
-- '2025'
+- '2026'
 numpy:
 - '2'
 pin_run_as_build:
