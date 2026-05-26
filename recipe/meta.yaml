@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
-{% set version = "1.10" %}
-{% set commit = "f2492db10" %}
-{% set sha256 = "2d0ffcec6ff61141fbf13e8ee7ba984e28fc268659f67833352303a6356cc4e4" %}
+{% set version = "1.10.1a1" %}
+{% set commit = "82ff39a28" %}
+{% set sha256 = "c1f2f05f9d0ebc0bb21f11a7b8e32fa0fb410fcf1f94af78bd5a26aee1bdf555" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -14,14 +14,14 @@ package:
   version: "{{ version }}"
 
 source:
-  #url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
+  url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
+  #url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
   number: 5
-  skip: true    # [ppc64le]
-  # skip: true  # [ppc64le or py != 312]
+  #skip: true    # [ppc64le]
+  skip: true  # [ppc64le or py != 312]
   # skip: true  # [not (win and py==313)]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
