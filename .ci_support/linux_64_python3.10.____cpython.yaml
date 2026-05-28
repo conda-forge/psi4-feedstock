@@ -33,7 +33,7 @@ pin_run_as_build:
 pybind11_abi:
 - '11'
 python:
-- 3.12.* *_cpython
+- 3.10.* *_cpython
 spdlog:
 - '1.17'
 target_platform:
