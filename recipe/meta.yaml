@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.10a1" %}
-{% set commit = "a68881731" %}
-{% set sha256 = "03deece9c10d919d46087e07e6118f0d44443c5f9b70b698500aa65f099f9d0d" %}
+{% set commit = "576105e" %}
+{% set sha256 = "30ad2bcf9a3374afd5dcf7c6e55c46df8b280eeddfce99d6c842905be0fd476f" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -122,7 +122,7 @@ requirements:
   run:
     - msgpack-python
     - networkx
-    - pydantic >=1.17,<3
+    - pydantic >=1.10.17,<3
     - python
     - scipy
     # qc
@@ -131,7 +131,7 @@ requirements:
     - {{ pin_compatible('qcelemental', lower_bound='0.29', upper_bound='0.70') }}
     - {{ pin_compatible('qcengine', lower_bound='0.31', upper_bound='0.70') }}
     - {{ pin_compatible('qcmanybody', max_pin='x') }}
-    - {{ pin_compatible('libint', max_pin='x.x') }}    # ABI-wise x is good, but practically to fend off breakage from AM bumps, impose x.x
+    - {{ pin_compatible('libint', exact=True) }}    # ABI-wise x is good, but practically to fend off breakage from AM bumps, impose x.x or exact
   run_constrained:
     - pytest >=7.0.1
     # qc opt'l, run-time
