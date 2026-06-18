@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
-{% set version = "1.11a1" %}
-{% set commit = "03fb15e192" %}
-{% set sha256 = "9ce3f11a631ac7d80c930976322396d15b48a7dc0a8a12b158fb3990425e99b0" %}
+{% set version = "1.11a2" %}
+{% set commit = "500081ebb9" %}
+{% set sha256 = "c0ddbe6a7a89b844cb1ab0af2b14e1e9b0e1d53d4e3cd85c54679380429a7623" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -121,17 +121,18 @@ requirements:
     - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
     - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
     - openorbitaloptimizer                   # [unix and not aarch64]
+    - gauxc                                  # [unix and not (osx and not x86_64)]
   run:
     - msgpack-python
     - networkx
-    - pydantic >=1.10.17,<3
+    - pydantic >=2.11.0,<3
     - python
     - scipy
     # qc
     #- {{ pin_compatible('optking', max_pin='x') }}
     - {{ pin_compatible('optking', max_pin='x.x') }}
-    - {{ pin_compatible('qcelemental', lower_bound='0.49', upper_bound='0.51') }}
-    - {{ pin_compatible('qcengine', lower_bound='0.49', upper_bound='0.51') }}
+    - {{ pin_compatible('qcelemental', lower_bound='0.50.2', upper_bound='0.60') }}
+    - {{ pin_compatible('qcengine', lower_bound='0.50', upper_bound='0.60') }}
     #- {{ pin_compatible('qcmanybody', max_pin='x') }}
     - {{ pin_compatible('qcmanybody', max_pin='x.x') }}
     - {{ pin_compatible('libint', max_pin='x.x') }}    # ABI-wise x is good, but practically to fend off breakage from AM bumps, impose x.x

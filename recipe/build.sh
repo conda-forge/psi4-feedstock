@@ -1,11 +1,17 @@
 if [[ "$target_platform" == osx-* ]]; then
-    ARCH_ARGS=""
 
     # c-f-provided CMAKE_ARGS handles CMAKE_OSX_DEPLOYMENT_TARGET, CMAKE_OSX_SYSROOT
     # avoid "error: 'value' is unavailable: introduced in macOS 10.13"
     CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 
     cp "${RECIPE_DIR}/src/psi4PluginCacheosx.cmake" t_plug0
+
+    if [[ "$target_platform" == osx-64 ]]; then
+        ARCH_ARGS=""
+    fi
+    if [[ "$target_platform" == osx-arm64 ]]; then
+        ARCH_ARGS="-DENABLE_gauxc=ON -DCMAKE_INSIST_FIND_PACKAGE_gauxc=ON"
+    fi
 fi
 if [[ "$target_platform" == linux-* ]]; then
     ARCH_ARGS=""
