@@ -1,7 +1,8 @@
 {% set name = "psi4" %}
-{% set version = "1.10.2" %}
-{% set commit = "6183ff5" %}
-{% set sha256 = "b71e018e99612d70921457741a9e009cc521367a4c4eefe6601b9dcac844a6a3" %}
+# {% set version = "1.11.0" %}
+{% set version = "1.11a3" %}
+{% set commit = "f177461e" %}
+{% set sha256 = "02012238d214f648f0922d22802572c2da7c07cbc9aedfbd6d2a6ea008a35d89" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -14,15 +15,14 @@ package:
   version: "{{ version }}"
 
 source:
-  #url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
-  url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
+  url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
+  #url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
   number: 0
-  skip: true  # [ppc64le]
-  # skip: true  # [ppc64le or py != 312]
   # skip: true  # [not (win and py==313)]
+  # skip: true    # [not (py==313 or py==314)]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -73,6 +73,10 @@ build:
 #      ~[343/1219] %SRC_DIR%\psi4\src\psi4\libsapt_solver\sapt.cc(68,5): error: use of undeclared identifier 'omp_set_max_active_levels'
 #      [1222/1222] Linking CXX shared library src\core.cp312-win_amd64.pyd lld-link: error: undefined symbol: __kmpc_dispatch_deinit
 
+# the arch story
+# * [Jun 2026] for the arch migrator (L aarch64 & ppc64le), I got the former working, never the latter. Latter's now been dropped from migrator, so removing here.
+# * [Jun 2026] gauxc runs try_compile which is bad for cross-compile. osx-arm64 native runners now available, so switching. (also 5x faster)
+
 requirements:
   build:
     - python                                 # [build_platform != target_platform]
@@ -105,7 +109,7 @@ requirements:
     - gau2grid
     - libint 2.13.1
     - libxc-c
-    - optking
+    - optking >=0.5.0
     - qcelemental
     - qcengine
     - qcmanybody
@@ -113,36 +117,39 @@ requirements:
     - dkh
     - libecpint
     - pcmsolver
-    - einsums >=1.1.2                        # [unix and not aarch64]
+    - einsums >=1.1.3                        # [unix and not aarch64]
     - hdf5                                   # [unix and not aarch64]  # indirect dep from einsums, see also cbc
     - fmt                                    # [unix and not aarch64]  # indirect dep from einsums
     - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
     - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
-    - openorbitaloptimizer                   # [unix and not aarch64]
+    - openorbitaloptimizer                   # [unix]
+    - gauxc                                  # [unix]
+    - highfive                               # [unix]  # indirect dep from gauxc
+    - exchcxx                                # [unix]  # indirect dep from gauxc
   run:
     - msgpack-python
     - networkx
-    - pydantic >=1.10.17,<3
+    - pydantic >=2.11.0,<3
     - python
     - scipy
     # qc
-    #- {{ pin_compatible('optking', max_pin='x') }}
-    - {{ pin_compatible('optking', max_pin='x.x') }}
-    - {{ pin_compatible('qcelemental', lower_bound='0.29', upper_bound='0.70') }}
-    - {{ pin_compatible('qcengine', lower_bound='0.31', upper_bound='0.70') }}
+    - {{ pin_compatible('optking', max_pin='x') }}
+    - {{ pin_compatible('qcelemental', lower_bound='0.50.2', upper_bound='0.70') }}
+    - {{ pin_compatible('qcengine', lower_bound='0.50', upper_bound='0.70') }}
     - {{ pin_compatible('qcmanybody', max_pin='x') }}
     - {{ pin_compatible('libint', exact=True) }}    # ABI-wise x is good, but practically to fend off breakage from AM bumps, impose x.x or exact
   run_constrained:
     - pytest >=7.0.1
     # qc opt'l, run-time
     - pylibefp ==0.6.2                                 # 0.6.2 provides windows arch
-    - dftd4-python >=3.5.0                             # 3.5.0 provides b97-3c parameters
+    - dftd4-python >=4.1.0                             # 4.1.0 runs QCSchema v2; 3.5.0 provides b97-3c parameters
     - geometric >=1.0                                  # 1.0 has new API
     - pymdi >=1.2                                      # 1.2 has breaking API change
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
     - qcfractal >=0.60,!=0.62                          # v0.60 includes new compute_tag syntax. v0.62 hangs for snowflake jobs
+    - dftd3-python >=1.3.0                             # 1.3.0 runs QCSchema v2
 
 test:
   imports:
@@ -152,7 +159,7 @@ test:
     - pytest
     - pytest-xdist
     # qc runtime opt'l
-    - adcc                                                               # [unix and not ppc64le]
+    - adcc                                                               # [unix]
     - cppe
     - pyddx                                                              # [unix]
     - dftd3-python
@@ -163,6 +170,8 @@ test:
     - geometric
     - pygdma
     - pymdi
+    - qcfractal                                                          # [not (win or aarch64 or py == 314)]
+    - postgresql                                                         # [not (win or aarch64 or py == 314)]
     # plugin testing
     - {{ compiler('cxx') }}                                              # [unix and build_platform == target_platform]
     - cmake                                                              # [unix and build_platform == target_platform]
@@ -200,23 +209,23 @@ test:
     - otool -L $SP_DIR/psi4/core*.so                                     # [osx]
       # LONG - '%OBJDUMP% %SP_DIR%\\psi4\\core.*.pyd | findstr /i "dll"' # [win]
     # Actually test
-    # - pip check                                                        # present until poetry killed off in qcel
+    - pip check                                                          # [unix]
     - python -c "import psi4;assert psi4.__version__ == '{{ version }}', f'{psi4.__version__=} differs from recipe=\'{{ version }}\''"
     - python -c "from psi4 import core; core.set_num_threads(42); assert core.get_num_threads() == 42"
     - python -c "import psi4;print(psi4.addons())"
     - psi4 $SP_DIR/psi4/tests/tu1-h2o-energy/input.dat -o stdout         # [unix]
     - psi4 %SP_DIR%\\psi4\\tests\\tu1-h2o-energy\\input.dat -o stdout    # [win]
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not pe_ecp"  # [unix and build_platform == target_platform]
-    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc and not pvdz_adc2_any_6"  # [unix and build_platform == target_platform]
+    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc"  # [unix and build_platform == target_platform]
     - pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "psi4_basic"  # [unix and build_platform != target_platform]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints" -k "not pe_ecp and not cc13"  # [win]
-      # cn_cc-pvdz_adc2_any_6 only trouble for py39 + osx-64
       # emulated aarch64 passes usual smoke+adcc tests but takes 2h, so skipping longest
     # Test a plugin
     - PLUG=plugdfmp2                                                     # [unix and build_platform == target_platform]
     - psi4 --plugin-name $PLUG --plugin-template dfmp2                   # [unix and build_platform == target_platform]
     - cd $PLUG && `psi4 --plugin-compile` && make && cd ..               # [unix and build_platform == target_platform]
-    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix and build_platform == target_platform]
+    - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --plugin-dfmp2 --module="$PLUG" -n2  # [unix and build_platform == target_platform and not (osx and x86_64)]
+                                                                         # above fine for osx-64 but very long
     - PYTHONPATH=. python $PREFIX/share/psi4/scripts/test_threading.py --ldd --module="$PLUG/$PLUG"  # [unix and build_platform == target_platform]
                                                                          # above should have --passfail but fails b/c einsums linking to gomp TODO Fix
 
