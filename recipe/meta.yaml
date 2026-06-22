@@ -20,7 +20,6 @@ source:
 
 build:
   number: 1
-  skip: true  # [ppc64le]
   # skip: true  # [ppc64le or py != 312]
   # skip: true  # [not (win and py==313)]
   script_env:
@@ -78,7 +77,7 @@ requirements:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - pybind11                               # [build_platform != target_platform]
-    - numpy <2.5.0                           # [build_platform != target_platform]
+    - numpy                                  # [build_platform != target_platform]
     - qcelemental                            # [build_platform != target_platform]  # version detection w/cross+poetry
     - {{ stdlib("c") }}
     - {{ compiler("c") }}
@@ -95,7 +94,7 @@ requirements:
     - mkl-devel                              # [x86_64]
     - libblas * *netlib                      # [not x86_64]
     - liblapack * *netlib                    # [not x86_64]
-    - numpy <2.5.0
+    - numpy
     - pybind11
     - pybind11-abi
     - python
