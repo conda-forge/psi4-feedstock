@@ -19,7 +19,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
   skip: true  # [ppc64le]
   # skip: true  # [ppc64le or py != 312]
   # skip: true  # [not (win and py==313)]
@@ -126,11 +126,10 @@ requirements:
     - python
     - scipy
     # qc
-    #- {{ pin_compatible('optking', max_pin='x') }}
-    - {{ pin_compatible('optking', max_pin='x.x') }}
+    - {{ pin_compatible('optking', lower_bound='0.4.2', upper_bound='0.8.0') }}
     - {{ pin_compatible('qcelemental', lower_bound='0.29', upper_bound='0.70') }}
     - {{ pin_compatible('qcengine', lower_bound='0.31', upper_bound='0.70') }}
-    - {{ pin_compatible('qcmanybody', max_pin='x') }}
+    - {{ pin_compatible('qcmanybody', lower_bound='0.5.1', upper_bound='0.10.0') }}
     - {{ pin_compatible('libint', exact=True) }}    # ABI-wise x is good, but practically to fend off breakage from AM bumps, impose x.x or exact
   run_constrained:
     - pytest >=7.0.1
