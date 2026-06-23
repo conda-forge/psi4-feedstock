@@ -3,7 +3,7 @@ azure:
     swapfile_size: 10GiB
 workflow_settings:
   free_disk_space: 'quick'
-  pagefile_size: 10
+  pagefile_size: 16
   store_build_artifacts:
     - platform: [linux_64, win_64]
       value: false
