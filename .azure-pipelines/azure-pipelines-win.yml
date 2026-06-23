@@ -13,7 +13,7 @@ jobs:
         UPLOAD_PACKAGES: 'True'
         build_workspace_dir: C:\\bld\\
         free_disk_space: quick
-        pagefile_size: 16
+        pagefile_size: 0
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: C:\\Miniforge
@@ -22,7 +22,7 @@ jobs:
         UPLOAD_PACKAGES: 'True'
         build_workspace_dir: C:\\bld\\
         free_disk_space: quick
-        pagefile_size: 16
+        pagefile_size: 0
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: C:\\Miniforge
@@ -31,7 +31,7 @@ jobs:
         UPLOAD_PACKAGES: 'True'
         build_workspace_dir: C:\\bld\\
         free_disk_space: quick
-        pagefile_size: 16
+        pagefile_size: 0
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: C:\\Miniforge
@@ -40,13 +40,21 @@ jobs:
         UPLOAD_PACKAGES: 'True'
         build_workspace_dir: C:\\bld\\
         free_disk_space: quick
-        pagefile_size: 16
+        pagefile_size: 0
+        resize_partitions: false
+        store_build_artifacts: false
+        tools_install_dir: C:\\Miniforge
+      win_64_python3.14.____cp314:
+        CONFIG: win_64_python3.14.____cp314
+        UPLOAD_PACKAGES: 'True'
+        build_workspace_dir: C:\\bld\\
+        free_disk_space: quick
+        pagefile_size: 0
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: C:\\Miniforge
   timeoutInMinutes: 360
   variables:
-    SET_PAGEFILE: 'True'
     UPLOAD_TEMP: D:\\tmp
 
   steps:
@@ -55,11 +63,6 @@ jobs:
       displayName: Manage disk space
       env:
         OS: windows
-    - script: |
-        call ".scripts\create_pagefile.bat" $(pagefile_size)
-      env:
-        CONDA_BLD_PATH: $(build_workspace_dir)
-      displayName: Create page file
     - script: |
         call ".scripts\run_win_build.bat"
       displayName: Run Windows build
