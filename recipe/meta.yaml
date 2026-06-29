@@ -1,8 +1,8 @@
 {% set name = "psi4" %}
 # {% set version = "1.11.0" %}
-{% set version = "1.11a4" %}
-{% set commit = "8e3fe45" %}
-{% set sha256 = "f61510fad9f7a8b72283319cb889683ce9c201f857f438a28c842afc22ba616d" %}
+{% set version = "1.11a5" %}
+{% set commit = "8628ded" %}
+{% set sha256 = "cf44b49e794a9d865798f0162cb3e266fdad02aa6cb6d752ff1fa27f1d6ef1d3" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
