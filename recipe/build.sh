@@ -19,7 +19,7 @@ if [[ "$target_platform" == linux-* ]]; then
 fi
 if [[ "$target_platform" == "linux-aarch64" ]]; then
     _EINSUMS=OFF
-    _OOO=OFF
+    _OOO=ON
 else
     _EINSUMS=ON
     _OOO=ON
@@ -89,6 +89,8 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D CMAKE_INSIST_FIND_PACKAGE_Einsums=${_EINSUMS} \
   -D ENABLE_OpenOrbitalOptimizer=${_OOO} \
   -D CMAKE_INSIST_FIND_PACKAGE_OpenOrbitalOptimizer=${_OOO} \
+  -D ENABLE_gauxc=ON \
+  -D CMAKE_INSIST_FIND_PACKAGE_gauxc=ON \
   -D ENABLE_OPENMP=ON \
   -D ENABLE_XHOST=OFF \
   -D ENABLE_GENERIC=OFF \

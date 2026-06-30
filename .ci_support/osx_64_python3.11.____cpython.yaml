@@ -36,6 +36,8 @@ pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
+postgresql:
+- '18'
 pybind11_abi:
 - '11'
 python:
