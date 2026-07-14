@@ -20,9 +20,15 @@ fi
 if [[ "$target_platform" == "linux-aarch64" ]]; then
     _EINSUMS=OFF
     _OOO=ON
+    _CUEST=ON
+elif [[ "$target_platform" == osx-* ]]; then
+    _EINSUMS=ON
+    _OOO=ON
+    _CUEST=OFF
 else
     _EINSUMS=ON
     _OOO=ON
+    _CUEST=ON
 fi
 if [[ "$target_platform" == "linux-ppc64le" ]]; then
     # avoid "relocation truncated to fit: R_PPC64_REL24 against symbol"
@@ -43,7 +49,7 @@ else
     LAPACK_LIBRARIES="${PREFIX}/lib/libmkl_rt${SHLIB_EXT}"
 fi
 
-#echo '__version_long = '"'$PSI4_PRETEND_VERSIONLONG'" > psi4/metadata.py
+echo '__version_long = '"'$PSI4_PRETEND_VERSIONLONG'" > psi4/metadata.py
 
 # Note: bizarrely, Linux (but not Mac) using `-G Ninja` hangs on [205/1223] at
 #   c-f/staged-recipes Azure CI --- thus the fallback to GNU Make.
@@ -91,6 +97,8 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D CMAKE_INSIST_FIND_PACKAGE_OpenOrbitalOptimizer=${_OOO} \
   -D ENABLE_gauxc=ON \
   -D CMAKE_INSIST_FIND_PACKAGE_gauxc=ON \
+  -D DENABLE_cuEST=${_CUEST} \
+  -D CMAKE_INSIST_FIND_PACKAGE_cuEST=${_CUEST} \
   -D ENABLE_OPENMP=ON \
   -D ENABLE_XHOST=OFF \
   -D ENABLE_GENERIC=OFF \
