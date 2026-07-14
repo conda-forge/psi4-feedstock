@@ -6,7 +6,7 @@ workflow_settings:
   pagefile_size: 16
   store_build_artifacts:
     - platform: [linux_64, win_64]
-      value: false
+      value: true
   build_workspace_dir:
     - platform: [win_64]
       value: C:\\bld\\
