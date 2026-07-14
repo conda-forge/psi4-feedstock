@@ -2,6 +2,8 @@
 {% set version = "1.12a1" %}
 {% set commit = "0297287" %}
 {% set sha256 = "41035b711ef84a3dfa4d2f600ccf47f935ab06c08c906860434e3a19f798b029" %}
+{% set cuda_compiler_version = cuda_compiler_version or "None" %}
+{% set proc_type = "cuda_" if cuda_compiler_version != "None" else "cpu_" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -87,6 +89,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
+    - {{ compiler("cuda") }}                 # [cuda_compiler_version != "None"]
     - cmake
     - ninja
     - binutils                               # [win]
@@ -127,7 +130,20 @@ requirements:
     - highfive                               # [unix]  # indirect dep from gauxc
     - exchcxx                                # [unix]  # indirect dep from gauxc
     - libcuest-dev                           # [linux]
+
+#outputs:
+#  - name: libxc-c
+#    build:
+#      host:
+#        - cuda-version ={{ cuda_compiler_version }}          # [(cuda_compiler_version or "").startswith("11")]
+#      run:
+#        - {{ pin_compatible("cuda-version", max_pin="x") }}  # [(cuda_compiler_version or "").startswith("11")]
+
+
+
+
   run:
+    - __cuda                                 # [cuda_compiler_version != "None"]
     - msgpack-python
     - networkx
     - pydantic >=2.11.0,<3
