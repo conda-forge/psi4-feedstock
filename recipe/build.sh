@@ -43,6 +43,7 @@ if [[ ! -z "${cuda_compiler_version+x}" && "${cuda_compiler_version}" != "None" 
 
 
     find "$PREFIX" "$BUILD_PREFIX" -name cublas_v2.h -print
+    find "$PREFIX" "$BUILD_PREFIX" -name cusolverDn.h -print
 
 
 
