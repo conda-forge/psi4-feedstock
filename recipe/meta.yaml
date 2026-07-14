@@ -129,19 +129,9 @@ requirements:
     - gauxc                                  # [unix]
     - highfive                               # [unix]  # indirect dep from gauxc
     - exchcxx                                # [unix]  # indirect dep from gauxc
-    - libcuest-dev                           # [linux]
-
-#outputs:
-#  - name: libxc-c
-#    build:
-#      host:
-#        - cuda-version ={{ cuda_compiler_version }}          # [(cuda_compiler_version or "").startswith("11")]
-#      run:
-#        - {{ pin_compatible("cuda-version", max_pin="x") }}  # [(cuda_compiler_version or "").startswith("11")]
-
-
-
-
+    - libcuest-dev 0.1.*                     # [linux and cuda_compiler_version != "None"]
+    - libcublas-dev                          # [linux and cuda_compiler_version != "None"]
+    - cuda-cudart-dev                        # [linux and cuda_compiler_version != "None"]
   run:
     - __cuda                                 # [cuda_compiler_version != "None"]
     - msgpack-python

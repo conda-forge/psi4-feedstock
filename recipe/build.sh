@@ -17,6 +17,7 @@ if [[ "$target_platform" == linux-* ]]; then
 
     cp "${RECIPE_DIR}/src/psi4PluginCachelinux.cmake" t_plug0
 fi
+
 if [[ "$target_platform" == "linux-aarch64" ]]; then
     _EINSUMS=OFF
     _OOO=ON
@@ -30,6 +31,25 @@ else
     _OOO=ON
     _CUEST=ON
 fi
+
+if [[ ! -z "${cuda_compiler_version+x}" && "${cuda_compiler_version}" != "None" ]]; then
+    NVCC="$(command -v nvcc)"
+    # NVCFLAGS=""
+
+    # CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_CUDA_ARCHITECTURES=80;100;120"
+
+    # NVCFLAGS+=" -O3 -std=c++17 --compiler-options ${CXXFLAGS// /,}"
+    _CUEST=ON
+
+
+    find "$PREFIX" "$BUILD_PREFIX" -name cublas_v2.h -print
+
+
+
+else
+    _CUEST=OFF
+fi
+
 if [[ "$target_platform" == "linux-ppc64le" ]]; then
     # avoid "relocation truncated to fit: R_PPC64_REL24 against symbol"
     CFLAGS="$(echo $CFLAGS | sed 's/-fno-plt //g')"
