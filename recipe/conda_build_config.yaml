@@ -8,3 +8,8 @@ cxx_compiler_version:   # [win]
   - 19                  # [win]
 mkl_devel:              # [x86_64 and (linux or win)]
   - 2025                # [x86_64 and (linux or win)]
+channel_sources:
+  - conda-forge
+channel_targets:
+  - conda-forge psi4_dev
+
