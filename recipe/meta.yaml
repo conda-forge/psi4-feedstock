@@ -17,9 +17,11 @@ source:
   #url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
   url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  patches:
+    - 0001-rename-th-fl-for-libxc-7.1.patch
 
 build:
-  number: 0
+  number: 1
   # skip: true  # [not (win and py==313)]
   # skip: true  # [not (py==313 or py==314)]
   script_env:
