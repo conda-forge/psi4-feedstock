@@ -1,18 +1,6 @@
 azure:
   settings_linux:
     swapfile_size: 10GiB
-workflow_settings:
-  free_disk_space: 'quick'
-  pagefile_size: 16
-  store_build_artifacts:
-    - platform: [linux_64, win_64]
-      value: false
-  build_workspace_dir:
-    - platform: [win_64]
-      value: C:\\bld\\
-  tools_install_dir:
-    - platform: [win_64]
-      value: C:\\Miniforge
 build_platform:
   linux_aarch64: linux_64
 conda_build:
@@ -25,3 +13,19 @@ provider:
   linux_aarch64: default
   osx_arm64: default
 test: native_and_emulated
+workflow_settings:
+  build_workspace_dir:
+  - platform:
+    - win_64
+    value: C:\\bld\\
+  free_disk_space: quick
+  pagefile_size: 16
+  store_build_artifacts:
+  - platform:
+    - linux_64
+    - win_64
+    value: false
+  tools_install_dir:
+  - platform:
+    - win_64
+    value: C:\\Miniforge
