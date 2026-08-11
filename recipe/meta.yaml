@@ -1,9 +1,8 @@
 {% set name = "psi4" %}
-{% set version = "1.12a2" %}
-{% set commit = "0297287" %}
-{% set sha256 = "41035b711ef84a3dfa4d2f600ccf47f935ab06c08c906860434e3a19f798b029" %}
+{% set version = "1.12a3" %}
+{% set commit = "bfb796e" %}
+{% set sha256 = "14c2f987879c9ef27188a5429a25e5ef01220d39e197be9b92018fa8bbcfb787" %}
 {% set cuda_compiler_version = cuda_compiler_version or "None" %}
-{% set proc_type = "cuda_" if cuda_compiler_version != "None" else "cpu_" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -19,11 +18,11 @@ source:
   url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
   #url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
-  patches:
-    - 0001-rename-th-fl-for-libxc-7.1.patch
 
 build:
   number: 0
+  string: cuda{{ cuda_compiler_version | replace('.', '') }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
+  string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}                                                # [cuda_compiler_version == "None"]
   skip: true  # [not (linux and py==313)]
   # skip: true  # [not (win and py==313)]
   # skip: true  # [not (py==313 or py==314)]
@@ -225,8 +224,7 @@ test:
     - python -c "import psi4;print(psi4.addons())"
     - psi4 $SP_DIR/psi4/tests/tu1-h2o-energy/input.dat -o stdout         # [unix]
     - psi4 %SP_DIR%\\psi4\\tests\\tu1-h2o-energy\\input.dat -o stdout    # [win]
-    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not (pe_ecp or cuest)"  # [unix and build_platform == target_platform]
-      # cuest exclusion above is only until I set up pytests to skip for enabled=yes + gpu=no
+    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not (pe_ecp)"  # [unix and build_platform == target_platform]
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc"  # [unix and build_platform == target_platform]
     - pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "psi4_basic"  # [unix and build_platform != target_platform]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints" -k "not pe_ecp and not cc13"  # [win]
