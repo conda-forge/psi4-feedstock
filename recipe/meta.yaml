@@ -23,7 +23,7 @@ build:
   number: 0
   string: cuda{{ cuda_compiler_version | replace('.', '') }}py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: cpu_py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}                                                # [cuda_compiler_version == "None"]
-  skip: true    # [not linux]
+  skip: true    # [not (linux and py<312)]
   # skip: true  # [not (win and py==313)]
   # skip: true  # [not (py==313 or py==314)]
   script_env:
