@@ -13,7 +13,7 @@ channel_targets:
 cuda_compiler:
 - cuda-nvcc
 cuda_compiler_version:
-- None
+- '12.9'
 cxx_compiler:
 - gxx
 cxx_compiler_version:
@@ -39,7 +39,7 @@ postgresql:
 pybind11_abi:
 - '11'
 python:
-- 3.10.* *_cpython
+- 3.13.* *_cp313
 spdlog:
 - '1.17'
 target_platform:

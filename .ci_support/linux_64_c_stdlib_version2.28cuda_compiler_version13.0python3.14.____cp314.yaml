@@ -20,20 +20,30 @@ cxx_compiler_version:
 - '14'
 docker_image:
 - quay.io/condaforge/linux-anvil-x86_64:alma10
+fmt:
+- '12.1'
+hdf5:
+- 1.14.6
 libboost_headers:
 - '1.88'
+mkl_devel:
+- '2025'
 numpy:
 - '2'
 pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
+postgresql:
+- '18'
 pybind11_abi:
 - '11'
 python:
-- 3.10.* *_cpython
+- 3.14.* *_cp314
+spdlog:
+- '1.17'
 target_platform:
-- linux-aarch64
+- linux-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
