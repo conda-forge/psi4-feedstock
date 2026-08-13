@@ -1,9 +1,8 @@
 {% set name = "psi4" %}
-{% set version = "1.12a2" %}
-{% set commit = "0297287" %}
-{% set sha256 = "41035b711ef84a3dfa4d2f600ccf47f935ab06c08c906860434e3a19f798b029" %}
+{% set version = "1.12a3" %}
+{% set commit = "4a24fa5" %}
+{% set sha256 = "c147a49221eeaece7c4b336d0cb9a442495a619cca834d5bea35890985644fd9" %}
 {% set cuda_compiler_version = cuda_compiler_version or "None" %}
-{% set proc_type = "cuda_" if cuda_compiler_version != "None" else "cpu_" %}
 
 # versioning: want conda package and `psi4 --version` to match
 # * proper tagged releases compute their versions consistent with recipe w/o interventions.
@@ -19,12 +18,12 @@ source:
   url: https://github.com/{{ name }}/{{ name }}/archive/{{ commit }}.tar.gz
   #url: https://github.com/{{ name }}/{{ name }}/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
-  patches:
-    - 0001-rename-th-fl-for-libxc-7.1.patch
 
 build:
   number: 0
-  skip: true  # [not (linux and py==313)]
+  string: cuda{{ cuda_compiler_version | replace('.', '') }}py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
+  string: cpu_py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}                                                # [cuda_compiler_version == "None"]
+  skip: true    # [not (linux and py>=312)]
   # skip: true  # [not (win and py==313)]
   # skip: true  # [not (py==313 or py==314)]
   script_env:
@@ -131,7 +130,7 @@ requirements:
     - gauxc                                  # [unix]
     - highfive                               # [unix]  # indirect dep from gauxc
     - exchcxx                                # [unix]  # indirect dep from gauxc
-    - libcuest-dev 0.1.*                     # [linux and cuda_compiler_version != "None"]
+    - libcuest-dev 0.2.1                     # [linux and cuda_compiler_version != "None"]
     - libcublas-dev                          # [linux and cuda_compiler_version != "None"]
     - libcusolver-dev                        # [linux and cuda_compiler_version != "None"]
     - cuda-cudart-dev                        # [linux and cuda_compiler_version != "None"]
@@ -189,6 +188,11 @@ test:
     - pybind11                                                           # [unix and build_platform == target_platform]
     - eigen                                                              # [unix and build_platform == target_platform]
     - libboost-headers                                                   # [unix and build_platform == target_platform]
+    - cuda-nvcc                              # [linux and cuda_compiler_version != "None"]
+    - libcuest-dev 0.2.1                     # [linux and cuda_compiler_version != "None"]
+    - libcublas-dev                          # [linux and cuda_compiler_version != "None"]
+    - libcusolver-dev                        # [linux and cuda_compiler_version != "None"]
+    - cuda-cudart-dev                        # [linux and cuda_compiler_version != "None"]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
@@ -225,8 +229,7 @@ test:
     - python -c "import psi4;print(psi4.addons())"
     - psi4 $SP_DIR/psi4/tests/tu1-h2o-energy/input.dat -o stdout         # [unix]
     - psi4 %SP_DIR%\\psi4\\tests\\tu1-h2o-energy\\input.dat -o stdout    # [win]
-    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not (pe_ecp or cuest)"  # [unix and build_platform == target_platform]
-      # cuest exclusion above is only until I set up pytests to skip for enabled=yes + gpu=no
+    - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -m "smoke" -k "not (pe_ecp)"  # [unix and build_platform == target_platform]
     - MKL_CBWR=AVX pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "adcc"  # [unix and build_platform == target_platform]
     - pytest -rws -v --durations=20 --color yes -n auto $SP_DIR/psi4 -k "psi4_basic"  # [unix and build_platform != target_platform]
     - pytest -rws -v --durations=20 --color yes -n auto %SP_DIR%\\psi4 -m "smoke and not d2ints" -k "not pe_ecp and not cc13"  # [win]
