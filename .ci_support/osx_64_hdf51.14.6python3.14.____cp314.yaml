@@ -5,7 +5,7 @@ MACOSX_SDK_VERSION:
 c_compiler:
 - clang
 c_compiler_version:
-- '19'
+- '21'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
@@ -17,7 +17,7 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '19'
+- '21'
 fmt:
 - '12.1'
 hdf5:
@@ -25,9 +25,11 @@ hdf5:
 libboost_headers:
 - '1.88'
 llvm_openmp:
-- '19'
+- '21'
 macos_machine:
-- arm64-apple-darwin20.0.0
+- x86_64-apple-darwin13.4.0
+mkl_devel:
+- '2023'
 numpy:
 - '2'
 pin_run_as_build:
@@ -39,11 +41,11 @@ postgresql:
 pybind11_abi:
 - '11'
 python:
-- 3.12.* *_cpython
+- 3.14.* *_cp314
 spdlog:
 - '1.17'
 target_platform:
-- osx-arm64
+- osx-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
