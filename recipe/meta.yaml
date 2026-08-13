@@ -188,6 +188,11 @@ test:
     - pybind11                                                           # [unix and build_platform == target_platform]
     - eigen                                                              # [unix and build_platform == target_platform]
     - libboost-headers                                                   # [unix and build_platform == target_platform]
+    - cude-nvcc                              # [linux and cuda_compiler_version != "None"]
+    - libcuest-dev 0.2.1                     # [linux and cuda_compiler_version != "None"]
+    - libcublas-dev                          # [linux and cuda_compiler_version != "None"]
+    - libcusolver-dev                        # [linux and cuda_compiler_version != "None"]
+    - cuda-cudart-dev                        # [linux and cuda_compiler_version != "None"]
   commands:
     # Verify module
     - test -f $SP_DIR/psi4/core*.so                                      # [unix]
