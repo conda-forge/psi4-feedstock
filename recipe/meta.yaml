@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
 {% set version = "1.12a3" %}
-{% set commit = "bfb796e" %}
-{% set sha256 = "14c2f987879c9ef27188a5429a25e5ef01220d39e197be9b92018fa8bbcfb787" %}
+{% set commit = "4a24fa5" %}
+{% set sha256 = "c147a49221eeaece7c4b336d0cb9a442495a619cca834d5bea35890985644fd9" %}
 {% set cuda_compiler_version = cuda_compiler_version or "None" %}
 
 # versioning: want conda package and `psi4 --version` to match
@@ -130,7 +130,7 @@ requirements:
     - gauxc                                  # [unix]
     - highfive                               # [unix]  # indirect dep from gauxc
     - exchcxx                                # [unix]  # indirect dep from gauxc
-    - libcuest-dev 0.1.*                     # [linux and cuda_compiler_version != "None"]
+    - libcuest-dev 0.2.1                     # [linux and cuda_compiler_version != "None"]
     - libcublas-dev                          # [linux and cuda_compiler_version != "None"]
     - libcusolver-dev                        # [linux and cuda_compiler_version != "None"]
     - cuda-cudart-dev                        # [linux and cuda_compiler_version != "None"]
