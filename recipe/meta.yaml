@@ -1,7 +1,7 @@
 {% set name = "psi4" %}
-{% set version = "1.12a4" %}
-{% set commit = "e692c83" %}
-{% set sha256 = " 9c5cf1c812015b20f6fff0a8f89d52063b29e912524005e5fb70e8acaa6cf153" %}
+{% set version = "1.12a5" %}
+{% set commit = "1804150" %}
+{% set sha256 = "3ead9e6cc656a90f3cd16d51b898957c7b5080a753308fa3f7d909ae01dfacfc" %}
 {% set cuda_compiler_version = cuda_compiler_version or "None" %}
 
 # versioning: want conda package and `psi4 --version` to match
