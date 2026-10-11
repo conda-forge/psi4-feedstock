@@ -162,7 +162,7 @@ test:
     # qc runtime opt'l
     - adcc                                                               # [unix]
     - cppe
-    - pyddx                                                              # [unix]
+    - pyddx                                                              # [unix and py<315]
     - dftd3-python
     - dftd4-python
     - toml                                                                         # needed for qcengine/dftd4-python interface
@@ -170,7 +170,7 @@ test:
     - gcp-correction
     - geometric
     - pygdma
-    - pymdi
+    - pymdi  # [py<315]
     - qcfractal                                                          # [not (win or aarch64 or py == 314)]
     - postgresql                                                         # [not (win or aarch64 or py == 314)]
     # plugin testing

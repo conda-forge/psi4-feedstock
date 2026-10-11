@@ -1,6 +1,11 @@
 
 REM echo __version_long = '%PSI4_PRETEND_VERSIONLONG%' > psi4\metadata.py
 
+set SITEP="/../../Lib/site-packages"
+IF "%PY_VER%"=="3.15" (
+  set SITEP="/../../lib/python/site-packages"
+)
+
 cmake %CMAKE_ARGS% ^
   -G "Ninja" ^
   -S %SRC_DIR% ^
@@ -15,7 +20,7 @@ cmake %CMAKE_ARGS% ^
   -D CMAKE_INSTALL_INCLUDEDIR="Library\\include" ^
   -D CMAKE_INSTALL_BINDIR="Scripts" ^
   -D CMAKE_INSTALL_DATADIR="Library\\share" ^
-  -D PYMOD_INSTALL_LIBDIR="/../../Lib/site-packages" ^
+  -D PYMOD_INSTALL_LIBDIR="%SITEP%" ^
   -D psi4_INSTALL_CMAKEDIR="Library\\share\\cmake\\psi4" ^
   -D TargetLAPACK_INSTALL_CMAKEDIR="Library\\share\\cmake\\TargetLAPACK" ^
   -D TargetHDF5_INSTALL_CMAKEDIR="Library\\share\\cmake\\TargetHDF5" ^
