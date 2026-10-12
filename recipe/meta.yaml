@@ -24,7 +24,6 @@ build:
   number: 3
   # skip: true  # [not (win and py==313)]
   # skip: true  # [not (py==313 or py==314)]
-  skip: true  # [py<314]
   script_env:
     - PSI4_PRETEND_VERSIONLONG={{ version }}+{{ commit }}
   binary_relocation: true
@@ -172,7 +171,7 @@ test:
     - gcp-correction
     - geometric
     - pygdma
-    - pymdi  # [py<315]
+    - pymdi                                                              # [py<315]
     - qcfractal                                                          # [not (win or aarch64 or py == 314)]
     - postgresql                                                         # [not (win or aarch64 or py == 314)]
     # plugin testing
