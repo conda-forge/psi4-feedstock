@@ -21,7 +21,7 @@ source:
     - 0001-rename-th-fl-for-libxc-7.1.patch
 
 build:
-  number: 2
+  number: 3
   # skip: true  # [not (win and py==313)]
   # skip: true  # [not (py==313 or py==314)]
   script_env:
@@ -104,6 +104,7 @@ requirements:
     - pybind11
     - pybind11-abi
     - python
+    - libpython                              # [unix and py>=315]
     - zlib                                             # pcmsolver detection, not direct dep, so ignore_run_exports above
       #- pip                                           # internal builds of python modules, so usually off
     # qc req'd
@@ -162,7 +163,7 @@ test:
     # qc runtime opt'l
     - adcc                                                               # [unix]
     - cppe
-    - pyddx                                                              # [unix]
+    - pyddx                                                              # [unix and py<315]
     - dftd3-python
     - dftd4-python
     - toml                                                                         # needed for qcengine/dftd4-python interface
@@ -170,7 +171,7 @@ test:
     - gcp-correction
     - geometric
     - pygdma
-    - pymdi
+    - pymdi                                                              # [py<315]
     - qcfractal                                                          # [not (win or aarch64 or py == 314)]
     - postgresql                                                         # [not (win or aarch64 or py == 314)]
     # plugin testing
