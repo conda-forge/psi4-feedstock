@@ -126,9 +126,9 @@ requirements:
     - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
     - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
     - openorbitaloptimizer                   # [unix]
-    #H5- gauxc                                  # [unix]
-    #H5- highfive                               # [unix]  # indirect dep from gauxc
-    #H5- exchcxx                                # [unix]  # indirect dep from gauxc
+    - gauxc                                  # [unix]
+    - highfive                               # [unix]  # indirect dep from gauxc
+    - exchcxx                                # [unix]  # indirect dep from gauxc
   run:
     - msgpack-python
     - networkx
