@@ -21,7 +21,7 @@ source:
     - 0001-rename-th-fl-for-libxc-7.1.patch
 
 build:
-  number: 2
+  number: 3
   # skip: true  # [not (win and py==313)]
   # skip: true  # [not (py==313 or py==314)]
   script_env:
@@ -124,9 +124,9 @@ requirements:
     - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
     - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
     - openorbitaloptimizer                   # [unix]
-    - gauxc                                  # [unix]
-    - highfive                               # [unix]  # indirect dep from gauxc
-    - exchcxx                                # [unix]  # indirect dep from gauxc
+    #H5- gauxc                                  # [unix]
+    #H5- highfive                               # [unix]  # indirect dep from gauxc
+    #H5- exchcxx                                # [unix]  # indirect dep from gauxc
   run:
     - msgpack-python
     - networkx
