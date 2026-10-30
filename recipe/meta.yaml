@@ -125,7 +125,7 @@ requirements:
     - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
     - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
     - openorbitaloptimizer                   # [unix]
-    - gauxc                                  # [unix]
+#    - gauxc                                  # [unix]
     - highfive                               # [unix]  # indirect dep from gauxc
     - exchcxx                                # [unix]  # indirect dep from gauxc
   run:
@@ -146,7 +146,7 @@ requirements:
     - pylibefp ==0.6.2                                 # 0.6.2 provides windows arch
     - dftd4-python >=4.1.0                             # 4.1.0 runs QCSchema v2; 3.5.0 provides b97-3c parameters
     - geometric >=1.0                                  # 1.0 has new API
-    - pymdi >=1.2                                      # 1.2 has breaking API change
+#    - pymdi >=1.2                                      # 1.2 has breaking API change
     - pyddx >=0.4.3                                    # 0.4.3 has lpb correction
     - adcc >=0.15.16                                   # 0.15.16 has transition moment corrections
     # - cppe ==0.3.1                                   # 0.3.2 has libecpint problems
@@ -163,7 +163,7 @@ test:
     # qc runtime opt'l
     - adcc                                                               # [unix]
     - cppe
-    - pyddx                                                              # [unix and py<315]
+    - pyddx                                                              # [unix]
     - dftd3-python
     - dftd4-python
     - toml                                                                         # needed for qcengine/dftd4-python interface
@@ -171,7 +171,7 @@ test:
     - gcp-correction
     - geometric
     - pygdma
-    - pymdi                                                              # [py<315]
+    - pymdi
     - qcfractal                                                          # [not (win or aarch64 or py == 314)]
     - postgresql                                                         # [not (win or aarch64 or py == 314)]
     # plugin testing
