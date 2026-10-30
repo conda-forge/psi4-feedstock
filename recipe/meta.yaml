@@ -125,7 +125,7 @@ requirements:
     - spdlog                                 # [unix and not aarch64]  # indirect dep from einsums
     - cpptrace                               # [unix and not aarch64]  # indirect dep from einsums
     - openorbitaloptimizer                   # [unix]
-    - gauxc * cpu*                           # [unix]
+    - gauxc 1.1 cpu*                         # [unix]
     - highfive                               # [unix]  # indirect dep from gauxc
     - exchcxx                                # [unix]  # indirect dep from gauxc
   run:
