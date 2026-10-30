@@ -1,8 +1,3 @@
-azure:
-  settings_linux:
-    swapfile_size: 10GiB
-build_platform:
-  linux_aarch64: linux_64
 conda_build:
   error_overlinking: true
 conda_forge_output_validation: true
@@ -15,17 +10,17 @@ provider:
 test: native_and_emulated
 workflow_settings:
   build_workspace_dir:
-  - platform:
-    - win_64
-    value: C:\\bld\\
+    - platform:
+        - win_64
+      value: C:\\bld\\
   free_disk_space: quick
   pagefile_size: 16
   store_build_artifacts:
-  - platform:
-    - linux_64
-    - win_64
-    value: false
+    - platform:
+        - linux_64
+        - win_64
+      value: false
   tools_install_dir:
-  - platform:
-    - win_64
-    value: C:\\Miniforge
+    - platform:
+        - win_64
+      value: C:\\Miniforge
