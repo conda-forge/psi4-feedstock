@@ -89,7 +89,7 @@ cmake ${CMAKE_ARGS} ${ARCH_ARGS} \
   -D CMAKE_INSIST_FIND_PACKAGE_Einsums=${_EINSUMS} \
   -D ENABLE_OpenOrbitalOptimizer=${_OOO} \
   -D CMAKE_INSIST_FIND_PACKAGE_OpenOrbitalOptimizer=${_OOO} \
-  -D ENABLE_gauxc=ON \
+  -D ENABLE_gauxc=OFF \
   -D CMAKE_INSIST_FIND_PACKAGE_gauxc=ON \
   -D ENABLE_OPENMP=ON \
   -D ENABLE_XHOST=OFF \
