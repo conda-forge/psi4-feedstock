@@ -110,7 +110,7 @@ requirements:
     # qc req'd
     - gau2grid
     - libint 2.13.1
-    - libxc-c
+    - libxc-c * cpu*
     - optking >=0.5.0
     - qcelemental
     - qcengine
@@ -257,7 +257,6 @@ extra:
     - jturney
     - fevangelista
     - maxscheurer
-
 
 
 # Notes
